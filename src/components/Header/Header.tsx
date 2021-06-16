@@ -1,25 +1,24 @@
-import './Header.css';
+import { Box, Flex, Heading, Spacer, Text} from "@chakra-ui/react";
 
 function Header() {
     return (
-        <div className = 'header-container'>
-            <div className = 'header-content-container'>
-                <div className = 'header-main-content'>
-                    MOCKVIEW
-                </div>
-                <div className = 'header-side-content-container'>
-                    <div className = 'header-side-content'>
-                        About Us
-                    </div>
-                    <div className = 'header-side-content'>
-                        FAQs
-                    </div>
-                    <div className = 'header-side-content'>
-                        Login
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Flex bgColor = 'blue' p="5" pl ='100px' pr='30px' color = 'white' w ='100%'>
+            <Box >
+                <Heading fontSize = '30px'>MOCKVIEW</Heading>
+            </Box>
+            <Spacer />
+            <Flex fontSize = '13px' w= '30%' justifyContent = 'space-evenly' pt = '10px'>
+                <Text>
+                    About Us
+                </Text>
+                <Text>
+                    FAQs
+                </Text>
+                <Text>
+                    Login
+                </Text>
+            </Flex>
+        </Flex>           
     );
 }
 
