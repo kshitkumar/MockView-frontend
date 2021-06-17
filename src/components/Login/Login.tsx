@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Box, Input, VStack, Button, Text, Flex, Divider} from "@chakra-ui/react";
+import { Box, Input, VStack, Button, Text, Flex, Divider, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure} from "@chakra-ui/react";
+import SignUp from "../SignUp/SignUp";
 
 function Login() {
 
@@ -9,6 +10,8 @@ function Login() {
     };
 
     const [userCredentials, setUserCredentials] = useState(initialState);
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserCredentials({ ...userCredentials, [event.target.name]: event.target.value });
@@ -21,7 +24,7 @@ function Login() {
     };
     
     return (
-        <Box w='30%' h='60%' borderWidth="1px" borderRadius="lg">
+        <Box borderWidth="1px" bgColor = 'white' w = '30%' h = '30%'>
             <form onSubmit = {onSubmit}>
                 <VStack pt = '30px' pl = '40px' pr='40px' spacing = '12px' w = '100%'>
                     <Input
@@ -30,6 +33,7 @@ function Login() {
                         id="emailAddress"
                         name="emailAddress"
                         placeholder="Email Address"
+                        isRequired
                         onChange={onChange}
                     />
                     <Input 
@@ -38,14 +42,16 @@ function Login() {
                         id="password"
                         name="password"
                         placeholder="Password"
+                        type='password'
+                        isRequired
                         onChange={onChange}
                     />
-                    <Flex justifyContent = 'flex-end' color = 'blue.900' w='100%'>
-                        <Text fontSize='12px'>
+                    <Flex justifyContent = 'flex-end' w='100%'>
+                        <Text fontSize='12px' color = '#0B294E' >
                             Forgot Password
                         </Text>
                     </Flex>
-                    <Button type = 'submit' colorScheme = 'blue' w='100%' fontSize='15px'>
+                    <Button type = 'submit' bgColor = '#0B294E' color = 'white' w='100%' fontSize='15px'>
                         Login
                     </Button>
                     <Divider orientation="horizontal" />
@@ -57,10 +63,19 @@ function Login() {
                         New to Mockview? Create an account
                     </Text>
                 </Flex>
-                <Button colorScheme = 'blue' w='100%' fontSize='15px'>
+                <Button bgColor = '#0B294E' color = 'white' w='100%' fontSize='15px' onClick={onOpen}>
                     Sign up
-                </Button>  
-            </Box> 
+                </Button>
+                <Flex justifyContent = 'flex-end'>
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalCloseButton />
+                        <SignUp />
+                     </ModalContent>
+                </Modal>
+                </Flex>
+            </Box>  
         </Box>
     );
 }

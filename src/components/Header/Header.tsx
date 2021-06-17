@@ -2,7 +2,7 @@ import { Box, Flex, Heading, Spacer, Text} from "@chakra-ui/react";
 
 function Header() {
     return (
-        <Flex bgColor = 'blue' p="5" pl ='100px' pr='30px' color = 'white' w ='100%'>
+        <Flex bgColor = '#0B294E' p="5" pl ='100px' pr='30px' color = 'white' w ='100%' position ='fixed'>
             <Box >
                 <Heading fontSize = '30px'>MOCKVIEW</Heading>
             </Box>
