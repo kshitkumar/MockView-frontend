@@ -1,7 +1,7 @@
         import React from "react";
         import  validator from "validator";
         import {PersonalDetailModel} from './userprofiletabscomponent'
-        import {fetchAllCitieOfState,fetchAllCountries,fetchAllStatesOfCountry} from "../../services/locationAPIs"
+        import {fetchAllCitieOfState,fetchAllCountries,fetchAllStatesOfCountry} from "../../services/utilService"
         import {
             FormControl,AlertIcon,
             FormLabel,Alert,Text,

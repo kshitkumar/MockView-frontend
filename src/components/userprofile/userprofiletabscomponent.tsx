@@ -152,7 +152,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
                      </HStack>
                   </TabPanel>
                   <TabPanel>
-                       <AwardCertTabComponent/>
+                       <AwardCertTabComponent />
                   </TabPanel>
                   </TabPanels>
                 </Tabs>
