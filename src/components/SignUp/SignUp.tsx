@@ -1,19 +1,28 @@
-import { Input, HStack, VStack, Text, Flex, Button, Select} from "@chakra-ui/react";
+import { Input, HStack, VStack, Text, Flex, Button, Select, useToast} from "@chakra-ui/react";
 import { useState } from "react";
+import { User } from "../../models/User";
+import { saveUser } from "../../services/UserService";
 
-function SignUp() {
+interface Props {
+    onSignUp() : void
+}
+
+function SignUp(props : Props) {
 
     const initialState = {
+        id : 0,
         firstName: "",
         lastName: "",
         dateOfBirth: "",
         gender:"",
-        emailAddress: "",
+        emailId: "",
         password: "",
         rePassword: ""
     };
 
-    const [user, setUser] = useState(initialState);
+    const [user, setUser] = useState<User>(initialState);
+
+    const toast = useToast();
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUser({ ...user, [event.target.name]: event.target.value });
@@ -25,9 +34,33 @@ function SignUp() {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(user.emailAddress);
-        console.log(user.password);
+        if(!isInvalidPassword()) {
+            try {
+                const response = await saveUser(user) ;
+                    if(response.status === 201) {
+                        toast({
+                            title: "User Signed up Successfully",
+                            status: "success",
+                            duration: 9000,
+                            isClosable: true,
+                        });
+                }
+            }
+            catch(error) {
+                    toast({
+                        title: "Some error occured",
+                        status: "error",
+                        duration: 9000,
+                        isClosable: true,
+                      });
+            }
+            props.onSignUp();
+        }
     };
+
+    function isInvalidPassword() {
+        return user.rePassword !== "" && user.password !== user.rePassword;
+    }
 
     return (
         <form onSubmit = {onSubmit}>
@@ -77,15 +110,15 @@ function SignUp() {
                     isRequired
                     onChange = {onOptionChange}
                 >
-                    <option value = "Male">Male</option>
-                    <option value = "Female">Female</option>
+                    <option value = "MALE">MALE</option>
+                    <option value = "FEMALE">FEMALE</option>
                 </Select>
             </HStack>
             <Input
                 fontSize = '15px'
                 variant = 'outline'
-                id="emailAddress"
-                name="emailAddress"
+                id="emailId"
+                name="emailId"
                 placeholder="*Email Address"
                 isRequired
                 onChange = {onChange}
@@ -111,6 +144,8 @@ function SignUp() {
                     onChange = {onChange}
                 />
                 <Input
+                    isInvalid = {isInvalidPassword()}
+                    errorBorderColor="crimson"
                     fontSize = '15px'
                     variant = 'outline'
                     id="rePassword"

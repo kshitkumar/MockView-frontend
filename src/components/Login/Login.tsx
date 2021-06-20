@@ -1,15 +1,23 @@
 import { useState } from "react";
-import { Box, Input, VStack, Button, Text, Flex, Divider, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure} from "@chakra-ui/react";
+import { useHistory } from 'react-router-dom';
+import { Box, Input, VStack, Button, Text, Flex, Divider, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, useToast} from "@chakra-ui/react";
 import SignUp from "../SignUp/SignUp";
+import { UserCredentials } from "../../models/UserCredentials";
+import { login } from "../../services/LoginService";
+import { User } from "../../models/User";
 
 function Login() {
 
     const initialState = {
-        emailAddress: "",
+        emailId: "",
         password: "",
     };
 
-    const [userCredentials, setUserCredentials] = useState(initialState);
+    const [userCredentials, setUserCredentials] = useState<UserCredentials>(initialState);
+
+    let history = useHistory();
+
+    const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -19,8 +27,30 @@ function Login() {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(userCredentials.emailAddress);
-        console.log(userCredentials.password);
+        try {
+            const response = await login(userCredentials);
+            const user : User = response.data;
+            if(response.status = 200) {
+                console.log('User logged in');
+                history.push({pathname : "/select-profile", state : {user}});
+            }
+            else {
+                toast({
+                    title: "Invalid Credentials",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                  });
+            }
+        }
+        catch(error) {
+            toast({
+                title: "Invalid Credentials",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+        }
     };
     
     return (
@@ -30,8 +60,8 @@ function Login() {
                     <Input
                         fontSize = '15px'
                         variant = 'outline'
-                        id="emailAddress"
-                        name="emailAddress"
+                        id="emailId"
+                        name="emailId"
                         placeholder="Email Address"
                         isRequired
                         onChange={onChange}
@@ -71,7 +101,7 @@ function Login() {
                     <ModalOverlay />
                     <ModalContent>
                         <ModalCloseButton />
-                        <SignUp />
+                        <SignUp onSignUp = {onClose}/>
                      </ModalContent>
                 </Modal>
                 </Flex>
