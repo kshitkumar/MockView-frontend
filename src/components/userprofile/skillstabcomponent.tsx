@@ -140,7 +140,7 @@
         render(){
             return(
                 <Box>
-                <Box height="400px" style={{alignItems:"center"}}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" >
+                <Box  style={{alignItems:"center"}}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96' >
                     <Stack spacing={1} style={{margin:"20px 20px 1px 20px"}}>
                     
                     <Heading size = 'sm' >SKILLS<hr style = {{ height:'2px',
@@ -150,14 +150,14 @@
                     <Box height='30px'>
                     
                     <FormControl isInvalid={this.state.skillNameError} width="sm">
-                    <Input  value={this.state.skillName} onChange={(event)=>{this.handleSkillNameInput(event)}} type ='text' width='xs' size='sm' variant='filled' placeholder='Skills(Ex. FrontEnd Development)'></Input>                   
+                    <Input  value={this.state.skillName} onChange={(event)=>{this.handleSkillNameInput(event)}} type ='text' width='xs' size='xs' variant='filled' placeholder='Skills(Ex. FrontEnd Development)'></Input>                   
                     <FormErrorMessage>please enter</FormErrorMessage>  
                     </FormControl>                    
                     </Box>
                      
                     <Box height='30px'>
                     <FormControl isInvalid={this.state.skillProfError} width="sm">
-                    <Select value= {this.state.skillProf} onChange={(event)=>{this.handleSkillProfInput(event)}} type ='text' width='xs' size='sm' variant='filled' placeholder='-Select Proficiency-'>
+                    <Select value= {this.state.skillProf} onChange={(event)=>{this.handleSkillProfInput(event)}} type ='text' width='xs' size='xs' variant='filled' placeholder='-Select Proficiency-'>
                         <option   value="Novice">Novice</option>
                         <option  value="Intermediate">Intermediate</option>
                         <option value="Advanced">Advanced</option>
@@ -165,7 +165,7 @@
                     <FormErrorMessage>please enter</FormErrorMessage>                  
                     </FormControl>
                     </Box>
-                     <Button size='sm' variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.addSkillsBadge()}}> Add</Button>
+                     <Button size='xs' variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.addSkillsBadge()}}> Add</Button>
                    
                     </HStack> 
                    
@@ -183,14 +183,14 @@
 
                     <Box height='30px'>
                     <FormControl isInvalid={this.state.languageNameError} width="sm">
-                    <Input value={this.state.languageName}  onChange={(event)=>{this.handleLangNameInput(event)}} type ='text' width='xs' size='sm' variant='filled' placeholder='Language'></Input>
+                    <Input value={this.state.languageName}  onChange={(event)=>{this.handleLangNameInput(event)}} type ='text' width='xs' size='xs' variant='filled' placeholder='Language'></Input>
                     <FormErrorMessage>please enter</FormErrorMessage>                   
                     </FormControl>
                     </Box>
                     
                     <Box height='30px'>
                     <FormControl isInvalid={this.state.languageProfError} width="sm">
-                    <Select value={this.state.languageProf} onChange={(event)=>{this.handleLangProfInput(event)}} type ='text' width='xs' size='sm' variant='filled' placeholder='-Select Proficiency-'>
+                    <Select value={this.state.languageProf} onChange={(event)=>{this.handleLangProfInput(event)}} type ='text' width='xs' size='xs' variant='filled' placeholder='-Select Proficiency-'>
                         <option value="Novice">Novice</option>
                         <option value="Intermediate">Intermediate</option>
                         <option value="Advanced">Advanced</option>
@@ -198,7 +198,7 @@
                     <FormErrorMessage>please enter</FormErrorMessage>                  
                     </FormControl>
                     </Box>
-                    <Button size='sm' variant='solid'  backgroundColor='#d1e0ef'width = '30mm' onClick={()=>{this.addLanguageBadge()}}> Add</Button>
+                    <Button size='xs' variant='solid'  backgroundColor='#d1e0ef'width = '30mm' onClick={()=>{this.addLanguageBadge()}}> Add</Button>
                  
                     </HStack>
                    
@@ -216,11 +216,11 @@
 
                     <Box height='30px'>
                     <FormControl isInvalid={this.state.hobbyError} width="sm">
-                    <Input value={this.state.hobbyName} onChange={(event)=>{this.handleHobbyInput(event)}} type ='text' width='xs' size='sm' variant='filled' placeholder='Hobbies'></Input>                   
+                    <Input value={this.state.hobbyName} onChange={(event)=>{this.handleHobbyInput(event)}} type ='text' width='xs' size='xs' variant='filled' placeholder='Hobbies'></Input>                   
                     <FormErrorMessage>please enter</FormErrorMessage>                    
                     </FormControl>
                     </Box>
-                    <Button size='sm' variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.addHobbiesBadge()}}> Add</Button>
+                    <Button size='xs' variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.addHobbiesBadge()}}> Add</Button>
                   
                     </HStack>
                    

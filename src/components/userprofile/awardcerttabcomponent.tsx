@@ -10,11 +10,12 @@ import {
     Stack,
     Text,
     InputLeftAddon,
-    InputGroup  ,Center,
+    InputGroup  ,Center,createStandaloneToast,
     Checkbox, CheckboxGroup ,Wrap,WrapItem,
     Heading,Box,HStack,Button,CloseButton,Select,
   } from "@chakra-ui/react";
 
+  const toast = createStandaloneToast();
 export default class AwardCertTabComponent extends React.Component<any,any>{
    
     state={
@@ -44,7 +45,7 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
            && this.state.awardOrg!==""
            && this.state.awardCategory!==""
            && this.state.awardType!==""
-           && this.state.awardRecDate || true){
+           && this.state.awardRecDate ){
               
             let award : AwardModel = {  awardName:this.state.awardName,
                                     awardCategory:this.state.awardCategory,
@@ -59,40 +60,54 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
                this.setState({awardList:awardArray}); 
                this.setState({awardName:"",awardOrg:"",awardCategory:"",awardRecDate:""});
            }
+           else{
+            toast({
+                description: "Please fill the form before saving",
+                 status: "error",
+                 duration: 5000,
+                 isClosable: true,
+               })
+           }
     }
     render(){
         return(
-            <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='full'>       
+            <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96'>       
             
-            <HStack>
-            <Stack spacing={5} style={{margin:"20px 20px 20px 20px"}}>
+            <Stack style={{margin:"20px 20px 20px 20px"}}>
+          
                 <Heading size = 'md' > AWARDS & CERTIFICATIONS <hr style = {{ height:'2px',
                 backgroundColor : '#d1e0ef'}}/></Heading> 
-            <Select value={this.state.awardType} onChange={(event)=>{this.setState({awardType:event.target.value})}}
-                onLoad={()=>{this.setState({awardType:"Award"})}} placeholder='-Select type-' type ='text' width='xs' size='sm' variant='filled'>
-                <option value="Award">Award</option>
-                <option value="Certificate">Certificate</option>
-            </Select>
-             <Input type = 'text' width='xs' onChange={(event)=>{this.setState({awardName:event.target.value})}} 
-             value={this.state.awardName} size='sm' placeholder="Award/Ceritificate Name" variant='filled'/>
-             <Input type = 'text' width='xs' onChange={(event)=>{this.setState({awardCategory:event.target.value})}} 
-             value={this.state.awardCategory} size='sm' placeholder="Award/Ceritificate Category" variant='filled'/>
-             <Input type = 'text' width='xs' onChange={(event)=>{this.setState({awardOrg:event.target.value})}} 
-             value={this.state.awardOrg} size='sm' placeholder="Award/Ceritificate Organisation" variant='filled'/>
-             <Input type = {this.state.RecDateType} onFocus={()=>{this.setState({RecDateType:"Date"})}}
-              onBlur={()=>{this.setState({RecDateType:"text"})}} value={this.state.awardRecDate}
-              width='xs' onChange={(event)=>{this.setState({awardRecDate:event.target.value})}} 
-              size='sm' placeholder="Award/Ceritificate Receiving Date" variant='filled'/>          
-            <Stack alignItems="center">
-             <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.handleAddAwardClick()}}>Add</Button>
-             </Stack>
-            </Stack>
+                <Stack>
+                  <HStack>
+                        <Select value={this.state.awardType} onChange={(event)=>{this.setState({awardType:event.target.value})}}
+                            onLoad={()=>{this.setState({awardType:"Award"})}} placeholder='-Select type-' type ='text' width='xs' size='xs' variant='filled'>
+                            <option value="Award">Award</option>
+                            <option value="Certificate">Certificate</option>
+                        </Select>
+                        <Input type = 'text' width='xs' onChange={(event)=>{this.setState({awardName:event.target.value})}} 
+                        value={this.state.awardName} size='xs' placeholder="Award/Ceritificate Name" variant='filled'/>
+                        <Input type = 'text' width='xs' onChange={(event)=>{this.setState({awardCategory:event.target.value})}} 
+                        value={this.state.awardCategory} size='xs' placeholder="Award/Ceritificate Category" variant='filled'/>
+                 </HStack>
+                 <HStack>
+                        <Input type = 'text' width='xs' onChange={(event)=>{this.setState({awardOrg:event.target.value})}} 
+                        value={this.state.awardOrg} size='xs' placeholder="Award/Ceritificate Organisation" variant='filled'/>
+                        
+                        <Input type = {this.state.RecDateType} onFocus={()=>{this.setState({RecDateType:"Date"})}}
+                        onBlur={()=>{this.setState({RecDateType:"text"})}} value={this.state.awardRecDate}
+                        width='xs' onChange={(event)=>{this.setState({awardRecDate:event.target.value})}} 
+                        size='xs' placeholder="Award/Ceritificate Receiving Date" variant='filled'/>          
+                        
+                        <Button variant='solid' backgroundColor='#d1e0ef' size='xs' width = '30mm' onClick={()=>{this.handleAddAwardClick()}}>Add</Button>
+                  </HStack>
+                </Stack>   
+           
             <Wrap>
-            {this.state.awardList.map((award:AwardModel,index)=>{
+               {this.state.awardList.map((award:AwardModel,index)=>{
                return <WrapItem>{this.awardTile(award,index)}</WrapItem> 
-            })}
+              })}
             </Wrap>
-            </HStack>         
+           </Stack>         
            </Box>
         );
     }

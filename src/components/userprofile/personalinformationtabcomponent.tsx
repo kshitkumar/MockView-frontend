@@ -107,13 +107,13 @@
             }
             render(){
                 return (
-                        <Box style={{alignItems:"center"}} borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl"   >
+                        <Box style={{alignItems:"center"}} borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96' >
                         <Stack spacing={5}>
                         <Box  style={{margin:'20px 20px 20px 20px'}} >
                         <Stack spacing={1}  >
                         <Heading size = 'md' > BIO <hr style = {{ height:'2px',
                         backgroundColor : '#d1e0ef'}}/></Heading> 
-                        <Text fontWeight='semibold' fontSize="x-large" >{this.state.name}</Text>
+                        <Text fontWeight='semibold' fontSize="large" >{this.state.name}</Text>
                         <Text>{'Date of Birth: '+ this.state.dateOfBirth}</Text>
                         <Text>{ 'Age: '+ this.state.age}</Text>
                         <Text>{'Gender: ' + this.state.gender}</Text>                        
@@ -124,24 +124,22 @@
                         <Heading size = 'md' > CONTACT INFORMATION  <hr style = {{ height:'2px',
                         backgroundColor : '#d1e0ef'}}/></Heading> 
                         <HStack>                           
-                            <Input width='xs' size='sm' value={this.state.emailId} isReadOnly variant='filled' type = 'email'  placeholder="Email" />                       
-                            <Input width='xs' size='sm' value={this.state.phoneNo} isReadOnly variant='filled' type = 'tel'  placeholder="Phone No" />                            
-                        </HStack>
-                        <HStack>                    
-                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select Country-" onChange={(event)=>{this.selectCountyAndLoadStateData(event)}} >                  
+                            <Input width='xs' size='xs' value={this.state.emailId} isReadOnly variant='filled' type = 'email'  placeholder="Email" />                       
+                            <Input width='xs' size='xs' value={this.state.phoneNo} isReadOnly variant='filled' type = 'tel'  placeholder="Phone No" />                            
+                            <Select width='xs' size='xs' variant="filled" type = 'text' placeholder="-Select Country-" onChange={(event)=>{this.selectCountyAndLoadStateData(event)}} >                  
                             { this.state.countryList.map((country:Country,index)=>{
                             return  <option key={index} value={country.country_name.replace(/\s/g, '')}>{country.country_name}</option>
                             })}
-                            </Select>                        
-                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select State-"  onChange={(event)=>{this.selectStateAndLoadCityData(event)}}>
+                            </Select>   
+                        </HStack>
+                        <HStack>                    
+                                               
+                            <Select width='xs' size='xs' variant="filled" type = 'text' placeholder="-Select State-"  onChange={(event)=>{this.selectStateAndLoadCityData(event)}}>
                             {this.state.stateList.map((stateName:State,index)=>{
                             return <option key={index} value={stateName.state_name.replace(/\s/g,'')}>{stateName.state_name}</option>
                             })}
-                            </Select>                        
-                        </HStack>
-                        
-                        <HStack>                          
-                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select City-" onChange={(event)=>{this.selectCityAndSendData(event)}}>
+                            </Select>   
+                            <Select width='xs' size='xs' variant="filled" type = 'text' placeholder="-Select City-" onChange={(event)=>{this.selectCityAndSendData(event)}}>
                             {this.state.cityList.map((cityName:City,index)=>{
                             return <option key={index} value={cityName.city_name.replace(/\s/g,'')}>{cityName.city_name}</option>
                             })
@@ -149,10 +147,14 @@
                             </Select>                           
                             <Box height="30px">
                             <FormControl isInvalid = {this.state.pinCodeError} id="pinCode" isRequired >
-                            <Input width='xs' size='sm' variant='filled' onFocus={()=>{this.setState({pinCodeError:false})}} onChange={(event)=>{this.validatePinCode(event)}} type = 'pincode' placeholder="Pin Code" />                       
+                            <Input width='xs' size='xs' variant='filled' onFocus={()=>{this.setState({pinCodeError:false})}} onChange={(event)=>{this.validatePinCode(event)}} type = 'pincode' placeholder="Pin Code" />                       
                             <FormErrorMessage> Please enter valid pin code</FormErrorMessage>
                             </FormControl>
-                            </Box>                        
+                            </Box>                              
+                        </HStack>
+                        
+                        <HStack>                          
+                                          
                             </HStack>                       
                         </Stack>
                         </Box>

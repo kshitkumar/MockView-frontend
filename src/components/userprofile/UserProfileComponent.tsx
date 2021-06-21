@@ -4,7 +4,7 @@ import WorkExperienceTabComponent from './WorkExperienceTabComponent' ;
 import SkillsTabComponent from './SkillsTabComponent';
 import AwardCertTabComponent from "./AwardCertTabComponent";
 import EducationTabComponent from "./EducationTabComponent";
-import { Tabs, TabList, TabPanels, Tab, TabPanel,Button ,Stack,Box,HStack} from "@chakra-ui/react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel,Button ,Stack,Box,HStack,createStandaloneToast} from "@chakra-ui/react";
 
 export type AwardModel={
   awardName:string,
@@ -45,6 +45,7 @@ export type EducationModel={
   eduType:string,
   country:string
 }
+const toast = createStandaloneToast();
 
 export class UserProfileTabsComponent extends Component<any,any>  {
  
@@ -64,10 +65,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
   } 
 
   handleSkillBadgeCallBack = (skillModel : SkillModel)=>{
-    let skillArray: SkillModel[] = [skillModel];
-    this.state.skillsBadge.reverse().map((name)=>{
-      skillArray.unshift(name);
-    })
+    let skillArray: SkillModel[] = [...this.state.skillsBadge,...[skillModel]];
     this.setState({ skillsBadge : skillArray},this.printSkill);
   }
 
@@ -77,10 +75,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
  
 
   handleLangBadgeCallBack = (skillModel : SkillModel)=>{
-    let langArray: SkillModel[] = [skillModel];
-    this.state.languageBadge.reverse().map((name)=>{
-       langArray.unshift(name);
-   })
+    let langArray: SkillModel[] = [...this.state.languageBadge,...[skillModel]];
   this.setState({ languageBadge : langArray},this.printLang);
  }
 
@@ -89,10 +84,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
 }
 
  handleHobbyBadgeCallBack = (hobby : string)=>{
-   let hobbyArray : string[] = [hobby] ;
-    this.state.hobbiesBadge.reverse().map((hobb)=>{
-        hobbyArray.unshift(hobb);
-    });
+   let hobbyArray : string[] = [...this.state.hobbiesBadge,...[hobby]] ;
    this.setState({hobbiesBadge:hobbyArray},this.printHObby);
  }
 
@@ -113,10 +105,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
     if(!this.state.isCurrentEmployeeSet && workExperienceModel.isCurrentEmployee){
       this.setState({isCurrentEmployeeSet:true});
     }
-     let workExArray : WorkExperienceModel[] =[workExperienceModel] ;
-     this.state.workExperinceList.reverse().map((workX)=>{
-        workExArray.unshift(workX);
-     });
+     let workExArray : WorkExperienceModel[] =[...this.state.workExperinceList,...[workExperienceModel]] ;
      this.setState({workExperinceList:workExArray},this.printEx);
  }
 
@@ -141,37 +130,46 @@ export class UserProfileTabsComponent extends Component<any,any>  {
  }
 
  handleSeniorScEduCallback=(education:EducationModel)=>{
-    this.setState({srSchoolEdu:education});
+    this.setState({srSchoolEdu:education},this.printEd2);
  }
  printEd2(){
   console.log( JSON.stringify(this.state.srSchoolEdu));
  }
 
- handleUniEduCallback=(education:EducationModel[])=>{
-       this.setState({uniEducationList:education});
+ handleUniEduCallback=(education:EducationModel)=>{
+   let uniArray = [...this.state.uniEducationList,...[education]];
+       this.setState({uniEducationList:uniArray},this.printEd3);
  }
 
  printEd3(){
   console.log( JSON.stringify(this.state.uniEducationList));
  }
+
+ handlePersonalInfoTabNextButton=()=>{
+  if(Object.keys(this.state.personalDetails).length === 0){
+    toast({
+      description: "Please fill the form to continue",
+       status: "error",
+       duration: 5000,
+       isClosable: true,
+     });
+  }
+  else{
+    this.setState({tabNo:1})
+  }
+ }
  
-
-
-
-
-
-
     render(){
         return (
              <Box  p={20}>
                 <Tabs index={this.state.tabNo} size="md" variant="line" align='start'>
                   <TabList>
-                    <Tab    fontWeight='semibold' fontSize='large'>Personal Information {'>'}</Tab>
-                    <Tab   fontWeight='semibold' fontSize='large'>Education {'>'}</Tab>
-                     <Tab   fontWeight='semibold' fontSize='large' >Skills {'>'}</Tab>
-                    <Tab   fontWeight='semibold' fontSize='large'>Work Experience {'>'}</Tab>
-                    <Tab   fontWeight='semibold' fontSize='large' >Awards & Recognition {'>'}</Tab>
-                    <Tab   fontWeight='semibold' fontSize='large'>Submit</Tab>
+                    <Tab    fontWeight='semibold' fontSize='md'>Personal Information {'>'}</Tab>
+                    <Tab   fontWeight='semibold' fontSize='md'>Education {'>'}</Tab>
+                     <Tab   fontWeight='semibold' fontSize='md' >Skills {'>'}</Tab>
+                    <Tab   fontWeight='semibold' fontSize='md'>Work Experience {'>'}</Tab>
+                    <Tab   fontWeight='semibold' fontSize='md' >Awards & Recognition {'>'}</Tab>
+                    <Tab   fontWeight='semibold' fontSize='md'>Submit</Tab>
                   </TabList>
                   <TabPanels>
                     <TabPanel>
@@ -181,7 +179,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
                     <HStack spacing={900}>
                     <Button   variant='solid' backgroundColor='#d1e0ef' width = '30mm'   onClick={()=>{this.setState({tabNo:1})}}>Next2</Button>
                    
-                    <Button  disabled ={Object.keys(this.state.personalDetails).length === 0} variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:2})}}>Next</Button>
+                    <Button  variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={this.handlePersonalInfoTabNextButton}>Next</Button>
                     </HStack>
                      </Stack> 
                      
@@ -191,7 +189,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
                     <Stack spacing={2}>
                     <EducationTabComponent  onAddSecSchool={this.handleSecondayEduCallback}
                                              onAddSrSchool={this.handleSeniorScEduCallback}
-                                             onAddUni={this.handleUniEduCallback}     />
+                                             onAddUniverse={this.handleUniEduCallback}     />
                     <HStack spacing={900}>
                           <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:0})}}>Prev</Button>
                            <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:2})}}>Next</Button>

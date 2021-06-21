@@ -56,10 +56,7 @@ import {
             isCurrentEmployee:this.state.isCurrentEmployee,
             isCurrentEmpSet:this.state.isCurrentEmpSet
           };         
-          let workExArray : WorkExperienceModel[]  = [...this.state.workExList,workEx] ;
-          this.state.workExList.reverse().map((workX)=>{
-            workExArray.unshift(workX);
-          });          
+          let workExArray : WorkExperienceModel[]  = [...this.state.workExList,workEx] ; 
           this.props.onAddWorkEx(workEx);  
             this.setState({companyName:"",industry:"",role:"",position:"",responsibilities:"",
            joiningDate:"",isCurrentEmployee:false,workExList:workExArray,isFormCompleted:true},this.formSuccess);
@@ -166,7 +163,7 @@ import {
       
         return (
          
-            <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='full'>       
+            <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96'>       
                 
               <Stack spacing={2} style={{margin:"10px 20px 20px 20px"}}>
                 <Heading size = 'md' > WORK EXPERIENCE &nbsp;
