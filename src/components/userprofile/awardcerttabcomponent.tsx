@@ -1,5 +1,5 @@
 import React from "react";
-import { AwardModel } from "./userprofiletabscomponent";
+import { AwardModel } from "./UserProfileComponent";
 import {
     FormControl,
     FormLabel,
@@ -14,13 +14,9 @@ import {
     Checkbox, CheckboxGroup ,Wrap,WrapItem,
     Heading,Box,HStack,Button,CloseButton,Select,
   } from "@chakra-ui/react";
-import { thisExpression } from "@babel/types";
 
- 
 export default class AwardCertTabComponent extends React.Component{
-
-    
-    
+   
     state={
         awardName:"",
         awardCategory:"",
@@ -42,7 +38,7 @@ export default class AwardCertTabComponent extends React.Component{
           </Box>);
 }
 
-    HandleAddAwardClick=()=>{
+    handleAddAwardClick=()=>{
 
         if(this.state.awardName!==""
            && this.state.awardOrg!==""
@@ -59,22 +55,19 @@ export default class AwardCertTabComponent extends React.Component{
             this.state.awardList.reverse().map((awardX:AwardModel)=>{
                 awardArray.unshift(awardX);
             });
-               this.setState({awardList:awardArray},this.print); 
+               this.setState({awardList:awardArray}); 
            }
-    }
-    print(){
-        console.log(JSON.stringify(this.state.awardList)+"   kya karu");
     }
     render(){
         return(
             <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='full'>       
             
             <HStack>
-            <Stack spacing={8} style={{margin:"20px 20px 20px 20px"}}>
+            <Stack spacing={5} style={{margin:"20px 20px 20px 20px"}}>
                 <Heading size = 'md' > AWARDS & CERTIFICATIONS <hr style = {{ height:'2px',
                 backgroundColor : '#d1e0ef'}}/></Heading> 
             <Select value={this.state.awardType} onChange={(event)=>{this.setState({awardType:event.target.value})}}
-                onLoad={()=>{this.setState({awardType:"Award"})}} placeholder='-Select type-' >
+                onLoad={()=>{this.setState({awardType:"Award"})}} placeholder='-Select type-' type ='text' width='xs' size='sm' variant='filled'>
                 <option value="Award">Award</option>
                 <option value="Certificate">Certificate</option>
             </Select>
@@ -89,7 +82,7 @@ export default class AwardCertTabComponent extends React.Component{
               width='xs' onChange={(event)=>{this.setState({awardRecDate:event.target.value})}} 
               size='sm' placeholder="Award/Ceritificate Receiving Date" variant='filled'/>          
             <Stack alignItems="center">
-             <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.HandleAddAwardClick()}}>Add</Button>
+             <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.handleAddAwardClick()}}>Add</Button>
              </Stack>
             </Stack>
             <Wrap>

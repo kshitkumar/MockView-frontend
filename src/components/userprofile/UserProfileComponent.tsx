@@ -1,8 +1,9 @@
 import React ,{Component} from "react";
-import PersonalInformationComponent from './personalinformationtabcomponent';
-import WorkExperienceTabComponent from './workexperiencetabcomponent' ;
-import SkillsTabComponent from './skillstabcomponent';
-import AwardCertTabComponent from "./awardcerttabcomponent";
+import PersonalInformationComponent from './PersonalInformationTabComponent';
+import WorkExperienceTabComponent from './WorkExperienceTabComponent' ;
+import SkillsTabComponent from './SkillsTabComponent';
+import AwardCertTabComponent from "./AwardCertTabComponent";
+import EducationTabComponent from "./EducationTabComponent";
 import { Tabs, TabList, TabPanels, Tab, TabPanel,Button ,Stack,Box,HStack} from "@chakra-ui/react";
 
 export type AwardModel={
@@ -23,7 +24,6 @@ export type WorkExperienceModel = {
   isCurrentEmployee:boolean
 }
 export type PersonalDetailModel ={    
-   
     country:string,
     state:string,
     city:string,
@@ -33,6 +33,15 @@ export type PersonalDetailModel ={
 export type SkillModel={
   skillName:string,
   skillProf:string
+}
+
+export type EducationModel={
+  degreeName:string,
+  schoolName:string,
+  stream:string,
+  percentage:string,
+  completionYear:string,
+  eduType:string
 }
 
 export class UserProfileTabsComponent extends Component<any,any>  {
@@ -51,18 +60,16 @@ export class UserProfileTabsComponent extends Component<any,any>  {
 
   } 
 
-  HandleSkillBadgeCallBack = (skillModel : SkillModel)=>{
+  handleSkillBadgeCallBack = (skillModel : SkillModel)=>{
     let skillArray: SkillModel[] = [skillModel];
     this.state.skillsBadge.reverse().map((name)=>{
       skillArray.unshift(name);
     })
     this.setState({ skillsBadge : skillArray});
   }
-  Print(){
-    console.log(JSON.stringify(this.state.workExperinceList));
-  }
+ 
 
-  HandleLangBadgeCallBack = (skillModel : SkillModel)=>{
+  handleLangBadgeCallBack = (skillModel : SkillModel)=>{
     let langArray: SkillModel[] = [skillModel];
     this.state.languageBadge.reverse().map((name)=>{
        langArray.unshift(name);
@@ -70,7 +77,7 @@ export class UserProfileTabsComponent extends Component<any,any>  {
   this.setState({ languageBadge : langArray});
  }
 
- HandleHobbyBadgeCallBack = (hobby : string)=>{
+ handleHobbyBadgeCallBack = (hobby : string)=>{
    let hobbyArray : string[] = [hobby] ;
     this.state.hobbiesBadge.reverse().map((hobb)=>{
         hobbyArray.unshift(hobb);
@@ -78,12 +85,11 @@ export class UserProfileTabsComponent extends Component<any,any>  {
    this.setState({hobbiesBadge:hobbyArray});
  }
 
- HandlePersonalDetailsCallBack=(personalDetail:PersonalDetailModel)=>{
-  
+ handlePersonalDetailsCallBack=(personalDetail:PersonalDetailModel)=>{  
     this.setState({personalDetails:personalDetail});
  }
 
- HandleWorkExperienceCallBack=(workExperienceModel:WorkExperienceModel)=>{
+ handleWorkExperienceCallBack=(workExperienceModel:WorkExperienceModel)=>{
      
     if(!this.state.isCurrentEmployeeSet && workExperienceModel.isCurrentEmployee){
       this.setState({isCurrentEmployeeSet:true});
@@ -92,21 +98,21 @@ export class UserProfileTabsComponent extends Component<any,any>  {
      this.state.workExperinceList.reverse().map((workX)=>{
         workExArray.unshift(workX);
      });
-     this.setState({workExperinceList:workExArray},this.Print);
+     this.setState({workExperinceList:workExArray});
  }
 
 
-  AddWorkExComponent(){
+  addWorkExComponent(){
     this.state.workExChild.push(1);
     this.setState(this.state.workExChild);
   }
-  RemoveWorkExComponent(){
+  removeWorkExComponent(){
     this.state.workExChild.pop()
     this.setState(this.state.workExChild);
   }
     render(){
         return (
-             <Box  style={{margin: "10px 30px 30px 30px"}}>
+             <Box  style={{margin: "80px 30px 30px 30px"}}>
                 <Tabs index={this.state.tabNo} size="md" variant="line" align='start'>
                   <TabList>
                     <Tab    fontWeight='semibold' fontSize='large'>Personal Information {'>'}</Tab>
@@ -119,40 +125,56 @@ export class UserProfileTabsComponent extends Component<any,any>  {
                   <TabPanels>
                     <TabPanel>
                     <Stack style = {{alignItems:"center"}}>                    
-                    <PersonalInformationComponent onPersonalDetailAdd={this.HandlePersonalDetailsCallBack}/>
-                    
+                    <PersonalInformationComponent onPersonalDetailAdd={this.handlePersonalDetailsCallBack}/>
+                   
                     <HStack spacing={900}>
                     <Button visibility="hidden" disabled ={Object.keys(this.state.personalDetails).length === 0} variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:2})}}>Next</Button>
-                    <Button   variant='solid' backgroundColor='#d1e0ef' width = '30mm'   onClick={()=>{this.setState({tabNo:2})}}>Next2</Button>
+                    <Button   variant='solid' backgroundColor='#d1e0ef' width = '30mm'   onClick={()=>{this.setState({tabNo:1})}}>Next2</Button>
                     </HStack>
                      </Stack> 
+                     
                     </TabPanel>
                     <TabPanel>
-                          <div></div>
+                      <Box>
+                    <Stack spacing={2}>
+                    <EducationTabComponent/>
+                    <HStack spacing={900}>
+                          <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:0})}}>Prev</Button>
+                           <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:2})}}>Next</Button>
+                      </HStack>
+                      </Stack>
+                      </Box>
                     </TabPanel>
                     <TabPanel> <Stack style = {{alignItems:"center"}}>
                     < SkillsTabComponent  
-                      onSkillAdd = {this.HandleSkillBadgeCallBack} 
-                      onLangAdd = {this.HandleLangBadgeCallBack}
-                      onHobbyAdd ={this.HandleHobbyBadgeCallBack}
+                      onSkillAdd = {this.handleSkillBadgeCallBack} 
+                      onLangAdd = {this.handleLangBadgeCallBack}
+                      onHobbyAdd ={this.handleHobbyBadgeCallBack}
                     /> 
                     <HStack spacing={900}>
-                     <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:0})}}>Prev</Button>
+                     <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:1})}}>Prev</Button>
                      <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:3})}}>Next</Button>
                      </HStack>
                     </Stack>
                   </TabPanel>
                     <TabPanel  id='WorkExTag' >
-                     <WorkExperienceTabComponent onAddWorkEx = {this.HandleWorkExperienceCallBack} 
+                      <Stack>
+                     <WorkExperienceTabComponent onAddWorkEx = {this.handleWorkExperienceCallBack} 
                      isCurrEmpSet ={this.state.isCurrentEmployeeSet}/>
-                     <br />
                      <HStack spacing={900}>
                      <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:2})}}>Prev</Button>
                      <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:4})}}>Next</Button>
                      </HStack>
+                     </Stack>
                   </TabPanel>
                   <TabPanel>
+                    <Stack spacing={2}>
                        <AwardCertTabComponent />
+                       <HStack spacing={900}>
+                          <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:3})}}>Prev</Button>
+                           <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.setState({tabNo:5})}}>Next</Button>
+                      </HStack>
+                      </Stack>
                   </TabPanel>
                   </TabPanels>
                 </Tabs>

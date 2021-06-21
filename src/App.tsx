@@ -3,12 +3,13 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './components/Header/Header';
 import './App.css';
 import Home from './components/Home/Home';
-import UserProfileTabsComponent from './components/userprofile/userprofiletabscomponent';
+import UserProfileTabsComponent from './components/UserProfile/UserProfileComponent';
 import ProfileSelection from './components/ProfileSelection/ProfileSelection';
+import { Stack,VStack} from "@chakra-ui/react";
 
 function App() {
   return (
-    <div>
+    <VStack>
       <Header />
       <Switch>
         <Route path = "/home" component = {Home} />
@@ -16,7 +17,7 @@ function App() {
         <Route path = '/user-profile' component = {UserProfileTabsComponent}/>
         <Redirect from = "" to = "/home" />
       </Switch>
-    </div>
+    </VStack>
   );
 }
 

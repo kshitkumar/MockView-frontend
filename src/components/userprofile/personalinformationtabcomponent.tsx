@@ -1,6 +1,6 @@
         import React from "react";
         import  validator from "validator";
-        import {PersonalDetailModel} from './userprofiletabscomponent'
+        import {PersonalDetailModel} from './UserProfileComponent'
         import {fetchAllCitieOfState,fetchAllCountries,fetchAllStatesOfCountry} from "../../services/utilService"
         import {
             FormControl,AlertIcon,
@@ -50,48 +50,46 @@
             selectedCity:"",
             pinCode:"" 
         }
-            ValidateEmail =(event : React.ChangeEvent<HTMLInputElement>)=>{
+            validateEmail =(event : React.ChangeEvent<HTMLInputElement>)=>{
                 if( !validator.isEmail(event.target.value)){
                         this.setState({emailError:true}); 
                 }            
-            }
+            } 
 
-
-            ValidatePhone =(event : React.ChangeEvent<HTMLInputElement>)=>{
+            validatePhone =(event : React.ChangeEvent<HTMLInputElement>)=>{
                 if( !validator.isMobilePhone(event.target.value,"en-IN")){
                     this.setState({phoneNoError:true}); 
                 }            
             }
 
-            ValidatePinCode=(event : React.ChangeEvent<HTMLInputElement>)=>{
+            validatePinCode=(event : React.ChangeEvent<HTMLInputElement>)=>{
                 if(!validator.isPostalCode(event.target.value,'IN')){
                     this.setState({pinCodeError:true});
                 }
                 else{
-                    this.setState({pinCodeError:false,pinCode:event.target.value},this.CheckForCompletionAndSendData);
+                    this.setState({pinCodeError:false,pinCode:event.target.value},this.checkForCompletionAndSendData);
                     
                 }
             }
 
-            SelectCountyAndLoadStateData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
+            selectCountyAndLoadStateData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
                 fetchAllStatesOfCountry(event.target.value).then((data)=>{
                     this.setState({stateList:data});
                 });
                 this.setState({selectedCountry:event.target.value});
             }
 
-            SelectStateAndLoadCityData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
+            selectStateAndLoadCityData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
                 fetchAllCitieOfState(event.target.value).then((data)=>{
                     this.setState({cityList:data});
                 });
                 this.setState({selectedState:event.target.value});            
             }
-            SelectCityAndSendData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
-                    this.setState({selectedCity:event.target.value},this.CheckForCompletionAndSendData);
-                    
+            selectCityAndSendData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
+                    this.setState({selectedCity:event.target.value},this.checkForCompletionAndSendData);                   
             }
             
-            CheckForCompletionAndSendData=()=>{
+            checkForCompletionAndSendData=()=>{
                 if(this.state.selectedCountry !== ""  
                 && this.state.selectedState !=="" 
                 && this.state.selectedCity !== ""
@@ -112,7 +110,7 @@
                         <Box style={{alignItems:"center"}} borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl"   >
                         <Stack spacing={5}>
                         <Box  style={{margin:'20px 20px 20px 20px'}} >
-                        <Stack spacing={2}  >
+                        <Stack spacing={1}  >
                         <Heading size = 'md' > BIO <hr style = {{ height:'2px',
                         backgroundColor : '#d1e0ef'}}/></Heading> 
                         <Text fontWeight='semibold' fontSize="x-large" >{this.state.name}</Text>
@@ -121,21 +119,21 @@
                         <Text>{'Gender: ' + this.state.gender}</Text>                        
                         </Stack>  
                         </Box>
-                        <Box style={{margin:'20px 20px 50px 20px'}}>
-                        <Stack spacing={4}>
+                        <Box style={{margin:'15px 15px 30px 15px'}}>
+                        <Stack spacing={2}>
                         <Heading size = 'md' > CONTACT INFORMATION  <hr style = {{ height:'2px',
                         backgroundColor : '#d1e0ef'}}/></Heading> 
                         <HStack>                           
-                            <Input width='xs' size='sm' value={this.state.emailId} isDisabled variant='filled' type = 'email'  placeholder="Email" />                       
-                            <Input width='xs' size='sm' value={this.state.phoneNo} isDisabled variant='filled' type = 'tel'  placeholder="Phone No" />                            
+                            <Input width='xs' size='sm' value={this.state.emailId} isReadOnly variant='filled' type = 'email'  placeholder="Email" />                       
+                            <Input width='xs' size='sm' value={this.state.phoneNo} isReadOnly variant='filled' type = 'tel'  placeholder="Phone No" />                            
                         </HStack>
                         <HStack>                    
-                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select Country-" onChange={(event)=>{this.SelectCountyAndLoadStateData(event)}} >                  
+                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select Country-" onChange={(event)=>{this.selectCountyAndLoadStateData(event)}} >                  
                             { this.state.countryList.map((country:Country,index)=>{
                             return  <option key={index} value={country.country_name.replace(/\s/g, '')}>{country.country_name}</option>
                             })}
                             </Select>                        
-                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select State-"  onChange={(event)=>{this.SelectStateAndLoadCityData(event)}}>
+                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select State-"  onChange={(event)=>{this.selectStateAndLoadCityData(event)}}>
                             {this.state.stateList.map((stateName:State,index)=>{
                             return <option key={index} value={stateName.state_name.replace(/\s/g,'')}>{stateName.state_name}</option>
                             })}
@@ -143,7 +141,7 @@
                         </HStack>
                         
                         <HStack>                          
-                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select City-" onChange={(event)=>{this.SelectCityAndSendData(event)}}>
+                            <Select width='xs' size='sm' variant="filled" type = 'text' placeholder="-Select City-" onChange={(event)=>{this.selectCityAndSendData(event)}}>
                             {this.state.cityList.map((cityName:City,index)=>{
                             return <option key={index} value={cityName.city_name.replace(/\s/g,'')}>{cityName.city_name}</option>
                             })
@@ -151,7 +149,7 @@
                             </Select>                           
                             <Box height="30px">
                             <FormControl isInvalid = {this.state.pinCodeError} id="pinCode" isRequired >
-                            <Input width='xs' size='sm' variant='filled' onFocus={()=>{this.setState({pinCodeError:false})}} onChange={(event)=>{this.ValidatePinCode(event)}} type = 'pincode' placeholder="Pin Code" />                       
+                            <Input width='xs' size='sm' variant='filled' onFocus={()=>{this.setState({pinCodeError:false})}} onChange={(event)=>{this.validatePinCode(event)}} type = 'pincode' placeholder="Pin Code" />                       
                             <FormErrorMessage> Please enter valid pin code</FormErrorMessage>
                             </FormControl>
                             </Box>                        

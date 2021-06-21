@@ -8,7 +8,7 @@ function ProfileSelection() {
     const handleInterviewerProfile = (event: React.MouseEvent) => {
         event.preventDefault();
         console.log("Interviewer Selected");
-        console.log(location.state);
+        console.log(location.state); 
     };
 
     const handleCandidateProfile = (event: React.MouseEvent) => {

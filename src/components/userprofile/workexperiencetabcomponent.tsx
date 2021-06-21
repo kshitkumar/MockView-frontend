@@ -1,5 +1,5 @@
 import React from "react";
-import {WorkExperienceModel} from "./userprofiletabscomponent";
+import {WorkExperienceModel} from "./UserProfileComponent";
 import {
     FormControl,
     FormLabel,
@@ -33,7 +33,7 @@ import {
       isCurrentEmployeeSet:false
     }
 
-    HandleCompleteButtonClick=()=>{
+    handleCompleteButtonClick=()=>{
       console.log( this.state.companyName +" "+this.state.industry+" "+this.state.role 
       +" "+this.state.position+" "+this.state.responsibilities+" "+" "+this.state.joiningDate+" "+this.state.endingDate);
 
@@ -78,7 +78,7 @@ import {
     print(){
       console.log(JSON.stringify(this.state.workExList));
     }
-    HandleCheckBoxInput=(event:React.ChangeEvent<HTMLInputElement>)=>{           
+    handleCheckBoxInput=(event:React.ChangeEvent<HTMLInputElement>)=>{           
           this.setState({isCurrentEmployee:true});
           this.props.onAddWorkEx(event.target.value);          
     }
@@ -103,7 +103,7 @@ import {
          
             <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='full'>       
             <HStack>     
-              <Stack spacing={2} style={{margin:"20px 20px 20px 20px"}}>
+              <Stack spacing={1} style={{margin:"10px 20px 20px 20px"}}>
                 <Heading size = 'md' > WORK EXPERIENCE <hr style = {{ height:'2px',
                 backgroundColor : '#d1e0ef'}}/></Heading> 
                                     
@@ -132,9 +132,9 @@ import {
                                    
              <HStack>
            
-              <Checkbox disabled={this.props.isCurrEmpSet } onChange={(event)=>(this.HandleCheckBoxInput(event))} >I am currently working here</Checkbox>
+              <Checkbox disabled={this.props.isCurrEmpSet } onChange={(event)=>(this.handleCheckBoxInput(event))} >I am currently working here</Checkbox>
             
-            <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.HandleCompleteButtonClick()}}>Add</Button>
+            <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.handleCompleteButtonClick()}}>Add</Button>
             </HStack>
            </Stack>
            <Wrap spacing={1}>

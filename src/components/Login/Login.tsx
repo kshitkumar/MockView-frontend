@@ -32,7 +32,7 @@ function Login() {
             const user : User = response.data;
             if(response.status = 200) {
                 console.log('User logged in');
-                history.push({pathname : "/select-profile", state : {user}});
+                history.push({pathname : "/user-profile", state : {user}});
             }
             else {
                 toast({
