@@ -28,7 +28,7 @@
                 super(props);
             }
 
-            componentDidMount(){
+        componentDidMount(){
                 fetchAllCountries().then(data=>{
                 this.setState({ countryList:data})
                 })

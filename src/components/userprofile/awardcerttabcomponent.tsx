@@ -15,7 +15,7 @@ import {
     Heading,Box,HStack,Button,CloseButton,Select,
   } from "@chakra-ui/react";
 
-export default class AwardCertTabComponent extends React.Component{
+export default class AwardCertTabComponent extends React.Component<any,any>{
    
     state={
         awardName:"",
@@ -51,11 +51,13 @@ export default class AwardCertTabComponent extends React.Component{
                                     awardOrg:this.state.awardOrg,
                                     awardRecDate:this.state.awardRecDate,
                                     awardType:this.state.awardType};
-            let awardArray : AwardModel[] = [award];
+            let awardArray : AwardModel[] = [award];    
             this.state.awardList.reverse().map((awardX:AwardModel)=>{
                 awardArray.unshift(awardX);
             });
+               this.props.onAddAward(awardArray);
                this.setState({awardList:awardArray}); 
+               this.setState({awardName:"",awardOrg:"",awardCategory:"",awardRecDate:""});
            }
     }
     render(){
@@ -90,8 +92,7 @@ export default class AwardCertTabComponent extends React.Component{
                return <WrapItem>{this.awardTile(award,index)}</WrapItem> 
             })}
             </Wrap>
-            </HStack>
-          
+            </HStack>         
            </Box>
         );
     }
