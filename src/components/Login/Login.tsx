@@ -6,7 +6,11 @@ import { UserCredentials } from "../../models/UserCredentials";
 import { login } from "../../services/LoginService";
 import { User } from "../../models/User";
 
-function Login() {
+interface Props {
+    onLogin(user : User) : void
+}
+
+function Login(props : Props) {
 
     const initialState = {
         emailId: "",
@@ -32,6 +36,7 @@ function Login() {
             const user : User = response.data;
             if(response.status = 200) {
                 console.log('User logged in');
+                props.onLogin(user);
                 history.push({pathname : "/select-profile", state : {user}});
             }
             else {
