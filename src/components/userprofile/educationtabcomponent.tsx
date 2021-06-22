@@ -1,13 +1,7 @@
 import React from "react";
-import {EducationModel} from './UserProfileComponent';
-import {
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    Input,Box,Stack,Heading,HStack,Button,createStandaloneToast
-  } from "@chakra-ui/react";
-  import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
+import {EducationModel} from '../../models/EducationModel';
+import { Input,Box,Stack,Heading,HStack,Button,createStandaloneToast } from "@chakra-ui/react";
+  import {AddIcon} from '@chakra-ui/icons'
   
 const toast = createStandaloneToast();
 
@@ -19,13 +13,13 @@ class EducationTabComponent extends React.Component<any,any> {
         secondaryEdu:{} as EducationModel,
         srSecEducation:{} as EducationModel, 
         scSchool:"",
-        scDegree:"Secondary Certificate",
+        scDegree:"Grade 10",
         scStream:"",
         scPercent:"",
         scYearOfCompletion:"",
         scCountry:"",
         srSchool:"",
-        srDegree:"Senior Secondary Certificate",
+        srDegree:"Grade 12",
         srStream:"",
         srPercent:"",
         srYearOfCompletion:"",
@@ -67,24 +61,24 @@ class EducationTabComponent extends React.Component<any,any> {
 
  checkFormCompleteAndSendSeniorData=()=>{
     if(
-        this.state.scCountry !=="" &&
-        this.state.scDegree !=="" &&
-        this.state.scPercent !=="" &&
-        this.state.scSchool !=="" &&
-        this.state.scStream !=="" &&
-        this.state.scYearOfCompletion!==""
+        this.state.srCountry !=="" &&
+        this.state.srDegree !=="" &&
+        this.state.srPercent !=="" &&
+        this.state.srSchool !=="" &&
+        this.state.srStream !=="" &&
+        this.state.srYearOfCompletion!==""
     ){
             let education:EducationModel = { 
-            degreeName: this.state.scDegree,
-            percentage:this.state.scPercent,
-            completionYear:this.state.scYearOfCompletion,
-            schoolName:this.state.scSchool,
-            stream:this.state.scStream,
-            country:this.state.scCountry,
+            degreeName: this.state.srDegree,
+            percentage:this.state.srPercent,
+            completionYear:this.state.srYearOfCompletion,
+            schoolName:this.state.srSchool,
+            stream:this.state.srStream,
+            country:this.state.srCountry,
             eduType:"SCHOOL" };
-        this.setState({uniEducationList:[...this.state.uniEducationList,...[education]]
-            ,isFormCompleted:true},this.formSuccess);
-        this.props.onAddUniverse(education);
+
+            this.setState({srSecEducation:education},this.formSuccess);
+            this.props.onAddSrSchool(education);       
     }
     else{
         this.formInComplete();
@@ -109,9 +103,10 @@ class EducationTabComponent extends React.Component<any,any> {
                 stream:this.state.unStream,
                 country:this.state.unCountry,
                 eduType:"UNIVERSITY" };
-
-            this.setState({srSecEducation:education},this.formSuccess);
-            this.props.onAddSecSchool(education);
+                this.setState({uniEducationList:[...this.state.uniEducationList,...[education]]
+                  ,isFormCompleted:true},this.formSuccess);
+              this.props.onAddUniverse(education);
+            
       }
         else{
             this.formInComplete();
@@ -186,8 +181,8 @@ class EducationTabComponent extends React.Component<any,any> {
         <Input  placeholder='Year of completion' type = 'text' width='72' variant='filled' size='xs'
         onChange={(event)=>{this.setState({unYearOfCompletion:event.target.value})}} value={this.state.unYearOfCompletion}  ></Input>
         </Stack> 
-        <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' size='xs' 
-                   onClick={this.formSuccess} >save</Button>
+        <Button color='white' variant='solid' backgroundColor='#0b294e;' width = '30mm' size='xs' 
+                   onClick={this.checkFormCompleteAndSendUniversData} >save</Button>
         </HStack> 
         <hr style = {{ height:'2px', backgroundColor : '#d1e0ef'}}/>
         </Stack>
@@ -197,13 +192,13 @@ class EducationTabComponent extends React.Component<any,any> {
     render(){
       
         return(
-            <Box width='6xl' height='96'  style={{alignItems:"center"}}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" >
+            <Box width='6xl' height='96' borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" >
             <Stack spacing={2} style={{margin:"20px 20px 20px 20px"}}>
             <Heading size = 'sm' >SCHOOL EDUCATION<hr style = {{ height:'2px',
                     backgroundColor : '#d1e0ef'}}/></Heading>
                    <HStack>
                    <Stack>
-                    <Input placeholder='School Name' value={this.state.scSchool} type = 'text' onBlur={this.checkFormCompleteAndSendSecondaryData}
+                    <Input placeholder='School Name' value={this.state.scSchool} type = 'text' 
                     width='72' variant='filled' size='xs' onChange={(event)=>{this.setState({scSchool:event.target.value})}}></Input>
                     <Input isReadOnly  placeholder='Secondary Certificate' value={this.state.scDegree} type = 'text' width='72'  variant='filled' 
                      size='xs'></Input>
@@ -223,8 +218,8 @@ class EducationTabComponent extends React.Component<any,any> {
                     <Input  placeholder='Year of completion' value={this.state.scYearOfCompletion} type = 'text' 
                     onChange={(event)=>{this.setState({scYearOfCompletion:event.target.value})}} width='72' variant='filled' size='xs'></Input>
                       </Stack>
-                      <Button onClock={this.checkFormCompleteAndSendSecondaryData} variant='solid' backgroundColor='#d1e0ef' width = '30mm' size='xs'
-                       onClick={this.formSuccess} >save</Button>
+                      <Button color='white' onClick={this.checkFormCompleteAndSendSecondaryData} variant='solid' backgroundColor='#0b294e' width = '30mm' size='xs'
+                        >save</Button>
                     </HStack> 
                     
                     <hr style = {{ height:'2px', backgroundColor : '#d1e0ef'}}/>
@@ -250,7 +245,7 @@ class EducationTabComponent extends React.Component<any,any> {
                     <Input  placeholder='Year of completion' value={this.state.srYearOfCompletion} type = 'text' 
                     onChange={(event)=>{this.setState({srYearOfCompletion:event.target.value})}} width='72' variant='filled' size='xs'></Input>
                    </Stack>
-                   <Button onClick={this.checkFormCompleteAndSendSeniorData} variant='solid' backgroundColor='#d1e0ef' width = '30mm' size='xs'>save</Button>
+                   <Button color='white' onClick={this.checkFormCompleteAndSendSeniorData} variant='solid' backgroundColor='#0b294e' width = '30mm' size='xs'>save</Button>
                     </HStack> 
             <Heading size = 'sm' >UNIVERSITY EDUCATION &nbsp;
              <Button variant='link' size='xs' onClick={this.PlusIconClickHandler}> <AddIcon/>Add</Button>

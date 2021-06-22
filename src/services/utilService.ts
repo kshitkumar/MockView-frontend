@@ -1,5 +1,5 @@
 
-export const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJ2aXNnb3N3YW1pQGRlbG9pdHRlLmNvbSIsImFwaV90b2tlbiI6IklITFYwVWxsVE9tQ3VQVFZYQk13R3VGUG5FT0V1UVZrWWIzdXdlN3E2T3RSOWQzakdaUGJ1STV6cTJkY2theVhMUWcifSwiZXhwIjoxNjI0MjkwMDcyfQ.FfJkBZglVqb-FCazX7s9xY73eM9YnAG5xF1WcWvPt3Q';
+export const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJ2aXNnb3N3YW1pQGRlbG9pdHRlLmNvbSIsImFwaV90b2tlbiI6IklITFYwVWxsVE9tQ3VQVFZYQk13R3VGUG5FT0V1UVZrWWIzdXdlN3E2T3RSOWQzakdaUGJ1STV6cTJkY2theVhMUWcifSwiZXhwIjoxNjI0MzgxMzg4fQ.-5gaVOSg02jn0vQJcnTY-8xxl2jSkUugQIZikxu3Ww8';
 export const fetchAllCountries = async ()=>{
 
     const endPoint = `https://www.universal-tutorial.com/api/countries`;

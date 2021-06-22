@@ -1,22 +1,12 @@
     import React,{Component} from "react";
-    import {SkillModel} from './UserProfileComponent'
+    import {SkillModel} from '../../models/SkillModel' ;
     import {
     FormControl,
-    FormLabel,
     FormErrorMessage,
-    FormHelperText,
-    Input,Alert,
-    Textarea,AlertIcon,
-    Stack,Tag,
-    Text,Badge,Select,
-    Checkbox, CheckboxGroup ,
+    Input,Stack,Tag,Select,
     Heading,Box,HStack,Button
     } from "@chakra-ui/react";
      
-    type Skill=  {
-        name:string;
-        prof:string;
-    }
  
     export default  class SkillsTabComponent extends Component<any,any>{
 
@@ -41,8 +31,8 @@
         
         addSkillsBadge(){
            if(this.state.skillName !== "" && this.state.skillProf !=="") {
-                const skillObject = {name:this.state.skillName,prof:this.state.skillProf};
-                let skillArray :Skill[] = [skillObject];
+                const skillObject = {skillName:this.state.skillName,skillProf:this.state.skillProf};
+                let skillArray :SkillModel[] = [skillObject];
                     this.state.skillsBadge.reverse().map((name)=>{
                         skillArray.unshift(name);                       
                 });
@@ -68,8 +58,8 @@
         }
         addLanguageBadge(){
             if(this.state.languageName !== "" && this.state.languageProf !=="") {
-                    const langObject = {name:this.state.languageName,prof:this.state.languageProf};
-                    let langArray :Skill[] = [langObject];
+                    const langObject = {skillName:this.state.languageName,skillProf:this.state.languageProf};
+                    let langArray :SkillModel[] = [langObject];
                     this.state.languageBadge.reverse().map((name)=>{
                         langArray.unshift(name);
                     });
@@ -165,14 +155,14 @@
                     <FormErrorMessage>please enter</FormErrorMessage>                  
                     </FormControl>
                     </Box>
-                     <Button size='xs' variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.addSkillsBadge()}}> Add</Button>
+                     <Button size='xs' variant='solid' color='white' backgroundColor='#0b294e'  width = '30mm' onClick={()=>{this.addSkillsBadge()}}> Add</Button>
                    
                     </HStack> 
                    
                     <Box height='50px'>
                     <HStack>
-                    {this.state.skillsBadge.map((skill:Skill)=>{
-                       return <Tag width="fit-content"  variant ='solid' key={skill.name.replace(/\s/g, '')} >{skill.name+"-"+skill.prof}</Tag>
+                    {this.state.skillsBadge.map((skill:SkillModel)=>{
+                       return <Tag width="fit-content"  variant ='solid' key={skill.skillName.replace(/\s/g, '')} >{skill.skillName+"-"+skill.skillProf}</Tag>
                     })}
                     </HStack>
                     </Box>
@@ -198,14 +188,14 @@
                     <FormErrorMessage>please enter</FormErrorMessage>                  
                     </FormControl>
                     </Box>
-                    <Button size='xs' variant='solid'  backgroundColor='#d1e0ef'width = '30mm' onClick={()=>{this.addLanguageBadge()}}> Add</Button>
+                    <Button size='xs' variant='solid'  color='white' backgroundColor='#0b294e'  width = '30mm' onClick={()=>{this.addLanguageBadge()}}> Add</Button>
                  
                     </HStack>
                    
                     <Box height='50px'>
                     <HStack>
-                    {this.state.languageBadge.map((lang:Skill)=>{
-                       return <Tag width="fit-content" variant ='solid' key={lang.name.replace(/\s/g, '')} >{lang.name+"-"+lang.prof}</Tag>
+                    {this.state.languageBadge.map((lang:SkillModel)=>{
+                       return <Tag width="fit-content" variant ='solid' key={lang. skillName.replace(/\s/g, '')} >{lang.skillName+"-"+lang.skillProf}</Tag>
                     })}
                     </HStack>
                     </Box>
@@ -220,7 +210,7 @@
                     <FormErrorMessage>please enter</FormErrorMessage>                    
                     </FormControl>
                     </Box>
-                    <Button size='xs' variant='solid' backgroundColor='#d1e0ef' width = '30mm' onClick={()=>{this.addHobbiesBadge()}}> Add</Button>
+                    <Button size='xs' variant='solid' color='white' backgroundColor='#0b294e'  width = '30mm' onClick={()=>{this.addHobbiesBadge()}}> Add</Button>
                   
                     </HStack>
                    

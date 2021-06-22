@@ -17,10 +17,11 @@ function SignUp(props : Props) {
         gender:"",
         emailId: "",
         password: "",
-        rePassword: ""
+        phoneNumber: ""
     };
 
     const [user, setUser] = useState<User>(initialState);
+    const [rePassword, setRePassword] =useState("");
 
     const toast = useToast();
 
@@ -59,7 +60,7 @@ function SignUp(props : Props) {
     };
 
     function isInvalidPassword() {
-        return user.rePassword !== "" && user.password !== user.rePassword;
+        return rePassword !== "" && user.password !== rePassword;
     }
 
     return (
@@ -153,7 +154,8 @@ function SignUp(props : Props) {
                     type='password'
                     placeholder="*Re-enter Password"
                     isRequired
-                    onChange = {onChange}
+                    onChange = {(event)=>{onChange(event);
+                                         setRePassword(event.target.value)   }}
                 />
             </HStack>
             <Button type = 'submit' bgColor = '#0B294E' color = 'white' w='100%' fontSize='15px'>

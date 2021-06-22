@@ -1,18 +1,7 @@
 import React from "react";
-import { AwardModel } from "./UserProfileComponent";
-import {
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    Input,
-    Textarea,
-    Stack,
-    Text,
-    InputLeftAddon,
-    InputGroup  ,Center,createStandaloneToast,
-    Checkbox, CheckboxGroup ,Wrap,WrapItem,
-    Heading,Box,HStack,Button,CloseButton,Select,
+import { AwardModel } from "../../models/AwardModel";
+import {  
+    Input,Stack,Text,createStandaloneToast,Wrap,WrapItem,Heading,Box,HStack,Button,Select,
   } from "@chakra-ui/react";
 
   const toast = createStandaloneToast();
@@ -75,7 +64,7 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
             
             <Stack style={{margin:"20px 20px 20px 20px"}}>
           
-                <Heading size = 'md' > AWARDS & CERTIFICATIONS <hr style = {{ height:'2px',
+                <Heading size = 'sm' > AWARDS & CERTIFICATIONS <hr style = {{ height:'2px',
                 backgroundColor : '#d1e0ef'}}/></Heading> 
                 <Stack>
                   <HStack>
@@ -98,7 +87,7 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
                         width='xs' onChange={(event)=>{this.setState({awardRecDate:event.target.value})}} 
                         size='xs' placeholder="Award/Ceritificate Receiving Date" variant='filled'/>          
                         
-                        <Button variant='solid' backgroundColor='#d1e0ef' size='xs' width = '30mm' onClick={()=>{this.handleAddAwardClick()}}>Add</Button>
+                        <Button variant='solid' color='white' backgroundColor='#0b294e' size='xs' width = '30mm' onClick={()=>{this.handleAddAwardClick()}}>Add</Button>
                   </HStack>
                 </Stack>   
            

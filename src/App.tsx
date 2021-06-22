@@ -6,6 +6,7 @@ import Home from './components/Home/Home';
 import UserProfileTabsComponent from './components/UserProfile/UserProfileComponent';
 import ProfileSelection from './components/ProfileSelection/ProfileSelection';
 import { User } from './models/User';
+import { PhoneIcon } from '@chakra-ui/icons';
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
     gender:"",
     emailId: "",
     password: "",
-    rePassword: ""
+    phoneNumber:""
   };
 
   const[user, setUser] = useState<User>(initialState);
@@ -41,8 +42,8 @@ function App() {
       <Header isLoggedIn = {isLoggedIn} user = {user} onLogout = {handleLogout}/>
       <Switch>
         <Route path = "/home" component = {() => <Home onLogin = {handleLogin}/>} />
-        <Route path = "/select-profile" component = {ProfileSelection} />y
-        <Route path = '/user-profile' component = {UserProfileTabsComponent}/>
+        <Route path = "/select-profile" component = {ProfileSelection} />
+        <Route path = '/user-profile' > <UserProfileTabsComponent isLoggedIn = {isLoggedIn} user = {user}/></Route> 
         <Redirect from = "" to = "/home" />
       </Switch>
     </div>

@@ -1,17 +1,10 @@
 import React from "react";
-import {WorkExperienceModel} from "./UserProfileComponent";
+import {WorkExperienceModel} from '../../models/WorkExperienceModel';
 import {
-   
-    Input,
-    Textarea,
-    Stack,
-    Text,
-    InputLeftAddon,
-    InputGroup  ,
-    Checkbox, CheckboxGroup ,Wrap,WrapItem,
-    Heading,Box,HStack,Button,CloseButton,createStandaloneToast
+    Input,Textarea,Stack,Text,
+    Checkbox,Heading,Box,HStack,Button,createStandaloneToast
   } from "@chakra-ui/react";
-  import { PhoneIcon, AddIcon, WarningIcon, MinusIcon } from '@chakra-ui/icons'
+  import { AddIcon } from '@chakra-ui/icons'
  
   const toast = createStandaloneToast();
   class WorkExperienceTabComponent extends React.Component<any,any> { 
@@ -148,7 +141,7 @@ import {
                     <HStack>
                       <Checkbox onChange ={()=>{this.setState({isCurrentEmployee: !this.state.isCurrentEmployee})}}>
                       <Text fontSize='sm' bg='#e2e8f0' pr={1} pl={1}>Currently working here</Text>  </Checkbox>
-                      <Button variant='solid' backgroundColor='#d1e0ef' width = '30mm' size='xs' onClick={()=>{this.handleDoneButtonClick()}}>Save</Button>
+                      <Button variant='solid' color='white' backgroundColor='#0b294e' width = '30mm' size='xs' onClick={()=>{this.handleDoneButtonClick()}}>Save</Button>
                     </HStack>
                   </Stack>
                 </HStack> 
@@ -165,8 +158,8 @@ import {
          
             <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96'>       
                 
-              <Stack spacing={2} style={{margin:"10px 20px 20px 20px"}}>
-                <Heading size = 'md' > WORK EXPERIENCE &nbsp;
+              <Stack spacing={2} style={{margin:"20px 20px 20px 20px"}}>
+                <Heading size = 'sm' > WORK EXPERIENCE &nbsp;
                 <Button  onClick={()=>{this.PlusIconClickHandler()}} variant='link' size='xs'> <AddIcon/>Add</Button>
                  <hr style = {{ height:'2px',
                 backgroundColor : '#d1e0ef'}}/></Heading> 
