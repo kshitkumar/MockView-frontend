@@ -19,11 +19,11 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
     awardTile = (award:AwardModel,index:number)=>{ 
         return( <Box bg='#e2e8f0' style={{margin:"5px 5px 5px 5px"}} key={index} borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl">
              <Stack spacing={1}  style={{margin:"5px 5px 5px 5px"}}> 
-            <Text  isTruncated width="60" fontSize='xl' fontWeight='semibold'>{award.awardType}</Text>           
-             <Text isTruncated width="60" fontSize='sm'>{'Name :'+ award.awardName}</Text>
-            <Text isTruncated width="60"  fontSize='sm'>{' Category :'+award.awardCategory}</Text>
-            <Text isTruncated width="60"  fontSize='sm'>{' Organisation :'+award.awardOrg}</Text>
-            <Text isTruncated width="60"  fontSize='sm'>{' Receiving Date :'+award.awardRecDate}</Text>                                         
+            <Text  isTruncated width="60" fontSize='md' fontWeight='semibold'>{award.awardCategory}</Text>           
+             <Text isTruncated width="60" fontSize='sm'>{'Name :'+ award.name}</Text>
+            <Text isTruncated width="60"  fontSize='sm'>{' Category :'+award.category}</Text>
+            <Text isTruncated width="60"  fontSize='sm'>{' Organisation :'+award.organisation}</Text>
+            <Text isTruncated width="60"  fontSize='sm'>{' Receiving Date :'+award.receivingDate}</Text>                                         
           </Stack>
           </Box>);
 }
@@ -36,11 +36,11 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
            && this.state.awardType!==""
            && this.state.awardRecDate ){
               
-            let award : AwardModel = {  awardName:this.state.awardName,
-                                    awardCategory:this.state.awardCategory,
-                                    awardOrg:this.state.awardOrg,
-                                    awardRecDate:this.state.awardRecDate,
-                                    awardType:this.state.awardType};
+            let award : AwardModel = {  name:this.state.awardName,
+                                    category:this.state.awardCategory,
+                                    organisation:this.state.awardOrg,
+                                    receivingDate:this.state.awardRecDate,
+                                    awardCategory:this.state.awardType};
             let awardArray : AwardModel[] = [award];    
             this.state.awardList.reverse().map((awardX:AwardModel)=>{
                 awardArray.unshift(awardX);
@@ -64,14 +64,14 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
             
             <Stack style={{margin:"20px 20px 20px 20px"}}>
           
-                <Heading size = 'sm' > AWARDS & CERTIFICATIONS <hr style = {{ height:'2px',
+                <Heading size = 'sm' color='#0b294e' > AWARDS & CERTIFICATIONS <hr style = {{ height:'2px',
                 backgroundColor : '#d1e0ef'}}/></Heading> 
                 <Stack>
                   <HStack>
                         <Select value={this.state.awardType} onChange={(event)=>{this.setState({awardType:event.target.value})}}
                             onLoad={()=>{this.setState({awardType:"Award"})}} placeholder='-Select type-' type ='text' width='xs' size='xs' variant='filled'>
-                            <option value="Award">Award</option>
-                            <option value="Certificate">Certificate</option>
+                            <option value="AWARD">AWARD</option>
+                            <option value="CERTIFICATE">CERTIFICATE</option>
                         </Select>
                         <Input type = 'text' width='xs' onChange={(event)=>{this.setState({awardName:event.target.value})}} 
                         value={this.state.awardName} size='xs' placeholder="Award/Ceritificate Name" variant='filled'/>

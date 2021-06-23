@@ -39,73 +39,72 @@ export default class SubmitTabComponent extends React.Component<any,any>{
                   <Tr>
                       <Td><Heading size = 'xs' >SCHOOL EDUCATION</Heading></Td>
                       <Td>
-                          <Tr>{this.props.scSchoolEdu.percentage+','+this.props.scSchoolEdu.degreeName}</Tr>
-                          <Tr>{this.props.srSchoolEdu.percentage+','+this.props.srSchoolEdu.degreeName}</Tr>
+                          <Tr>{this.props.scSchoolEdu.marks+'%,'+this.props.scSchoolEdu.degreeName}</Tr>
+                          <Tr>{this.props.srSchoolEdu.marks+'%,'+this.props.srSchoolEdu.degreeName}</Tr>
                       </Td>
                       <Td>
-                          <Tr>{this.props.scSchoolEdu.schoolName+','+this.props.scSchoolEdu.country+','+this.props.scSchoolEdu.completionYear}</Tr>
-                          <Tr>{this.props.srSchoolEdu.schoolName+','+this.props.srSchoolEdu.country+','+this.props.srSchoolEdu.completionYear}</Tr>                     
+                          <Tr>{this.props.scSchoolEdu.schoolName+','+this.props.scSchoolEdu.country+','+this.props.scSchoolEdu.year}</Tr>
+                          <Tr>{this.props.srSchoolEdu.schoolName+','+this.props.srSchoolEdu.country+','+this.props.srSchoolEdu.year}</Tr>                     
                       </Td>
                   </Tr>
                   <Tr>
                       <Td><Heading size = 'xs' >UNIVERSITY EDUCATION </Heading></Td>
                       <Td>
                           {this.props.uniEducationList.map((universe:EducationModel,index:number)=>{
-                              return <Tr key={index}>{universe.percentage+','+universe.degreeName}</Tr>
+                              return <Tr key={index}>{universe.marks+'%,'+universe.degreeName}</Tr>
                           })}
                       </Td>
                       <Td>
                           {this.props.uniEducationList.map((universe:EducationModel,index:number)=>{
-                              return <Tr key={index}>{universe.schoolName+','+universe.country+','+universe.completionYear}</Tr>
+                              return <Tr key={index}>{universe.schoolName+','+universe.country+','+universe.year}</Tr>
                           })}
                       </Td>
                   </Tr>
                   <Tr>
                       <Td><Heading size = 'xs'> WORK EXPERIENCE</Heading> </Td>
                       <Td>
-                          {this.props.workExperinceList.map((workX:WorkExperienceModel)=>{
-                             return <Tr>{`${workX.position} at  ${workX.companyName} from
-                              ${workX.joiningDate} to ${workX.isCurrentEmployee?'Current':workX.endingDate }` }</Tr> 
+                          {this.props.workExperinceList.map((workX:WorkExperienceModel,index:number)=>{
+                             return <Tr key={index}>{`${workX.position} at  ${workX.companyName} from
+                              ${workX.joiningDate} to ${workX.currentEmployment?'Current':workX.endingDate }` }</Tr> 
                           })}
                       </Td>
                   </Tr>
                   <Tr>
                       <Td><Heading size = 'xs' >SKILLS</Heading></Td>
                       <Td>
-                        {this.props.skillsBadge.map((skill:SkillModel)=>{
-                            return skill.skillName+ '-' + skill.skillProf +'. '                                   
+                        {this.props.skillsBadge.map((skill:SkillModel,index:number)=>{
+                            return <span key={index}>{ skill.name+ '-' + skill.proficiency +'. '  }  </span>                               
                         })}
                       </Td>
                   </Tr>
                   <Tr>
                       <Td> <Heading size = 'xs' >LANGUAGES</Heading></Td>
                       <Td>
-                        {this.props.languageBadge.map((language:SkillModel)=>{
-                            return language.skillName+ '-' + language.skillProf +'. '            
+                        {this.props.languageBadge.map((language:SkillModel,index:number)=>{
+                            return <span key={index}> {language.name+ '-' + language.proficiency +'. ' } </span>          
                         })} 
                       </Td>
                   </Tr>
                   <Tr>
                       <Td> <Heading size = 'xs' >HOBBIES</Heading></Td>
                       <Td>
-                        {this.props.hobbiesBadge.map((hobby:string)=>{
-                            return  hobby+'. '              
+                        {this.props.hobbiesBadge.map((hobby:any,index:number)=>{
+                            return <span key={index}> { hobby.name+'. ' }    </span>         
                          })} 
                       </Td>
                   </Tr>
                   <Tr>
                       <Td> <Heading size = 'xs' > AWARDS & CERTIFICATIONS </Heading> </Td> 
                        <Td>
-                            {this.props.awardList.map((award:AwardModel)=>{
-                                 return <Tr>{`${award.awardName} ${award.awardType} from ${award.awardOrg} on ${award.awardRecDate}`}</Tr>
+                            {this.props.awardList.map((award:AwardModel,index:number)=>{
+                                 return <Tr>{`${award.name} ${award.awardCategory} from ${award.organisation} on ${award.receivingDate}`}</Tr>
                             })}
                        </Td>                       
                  </Tr>    
                
                 </Tbody>             
            </Table>          
-           <Button  bg='#0b294e' color='white' width='min-content' size='sm'>Confirm Profile and Save</Button>               
-           </Stack>
+         </Stack>
         </Box>
         );
     }

@@ -1,4 +1,5 @@
 export type SkillModel={
-    skillName:string,
-    skillProf:string
+    name:string,
+    proficiency:string,
+    type:string
   }

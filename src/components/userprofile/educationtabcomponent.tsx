@@ -14,13 +14,13 @@ class EducationTabComponent extends React.Component<any,any> {
         srSecEducation:{} as EducationModel, 
         scSchool:"",
         scDegree:"Grade 10",
-        scStream:"",
+        scStream:"General",
         scPercent:"",
         scYearOfCompletion:"",
         scCountry:"",
         srSchool:"",
         srDegree:"Grade 12",
-        srStream:"",
+        srStream:"General",
         srPercent:"",
         srYearOfCompletion:"",
         srCountry:"",
@@ -44,12 +44,12 @@ class EducationTabComponent extends React.Component<any,any> {
        ){
            let education:EducationModel = { 
                degreeName: this.state.scDegree,
-               percentage:this.state.scPercent,
-               completionYear:this.state.scYearOfCompletion,
+               marks: parseInt(this.state.scPercent),
+               year:parseInt(this.state.scYearOfCompletion),
                schoolName:this.state.scSchool,
                stream:this.state.scStream,
                country:this.state.scCountry,
-               eduType:"SCHOOL"
+               educationCategory:"SCHOOL"
                                     }
            this.setState({secondaryEdu:education},this.formSuccess);
            this.props.onAddSecSchool(education);
@@ -70,12 +70,12 @@ class EducationTabComponent extends React.Component<any,any> {
     ){
             let education:EducationModel = { 
             degreeName: this.state.srDegree,
-            percentage:this.state.srPercent,
-            completionYear:this.state.srYearOfCompletion,
+            marks:parseInt(this.state.srPercent),
+            year:parseInt(this.state.srYearOfCompletion),
             schoolName:this.state.srSchool,
             stream:this.state.srStream,
             country:this.state.srCountry,
-            eduType:"SCHOOL" };
+            educationCategory:"SCHOOL" };
 
             this.setState({srSecEducation:education},this.formSuccess);
             this.props.onAddSrSchool(education);       
@@ -97,12 +97,12 @@ class EducationTabComponent extends React.Component<any,any> {
     ){
             let education:EducationModel = { 
                 degreeName: this.state.unDegree,
-                percentage:this.state.unPercent,
-                completionYear:this.state.unYearOfCompletion,
+                marks:parseInt(this.state.unPercent),
+                year:parseInt(this.state.unYearOfCompletion),
                 schoolName:this.state.unSchool,
                 stream:this.state.unStream,
                 country:this.state.unCountry,
-                eduType:"UNIVERSITY" };
+                educationCategory:"UNIVERSITY" };
                 this.setState({uniEducationList:[...this.state.uniEducationList,...[education]]
                   ,isFormCompleted:true},this.formSuccess);
               this.props.onAddUniverse(education);
@@ -194,7 +194,7 @@ class EducationTabComponent extends React.Component<any,any> {
         return(
             <Box width='6xl' height='96' borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" >
             <Stack spacing={2} style={{margin:"20px 20px 20px 20px"}}>
-            <Heading size = 'sm' >SCHOOL EDUCATION<hr style = {{ height:'2px',
+            <Heading size = 'sm' color='#0b294e'>SCHOOL EDUCATION<hr style = {{ height:'2px',
                     backgroundColor : '#d1e0ef'}}/></Heading>
                    <HStack>
                    <Stack>
@@ -204,8 +204,8 @@ class EducationTabComponent extends React.Component<any,any> {
                      size='xs'></Input>
                     </Stack>
                     <Stack>
-                    <Input placeholder='Stream' value={this.state.scStream} type = 'text'
-                    onChange={(event)=>{this.setState({scStream:event.target.value})}} width='72' variant='filled' size='xs'></Input>
+                    <Input isReadOnly placeholder='Stream' value={this.state.scStream} type = 'text'
+                       width='72' variant='filled' size='xs'></Input>
                      <Input  placeholder='Country' value={this.state.scCountry} type = 'text' width='72' 
                      onChange={(event)=>{this.setState({scCountry:event.target.value})}} variant='filled' size='xs'></Input>
                   
@@ -216,7 +216,7 @@ class EducationTabComponent extends React.Component<any,any> {
                    
                    
                     <Input  placeholder='Year of completion' value={this.state.scYearOfCompletion} type = 'text' 
-                    onChange={(event)=>{this.setState({scYearOfCompletion:event.target.value})}} width='72' variant='filled' size='xs'></Input>
+                        onChange={(event)=>{this.setState({scYearOfCompletion:event.target.value})}} width='72' variant='filled' size='xs'></Input>
                       </Stack>
                       <Button color='white' onClick={this.checkFormCompleteAndSendSecondaryData} variant='solid' backgroundColor='#0b294e' width = '30mm' size='xs'
                         >save</Button>
@@ -232,8 +232,8 @@ class EducationTabComponent extends React.Component<any,any> {
                     width='72'  variant='filled' size='xs'></Input>
                     </Stack>
                     <Stack>
-                    <Input  placeholder='Stream' value={this.state.srStream} type = 'text' width='72' 
-                     onChange={(event)=>{this.setState({srStream:event.target.value})}} variant='filled' size='xs'></Input>
+                    <Input isReadOnly  placeholder='Stream' value={this.state.srStream} type = 'text' width='72' 
+                       variant='filled' size='xs'></Input>
                        <Input  placeholder='Country' value={this.state.srCountry} type = 'text' width='72' 
                     onChange={(event)=>{this.setState({srCountry:event.target.value})}} variant='filled' size='xs'></Input>
                   
@@ -245,9 +245,9 @@ class EducationTabComponent extends React.Component<any,any> {
                     <Input  placeholder='Year of completion' value={this.state.srYearOfCompletion} type = 'text' 
                     onChange={(event)=>{this.setState({srYearOfCompletion:event.target.value})}} width='72' variant='filled' size='xs'></Input>
                    </Stack>
-                   <Button color='white' onClick={this.checkFormCompleteAndSendSeniorData} variant='solid' backgroundColor='#0b294e' width = '30mm' size='xs'>save</Button>
+                   <Button color='white' backgroundColor='#0b294e' onClick={this.checkFormCompleteAndSendSeniorData} variant='solid'  width = '30mm' size='xs'>save</Button>
                     </HStack> 
-            <Heading size = 'sm' >UNIVERSITY EDUCATION &nbsp;
+            <Heading size = 'sm' color='#0b294e' >UNIVERSITY EDUCATION &nbsp;
              <Button variant='link' size='xs' onClick={this.PlusIconClickHandler}> <AddIcon/>Add</Button>
             <hr style = {{ height:'2px',
                     backgroundColor : '#d1e0ef'}}/></Heading>

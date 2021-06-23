@@ -1,7 +1,7 @@
 export type AwardModel={
-    awardName:string,
-    awardCategory:string,
-    awardOrg:string,
-    awardRecDate:string,
-    awardType:string
+    name:string,
+    category:string,
+    organisation:string,
+    receivingDate:string,
+    awardCategory:string
   }

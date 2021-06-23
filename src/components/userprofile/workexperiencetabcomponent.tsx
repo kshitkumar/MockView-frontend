@@ -1,10 +1,12 @@
 import React from "react";
 import {WorkExperienceModel} from '../../models/WorkExperienceModel';
 import {
-    Input,Textarea,Stack,Text,
+    Input,Textarea,Stack,Text,Select,
     Checkbox,Heading,Box,HStack,Button,createStandaloneToast
   } from "@chakra-ui/react";
-  import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons';
+import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/WorkDetailService";
+
  
   const toast = createStandaloneToast();
   class WorkExperienceTabComponent extends React.Component<any,any> { 
@@ -23,8 +25,29 @@ import {
       endingDate:"",
       isCurrentEmployee:false,
       isCurrentEmpSet:false,
-      isFormCompleted:false
+      isFormCompleted:false,
+      positionList:['a','b','c'],
+      companyList:['a','b','c'],
+      industryList:['a','b','c']
     }
+
+    componentDidMount =  () =>{      
+      fetchCompanies().then((data)=>{
+       this.setState({companyList:data.values})
+      });
+      fetchIndustries().then((data)=>{
+     
+       this.setState({industryList:data.values})
+      });
+      fetchPositions().then((data)=>{
+       this.setState({positionList:data})
+      });
+  
+    }
+
+  print(){
+      JSON.stringify(this.state.industryList+"  " + this.state.positionList+"  " +this.state.companyList);
+  }
 
     handleDoneButtonClick=()=>{
       if(this.state.isCurrentEmployee && !this.state.isCurrentEmpSet){
@@ -43,11 +66,10 @@ import {
             industry:this.state.industry,
             role:this.state.role,
             position:this.state.position,
-            responsibilities:this.state.responsibilities,
+            responsibility:this.state.responsibilities,
             joiningDate:this.state.joiningDate,
             endingDate:this.state.endingDate,
-            isCurrentEmployee:this.state.isCurrentEmployee,
-            isCurrentEmpSet:this.state.isCurrentEmpSet
+            currentEmployment:this.state.isCurrentEmployee
           };         
           let workExArray : WorkExperienceModel[]  = [...this.state.workExList,workEx] ; 
           this.props.onAddWorkEx(workEx);  
@@ -109,15 +131,33 @@ import {
       return ( <Box>
                 <Stack>
                   <HStack>                     
-                    <Input type = 'text' width='xs'
+                    <Select type = 'text' width='xs'
                      onChange={(event)=>{this.setState({companyName:event.target.value})}} 
-                       size='xs' placeholder="Company Name" variant='filled'/>
+                       size='xs' placeholder="-Select Company Name-" variant='filled'>
+                         {
+                           this.state.companyList.map((company:string,index)=>{
+                             return <option key={index} value={company}>{company}</option>
+                           })
+                         }
+                    </Select> 
                           
-                    <Input type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({industry:event.target.value})}} 
-                       placeholder="Industry" variant='filled'/>
-                  
-                    <Input type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({role:event.target.value})}} 
-                      placeholder="Role"  variant='filled'/>
+                    <Select type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({industry:event.target.value})}} 
+                       placeholder="-Select Industry-" variant='filled'>
+                            {
+                           this.state.industryList.map((industry:string,index)=>{
+                             return <option key={index} value={industry}>{industry}</option>
+                           })
+                         }
+                    </Select> 
+                    <Select type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({position:event.target.value})}}  
+                           placeholder=" -Select Position-" variant='filled'>
+                          {
+                           this.state.positionList.map((position:string,index)=>{
+                             return <option key={index} value={position}>{position}</option>
+                           })
+                          }
+                    </Select> 
+                   
                  </HStack>  
                  
                  <HStack>
@@ -136,11 +176,11 @@ import {
                                                       
                        </Stack>
                     <Stack spacing={3.5}>
-                    <Input type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({position:event.target.value})}}  
-                           placeholder="Position" variant='filled'/>
+                    <Input type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({role:event.target.value})}} 
+                      placeholder="Role"  variant='filled'/>
                     <HStack>
                       <Checkbox onChange ={()=>{this.setState({isCurrentEmployee: !this.state.isCurrentEmployee})}}>
-                      <Text fontSize='sm' bg='#e2e8f0' pr={1} pl={1}>Currently working here</Text>  </Checkbox>
+                      <Text fontSize='xs' bg='#e2e8f0' pr={1} pl={1}>Currently working here</Text>  </Checkbox>
                       <Button variant='solid' color='white' backgroundColor='#0b294e' width = '30mm' size='xs' onClick={()=>{this.handleDoneButtonClick()}}>Save</Button>
                     </HStack>
                   </Stack>
@@ -159,7 +199,7 @@ import {
             <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96'>       
                 
               <Stack spacing={2} style={{margin:"20px 20px 20px 20px"}}>
-                <Heading size = 'sm' > WORK EXPERIENCE &nbsp;
+                <Heading size = 'sm' color='#0b294e' > WORK EXPERIENCE &nbsp;
                 <Button  onClick={()=>{this.PlusIconClickHandler()}} variant='link' size='xs'> <AddIcon/>Add</Button>
                  <hr style = {{ height:'2px',
                 backgroundColor : '#d1e0ef'}}/></Heading> 

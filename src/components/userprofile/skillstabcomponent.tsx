@@ -11,9 +11,9 @@
     export default  class SkillsTabComponent extends Component<any,any>{
 
         state = {
-            skillsBadge : [] ,
-            languageBadge : [],
-            hobbiesBadge:[],
+            skillsBadge : [] as SkillModel[],
+            languageBadge : [] as SkillModel[],
+            hobbiesBadge:[] as SkillModel[],
             skillName:"",
             skillProf:"",
             languageName:"",
@@ -31,7 +31,7 @@
         
         addSkillsBadge(){
            if(this.state.skillName !== "" && this.state.skillProf !=="") {
-                const skillObject = {skillName:this.state.skillName,skillProf:this.state.skillProf};
+                const skillObject = {name:this.state.skillName,proficiency:this.state.skillProf,type:"SKILL"};
                 let skillArray :SkillModel[] = [skillObject];
                     this.state.skillsBadge.reverse().map((name)=>{
                         skillArray.unshift(name);                       
@@ -58,7 +58,7 @@
         }
         addLanguageBadge(){
             if(this.state.languageName !== "" && this.state.languageProf !=="") {
-                    const langObject = {skillName:this.state.languageName,skillProf:this.state.languageProf};
+                    const langObject = {name:this.state.languageName,proficiency:this.state.languageProf,type:"LANGUAGE"};
                     let langArray :SkillModel[] = [langObject];
                     this.state.languageBadge.reverse().map((name)=>{
                         langArray.unshift(name);
@@ -85,18 +85,16 @@
               
         }
         addHobbiesBadge(){
-            if(this.state.hobbyName !== "") {                    
-                    let hobbyArray :string[] = [this.state.hobbyName];
-                    this.state.hobbiesBadge.reverse().map((hobby)=>{
-                        hobbyArray.unshift(hobby);
-                    })
+            if(this.state.hobbyName !== "") { 
+                    let hobby = {name:this.state.hobbyName,proficiency:"NA",type:"HOBBY"};                  
+                    let hobbyArray :SkillModel[] = [...this.state.hobbiesBadge,...[hobby]];
                     this.setState({ 
                         hobbiesBadge : hobbyArray ,
                          hobbyName:"",
                          hobbyAddbuttonPress:false,
                          hobbyError:false}) ;
                    
-                    this.props.onHobbyAdd(this.state.hobbyName);
+                    this.props.onHobbyAdd(hobbyArray);
             }
             else{
 
@@ -133,7 +131,7 @@
                 <Box  style={{alignItems:"center"}}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96' >
                     <Stack spacing={1} style={{margin:"20px 20px 1px 20px"}}>
                     
-                    <Heading size = 'sm' >SKILLS<hr style = {{ height:'2px',
+                    <Heading size = 'sm' color='#0b294e' >SKILLS<hr style = {{ height:'2px',
                     backgroundColor : '#d1e0ef'}}/></Heading>
                     <HStack spacing={-4} >
 
@@ -148,9 +146,9 @@
                     <Box height='30px'>
                     <FormControl isInvalid={this.state.skillProfError} width="sm">
                     <Select value= {this.state.skillProf} onChange={(event)=>{this.handleSkillProfInput(event)}} type ='text' width='xs' size='xs' variant='filled' placeholder='-Select Proficiency-'>
-                        <option   value="Novice">Novice</option>
-                        <option  value="Intermediate">Intermediate</option>
-                        <option value="Advanced">Advanced</option>
+                        <option   value="BEGINNER">BEGINNER</option>
+                        <option  value="INTERMEDIATE">INTERMEDIATE</option>
+                        <option value="EXPERT">EXPERT</option>
                     </Select>
                     <FormErrorMessage>please enter</FormErrorMessage>                  
                     </FormControl>
@@ -162,12 +160,12 @@
                     <Box height='50px'>
                     <HStack>
                     {this.state.skillsBadge.map((skill:SkillModel)=>{
-                       return <Tag width="fit-content"  variant ='solid' key={skill.skillName.replace(/\s/g, '')} >{skill.skillName+"-"+skill.skillProf}</Tag>
+                       return <Tag fontSize='xs' size='sm' backgroundColor='#0b294e' color='white' width="fit-content"  variant ='solid' key={skill.name.replace(/\s/g, '')} >{skill.name+"-"+skill.proficiency}</Tag>
                     })}
                     </HStack>
                     </Box>
                     
-                    <Heading size = 'sm' >LANGUAGES<hr style = {{ height:'2px',
+                    <Heading size = 'sm' color='#0b294e' >LANGUAGES<hr style = {{ height:'2px',
                      backgroundColor : '#d1e0ef'}}/></Heading>
                     <HStack spacing={-4}>
 
@@ -181,9 +179,9 @@
                     <Box height='30px'>
                     <FormControl isInvalid={this.state.languageProfError} width="sm">
                     <Select value={this.state.languageProf} onChange={(event)=>{this.handleLangProfInput(event)}} type ='text' width='xs' size='xs' variant='filled' placeholder='-Select Proficiency-'>
-                        <option value="Novice">Novice</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Advanced">Advanced</option>
+                        <option value="BEGINNER">BEGINNER</option>
+                        <option value="INTERMEDIATE">INTERMEDIATE</option>
+                        <option value="EXPERT">EXPERT</option>
                     </Select> 
                     <FormErrorMessage>please enter</FormErrorMessage>                  
                     </FormControl>
@@ -195,12 +193,12 @@
                     <Box height='50px'>
                     <HStack>
                     {this.state.languageBadge.map((lang:SkillModel)=>{
-                       return <Tag width="fit-content" variant ='solid' key={lang. skillName.replace(/\s/g, '')} >{lang.skillName+"-"+lang.skillProf}</Tag>
+                       return <Tag fontSize='xs' size='sm' backgroundColor='#0b294e' color='white' width="fit-content" variant ='solid' key={lang. name.replace(/\s/g, '')} >{lang.name+"-"+lang.proficiency}</Tag>
                     })}
                     </HStack>
                     </Box>
                    
-                    <Heading size = 'sm' >HOBBIES<hr style = {{ height:'2px',
+                    <Heading size = 'sm' color='#0b294e'>HOBBIES<hr style = {{ height:'2px',
                      backgroundColor : '#d1e0ef'}}/></Heading>
                     <HStack spacing={-4}>  
 
@@ -216,8 +214,8 @@
                    
                     <Box height='50px'>
                     <HStack>
-                    {this.state.hobbiesBadge.map((hobby:string)=>{
-                       return <Tag width="fit-content" variant ='solid' key={hobby.replace(/\s/g, '')} >{hobby}</Tag>
+                    {this.state.hobbiesBadge.map((hobby:SkillModel)=>{
+                       return <Tag fontSize='xs' size='sm' backgroundColor='#0b294e' color='white' width="fit-content" variant ='solid' key={hobby.name.replace(/\s/g, '')} >{hobby.name}</Tag>
                     })}
                     </HStack>
                     </Box>

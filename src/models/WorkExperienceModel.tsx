@@ -3,9 +3,8 @@ export type WorkExperienceModel = {
     industry:string,
     role:string,
     position:string,
-    responsibilities:string,
+    responsibility:string,
     joiningDate:string,
     endingDate:string,
-    isCurrentEmployee:boolean,
-    isCurrentEmpSet:boolean
+    currentEmployment:boolean
   }

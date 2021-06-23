@@ -1,6 +1,6 @@
 import React from "react";
 import  validator from "validator";
-import {AddressModel} from  '../../models/PersonalDetailModel';
+import {AddressModel} from  '../../models/AddressModel';
 import {fetchAllCitieOfState,fetchAllCountries,fetchAllStatesOfCountry} from "../../services/UtilService"
 import {
          FormControl,Text,
@@ -90,13 +90,13 @@ import {
                 if(this.state.selectedCountry !== ""  
                 && this.state.selectedState !=="" 
                 && this.state.selectedCity !== ""
-                && this.state.pinCode !=="" 
+                && this.state.pinCode !==""
                 && !this.state.pinCodeError ){            
                     let address:AddressModel = {
                         country:this.state.selectedCountry,
                         state:this.state.selectedState,
                         city:this.state.selectedCity,
-                        pinCode:this.state.pinCode
+                        pinCode:parseInt(this.state.pinCode)
                     };
                     this.props.onPersonalDetailAdd(address);
                     console.log(JSON.stringify(address));
@@ -110,18 +110,20 @@ import {
                         <Box style={{alignItems:"center"}} borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96' >
                         <Stack spacing={5}>
                         <Box  style={{margin:'20px 20px 20px 20px'}} >
-                        <Stack spacing={1}  >
-                        <Heading size = 'sm' > BIO <hr style = {{ height:'2px',
+                        <Stack  color='#0b294e' spacing={2}  >
+                        <Heading size = 'sm' color='#0b294e' > BIO <hr style = {{ height:'2px',
                         backgroundColor : '#d1e0ef'}}/></Heading> 
+                        <Box bg='#e2e8f0'  p={2} borderRadius='xl' style={{alignContent:"center"}} borderWidth="1px">
                         <Text fontWeight='semibold' fontSize="large" >{this.props.user.firstName+" "+this.props.user.lastName}</Text>
-                        <Text>{'Date of Birth: '+ this.props.user.dateOfBirth}</Text>
-                        <Text>{ 'Age: '+ this.props.userAge}</Text>
-                        <Text>{'Gender: ' + this.props.user.gender}</Text>                        
+                        <Text fontWeight='semibold' fontSize="medium">{'Date of Birth: '+ this.props.user.dateOfBirth}</Text>
+                        <Text fontWeight='semibold' fontSize="medium">{ 'Age: '+ this.props.userAge}</Text>
+                        <Text fontWeight='semibold' fontSize="medium">{'Gender: ' + this.props.user.gender}</Text>    
+                        </Box>                    
                         </Stack>  
                         </Box>
                         <Box style={{margin:'15px 15px 30px 15px'}}>
                         <Stack spacing={2}>
-                        <Heading size = 'sm' > CONTACT INFORMATION  <hr style = {{ height:'2px',
+                        <Heading size = 'sm' color='#0b294e'> CONTACT INFORMATION  <hr style = {{ height:'2px',
                         backgroundColor : '#d1e0ef'}}/></Heading> 
                         <HStack>                           
                             <Input width='xs' size='xs' value={this.state.emailId} isReadOnly variant='filled' type = 'email'  placeholder="Email" />                       

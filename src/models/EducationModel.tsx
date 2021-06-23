@@ -2,8 +2,8 @@ export type EducationModel={
     degreeName:string,
     schoolName:string,
     stream:string,
-    percentage:string,
-    completionYear:string,
-    eduType:string,
+    marks:number,
+    year:number,
+    educationCategory:string,
     country:string
   }
