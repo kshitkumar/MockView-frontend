@@ -6,7 +6,8 @@ import Home from './components/Home/Home';
 import UserProfileTabsComponent from './components/UserProfile/UserProfileComponent';
 import ProfileSelection from './components/ProfileSelection/ProfileSelection';
 import { User } from './models/User';
-import { PhoneIcon } from '@chakra-ui/icons';
+import SetAvailabilityComponent from './components/Interviewer/SetAvailabilityComponent';
+
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
     gender:"",
     emailId: "",
     password: "",
-    phoneNumber:""
+    phoneNumber:"",
+    profileComplete:false
   };
 
   const[user, setUser] = useState<User>(initialState);
@@ -43,7 +45,8 @@ function App() {
       <Switch>
         <Route path = "/home" component = {() => <Home onLogin = {handleLogin}/>} />
         <Route path = "/select-profile" component = {ProfileSelection} />
-        <Route path = '/user-profile' > <UserProfileTabsComponent isLoggedIn = {isLoggedIn} user = {user}/></Route> 
+        <Route path = "/set-availability" component = {SetAvailabilityComponent} />
+        <Route path = '/user-profile' > <UserProfileTabsComponent history={history} isLoggedIn = {isLoggedIn} user = {user}/></Route> 
         <Redirect from = "" to = "/home" />
       </Switch>
     </div>

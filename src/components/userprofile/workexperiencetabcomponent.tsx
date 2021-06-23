@@ -49,7 +49,7 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
       JSON.stringify(this.state.industryList+"  " + this.state.positionList+"  " +this.state.companyList);
   }
 
-    handleDoneButtonClick=()=>{
+  handleDoneButtonClick=()=>{
       if(this.state.isCurrentEmployee && !this.state.isCurrentEmpSet){
         this.setState({isCurrentEmpSet:true});
       }
@@ -59,7 +59,7 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
         && this.state.position !=="" 
         && this.state.responsibilities !=="" 
         && this.state.joiningDate !=="" 
-        && this.state.endingDate !=="")
+        && (this.state.endingDate !=="" || this.state.isCurrentEmployee))
         {                   
           let workEx : WorkExperienceModel  = {
             companyName:this.state.companyName,
@@ -170,7 +170,7 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
                         onBlur={()=>{this.setState({joiningDateType : "text"})}} 
                         onChange={(event)=>{this.setState({joiningDate:event.target.value})}}  placeholder="Joining Date" variant='filled' />
                     
-                      <Input  width='xs' size='xs' type = {this.state.endingDateType} onFocus={()=>{ this.setState({endingDateType : "Date"});}}  
+                      <Input disabled={this.state.isCurrentEmployee}  width='xs' size='xs' type = {this.state.endingDateType} onFocus={()=>{ this.setState({endingDateType : "Date"});}}  
                         onBlur={()=>{this.setState({endingDateType : "text"})}} 
                         onChange={(event)=>{this.setState({endingDate:event.target.value})}} placeholder="Ending Date" variant='filled' />
                                                       
@@ -179,7 +179,7 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
                     <Input type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({role:event.target.value})}} 
                       placeholder="Role"  variant='filled'/>
                     <HStack>
-                      <Checkbox onChange ={()=>{this.setState({isCurrentEmployee: !this.state.isCurrentEmployee})}}>
+                      <Checkbox onChange ={()=>{this.setState({isCurrentEmployee: !this.state.isCurrentEmployee,endingDate:""})}}>
                       <Text fontSize='xs' bg='#e2e8f0' pr={1} pl={1}>Currently working here</Text>  </Checkbox>
                       <Button variant='solid' color='white' backgroundColor='#0b294e' width = '30mm' size='xs' onClick={()=>{this.handleDoneButtonClick()}}>Save</Button>
                     </HStack>

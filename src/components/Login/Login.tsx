@@ -34,10 +34,10 @@ function Login(props : Props) {
         try {
             const response = await login(userCredentials);
             const user : User = response.data;
-            if(response.status = 200) {
+            if(response.status === 200) {
                 console.log('User logged in');
                 props.onLogin(user);
-                history.push({pathname : "/user-profile", state : {user}});
+                history.push({pathname : user.profileComplete?"/select-profile": "/user-profile", state : {user}});
             }
             else {
                 toast({

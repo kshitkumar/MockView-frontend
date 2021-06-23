@@ -17,7 +17,8 @@ function SignUp(props : Props) {
         gender:"",
         emailId: "",
         password: "",
-        phoneNumber: ""
+        phoneNumber: "",
+        profileComplete:false
     };
 
     const [user, setUser] = useState<User>(initialState);

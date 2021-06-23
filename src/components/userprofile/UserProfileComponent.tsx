@@ -15,7 +15,7 @@
   import {User} from '../../models/User';
   import { saveUserDetail } from "../../services/UserDetailService";
   import { UserDetailModel } from "../../models/UserDetailModel";
-  import { useHistory } from 'react-router-dom';
+  
 
   const toast = createStandaloneToast();
 
@@ -146,35 +146,36 @@
 
         const userDetail:UserDetailModel={userEducationRequest:userEducationRequest,userProfile:this.state.address,
         userExperienceRequest:userExperienceRequest,userSkillRequest:userSkillRequest,userAwardRequest:userAwardRequest}
-        console.log(JSON.stringify(userDetail)+ " in here");
+       
         const response = await saveUserDetail(this.props.user.id,userDetail);
-        if(response.status===201){
-          console.log('user detail saved');
-          toast({
-            title: "User Details Saved",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-          });
-          this.props.history.push({pathname : "/user-profile"});
-        }
-        else{
-          toast({
-            title: "Error Occurred",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-          });
+  
+        if(response.status = 201){
+           console.log('user detail saved');
+           toast({
+             title: "User Details Saved",
+             status: "success",
+             duration: 5000,
+             isClosable: true,
+           });
+           this.props.history.push('/select-profile');        
+         }
 
-        }
-        
-      } catch (error) {
+          else{
+           toast({
+             title: "Error Occurred",
+             status: "error",
+             duration: 5000,
+             isClosable: true,
+           })
+
+         }        
+       } catch (error) {
+         console.log(JSON.stringify(error))
         toast({
-          title: "Error Occurred",
-          description:JSON.stringify(error),
-          status: "error",
-          duration: 5000,
-          isClosable: true,
+          title: "server error",
+           status: "error",
+           duration: 5000,
+           isClosable: true,
         });
         
       }
@@ -217,7 +218,7 @@
                       onPersonalDetailAdd={this.handlePersonalDetailsCallBack}/>
                     
                       <HStack spacing={900}>
-                      <Button  variant='solid' backgroundColor='#d1e0ef' width = '30mm'   onClick={()=>{this.setState({tabNo:1})}}>Next2</Button>                  
+                      <Button visibility='hidden'  variant='solid' backgroundColor='#d1e0ef' width = '30mm'   onClick={()=>{this.setState({tabNo:1})}}>Next2</Button>                  
                       <Button  variant='ghost'  width = '30mm' onClick={this.handlePersonalInfoTabNextButton}><ChevronRightIcon  w={10} h={10} /></Button>
                       </HStack>
                     
