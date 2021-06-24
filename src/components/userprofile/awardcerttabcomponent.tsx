@@ -3,7 +3,7 @@ import { AwardModel } from "../../models/AwardModel";
 import {  
     Input,Stack,Text,createStandaloneToast,Wrap,WrapItem,Heading,Box,HStack,Button,Select,
   } from "@chakra-ui/react";
- import  '../../GlobalStyles/ScrollBar.css';
+
 
   const toast = createStandaloneToast();
 export default class AwardCertTabComponent extends React.Component<any,any>{

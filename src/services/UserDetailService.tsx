@@ -1,4 +1,4 @@
-import http from './httpService';
+import http from './HttpService';
 import config from '../config.json';
 import {UserDetailModel} from '../models/UserDetailModel'
 

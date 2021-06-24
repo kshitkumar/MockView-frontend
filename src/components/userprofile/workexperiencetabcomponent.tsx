@@ -6,7 +6,7 @@ import {
   } from "@chakra-ui/react";
 import { AddIcon } from '@chakra-ui/icons';
 import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/WorkDetailService";
-import  '../../GlobalStyles/ScrollBar.css';
+
 
  
   const toast = createStandaloneToast();

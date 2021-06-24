@@ -29,7 +29,7 @@
     }
     
     state ={
-      tabNo:3,
+      tabNo:0,
       workExperinceList:[] as WorkExperienceModel[] ,
       uniEducationList :[] as EducationModel[] ,
       scSchoolEdu:{} as EducationModel,

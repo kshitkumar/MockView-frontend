@@ -2,7 +2,7 @@ import React from "react";
 import {EducationModel} from '../../models/EducationModel';
 import { Input,Box,Stack,Heading,HStack,Button,createStandaloneToast } from "@chakra-ui/react";
 import {AddIcon} from '@chakra-ui/icons'
-import  '../../GlobalStyles/ScrollBar.css';
+
 
   
 const toast = createStandaloneToast();

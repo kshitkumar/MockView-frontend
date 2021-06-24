@@ -5,7 +5,7 @@ import {EducationModel} from '../../models/EducationModel';
 import { WorkExperienceModel } from '../../models/WorkExperienceModel';
 import { SkillModel } from '../../models/SkillModel';
 import { AwardModel } from '../../models/AwardModel';
-import  '../../GlobalStyles/ScrollBar.css';
+
 
 export default class SubmitTabComponent extends React.Component<any,any>{
       
