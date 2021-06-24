@@ -1,24 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import Header from './components/Header/Header';
 import './App.css';
+import Home from './components/Home/Home';
+import UserProfileTabsComponent from './components/UserProfile/UserProfileComponent';
+import ProfileSelection from './components/ProfileSelection/ProfileSelection';
+import { User } from './models/User';
+import SetAvailabilityComponent from './components/Interviewer/SetAvailabilityComponent';
+
 
 function App() {
+
+  const initialState = {
+    id : 0,
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    gender:"",
+    emailId: "",
+    password: "",
+    phoneNumber:"",
+    profileComplete:false
+  };
+
+  const[user, setUser] = useState<User>(initialState);
+
+  const[isLoggedIn, setIsLoggedIn] = useState(false);
+
+  let history = useHistory();
+
+  const handleLogin = (user : User) => {
+    setUser(user);
+    setIsLoggedIn(true);
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    history.replace("/home");
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header isLoggedIn = {isLoggedIn} user = {user} onLogout = {handleLogout}/>
+      <Switch>
+        <Route path = "/home" component = {() => <Home onLogin = {handleLogin}/>} />
+        <Route path = "/select-profile" component = {ProfileSelection} />
+        <Route path = "/set-availability" component = {SetAvailabilityComponent} />
+        <Route path = '/user-profile' > <UserProfileTabsComponent history={history} isLoggedIn = {isLoggedIn} user = {user}/></Route> 
+        <Redirect from = "" to = "/home" />
+      </Switch>
     </div>
   );
 }
