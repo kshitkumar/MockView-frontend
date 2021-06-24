@@ -1,5 +1,5 @@
 import { UserCredentials } from '../models/UserCredentials';
-import http from './httpService';
+import http from './HttpService';
 import config from '../config.json';
 
 const apiEndPoint = config.apiBaseUrl + "/login"

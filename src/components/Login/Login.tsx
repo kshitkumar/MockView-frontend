@@ -6,7 +6,11 @@ import { UserCredentials } from "../../models/UserCredentials";
 import { login } from "../../services/LoginService";
 import { User } from "../../models/User";
 
-function Login() {
+interface Props {
+    onLogin(user : User) : void
+}
+
+function Login(props : Props) {
 
     const initialState = {
         emailId: "",
@@ -30,9 +34,10 @@ function Login() {
         try {
             const response = await login(userCredentials);
             const user : User = response.data;
-            if(response.status = 200) {
+            if(response.status === 200) {
                 console.log('User logged in');
-                history.push({pathname : "/select-profile", state : {user}});
+                props.onLogin(user);
+                history.push({pathname : user.profileComplete?"/select-profile": "/user-profile", state : {user}});
             }
             else {
                 toast({
