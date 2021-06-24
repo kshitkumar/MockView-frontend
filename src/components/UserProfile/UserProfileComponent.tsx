@@ -155,7 +155,7 @@
        
         const response = await saveUserDetail(this.props.user.id,userDetail);
   
-        if(response.status = 201){
+        if(response.status === 201){
            console.log('user detail saved');
            toast({
              title: "User Details Saved",
@@ -165,14 +165,13 @@
            });
            this.props.history.push('/select-profile');        
          }
-
           else{
            toast({
              title: "Error Occurred",
              status: "error",
              duration: 5000,
              isClosable: true,
-           })
+           });
 
          }        
        } catch (error) {

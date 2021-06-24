@@ -45,8 +45,10 @@ function App() {
       <Switch>
         <Route path = "/home" component = {() => <Home onLogin = {handleLogin}/>} />
         <Route path = "/select-profile" component = {ProfileSelection} />
-        <Route path = "/set-availability" component = {SetAvailabilityComponent} />
-        <Route path = '/user-profile' > <UserProfileTabsComponent history={history} isLoggedIn = {isLoggedIn} user = {user}/></Route> 
+        <Route path = "/set-availability"> <SetAvailabilityComponent isLoggedIn = {isLoggedIn} user = {user}  /></Route>
+        <Route path = '/user-profile' > <UserProfileTabsComponent history={history}
+                               isLoggedIn = {isLoggedIn} user = {user}/></Route> 
+       
         <Redirect from = "" to = "/home" />
       </Switch>
     </div>
