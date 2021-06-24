@@ -1,7 +1,5 @@
-interface Timeslot {
-    startTime : string,
-    endTime : string
-}
+import { Timeslot } from "./Timeslot";
+
 export interface Interviewer {
     id : number,
     name : string,
