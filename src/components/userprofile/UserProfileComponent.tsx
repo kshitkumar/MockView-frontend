@@ -5,7 +5,7 @@
   import AwardCertTabComponent from "./AwardCertTabComponent";
   import EducationTabComponent from "./EducationTabComponent";
   import SubmitTabComponent from "./SubmitTabComponent";
-  import {ChevronLeftIcon,ChevronRightIcon, } from '@chakra-ui/icons'
+  import {ChevronLeftIcon,ChevronRightIcon } from '@chakra-ui/icons'
   import { Tabs, TabList, TabPanels, Tab, TabPanel,Button ,Stack,Box,HStack,createStandaloneToast} from "@chakra-ui/react";
   import { AwardModel } from "../../models/AwardModel";
   import {WorkExperienceModel} from '../../models/WorkExperienceModel';
@@ -25,11 +25,11 @@
       super(props);
     }
     componentDidMount(){
-      this.calculateAge();
+      this.calculateAge();      
     }
     
     state ={
-      tabNo:0,
+      tabNo:3,
       workExperinceList:[] as WorkExperienceModel[] ,
       uniEducationList :[] as EducationModel[] ,
       scSchoolEdu:{} as EducationModel,
@@ -123,17 +123,23 @@
     console.log( JSON.stringify(this.state.uniEducationList));
   }
 
-  handlePersonalInfoTabNextButton=()=>{
-    if(Object.keys(this.state.address).length === 0){
+  handleNextTabButton=(objArr: any[],tab:number)=>{
+    let areStatesPopulated = true;
+    objArr.forEach((obj)=>{
+      if(Object.keys(obj).length === 0){
+        areStatesPopulated=false;
+      }      
+    })
+    if(!areStatesPopulated){
       toast({
         description: "Please fill the form to continue",
         status: "error",
         duration: 5000,
         isClosable: true,
       });
-    }
+    }   
     else{
-      this.setState({tabNo:1})
+      this.setState({tabNo:tab})
     }
   }
 
@@ -218,8 +224,8 @@
                       onPersonalDetailAdd={this.handlePersonalDetailsCallBack}/>
                     
                       <HStack spacing={900}>
-                      <Button visibility='hidden'  variant='solid' backgroundColor='#d1e0ef' width = '30mm'   onClick={()=>{this.setState({tabNo:1})}}>Next2</Button>                  
-                      <Button  variant='ghost'  width = '30mm' onClick={this.handlePersonalInfoTabNextButton}><ChevronRightIcon  w={10} h={10} /></Button>
+                        <span></span>
+                      <Button  variant='ghost'  width = '30mm' onClick={()=>this.handleNextTabButton([this.state.address],1)}><ChevronRightIcon  w={10} h={10} /></Button>
                       </HStack>
                     
                       </Stack> 
@@ -233,7 +239,7 @@
                                               onAddUniverse={this.handleUniEduCallback}     />
                       <HStack spacing={900}>
                             <Button variant='ghost'  width = '30mm' onClick={()=>{this.setState({tabNo:0})}}><ChevronLeftIcon w={10} h={10} /></Button>
-                            <Button variant='ghost'  width = '30mm' onClick={()=>{this.setState({tabNo:2})}}><ChevronRightIcon  w={10} h={10} /></Button>
+                            <Button variant='ghost'  width = '30mm' onClick={()=>this.handleNextTabButton([this.state.scSchoolEdu,this.state.srSchoolEdu,this.state.uniEducationList],2)}><ChevronRightIcon  w={10} h={10} /></Button>
                         </HStack>
                         </Stack>
                         </Box>
@@ -247,7 +253,7 @@
                       /> 
                       <HStack spacing={900}>
                       <Button variant='ghost'  width = '30mm' onClick={()=>{this.setState({tabNo:1})}}><ChevronLeftIcon w={10} h={10} /></Button>
-                      <Button variant='ghost'  width = '30mm' onClick={()=>{this.setState({tabNo:3})}}><ChevronRightIcon  w={10} h={10} /></Button>
+                      <Button variant='ghost'  width = '30mm' onClick={()=>{this.handleNextTabButton([this.state.skillsBadge,this.state.languageBadge],3)}}><ChevronRightIcon  w={10} h={10} /></Button>
                       </HStack>
                       </Stack >
                     </TabPanel>

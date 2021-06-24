@@ -5,12 +5,13 @@ import {EducationModel} from '../../models/EducationModel';
 import { WorkExperienceModel } from '../../models/WorkExperienceModel';
 import { SkillModel } from '../../models/SkillModel';
 import { AwardModel } from '../../models/AwardModel';
+import  '../../GlobalStyles/ScrollBar.css';
 
 export default class SubmitTabComponent extends React.Component<any,any>{
       
     render(){  
         return (
-        <Box p={3}  color='blue.800' width='6xl' height='96' maxHeight='max-content'   borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" >
+        <Box p={3} className='scroll' style={{overflowY :'scroll',alignItems:"center"}}  color='blue.800' width='6xl' height='96' maxHeight='max-content'   borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" >
           <Stack style={{justifyItems:'center'}}>
            <Table variant="simple" size='xs' fontSize='xs'>
                <Tbody>
@@ -18,33 +19,39 @@ export default class SubmitTabComponent extends React.Component<any,any>{
                     <Td><Heading size = 'xs' > BIO </Heading></Td>
                     <Td>
                         <Tr>{this.props.user.firstName +" "+this.props.user.lastName }</Tr>
-                        <Tr>{"Age: "+ this.props.userAge}</Tr>
+                        <Tr>{ this.props.userAge?"Age: "+this.props.userAge:""}</Tr>
                     </Td>
                     <Td>
-                        <Tr>{"Gender: "+this.props.user.gender}</Tr>
-                        <Tr>{"Date of Birth: "+this.props.user.dateOfBirth }</Tr>
+                        <Tr>{this.props.user.gender?"Gender: "+this.props.user.gender:""}</Tr>
+                        <Tr>{"Date of Birth: "+this.props.user.dateOfBirth?this.props.user.dateOfBirth:"" }</Tr>
                     </Td>
                   </Tr>
                   <Tr>
                       <Td><Heading size = 'xs' > CONTACT INFORMATION  </Heading> </Td>
                       <Td>
-                          <Tr>{this.props.user.phoneNumber}</Tr>
-                          <Tr>{this.props.user.emailId}</Tr>
+                          <Tr>{this.props.user.phoneNumber?this.props.user.phoneNumber:""}</Tr>
+                          <Tr>{this.props.user.emailId?this.props.user.emailId:""}</Tr>
                       </Td>
-                      <Td>{this.props.address.city+','
-                      +this.props.address.state+','
-                      +this.props.address.country+','
-                      +this.props.address.pinCode}</Td>
+                      <Td>{this.props.address.city?this.props.address.city+',':""}
+                      {this.props.address.state?this.props.address.state+',':""}
+                      {this.props.address.country?this.props.address.country+',':""}
+                      {this.props.address.pinCode?this.props.address.pinCode:""}</Td>
                   </Tr>
                   <Tr>
                       <Td><Heading size = 'xs' >SCHOOL EDUCATION</Heading></Td>
                       <Td>
-                          <Tr>{this.props.scSchoolEdu.marks+'%,'+this.props.scSchoolEdu.degreeName}</Tr>
-                          <Tr>{this.props.srSchoolEdu.marks+'%,'+this.props.srSchoolEdu.degreeName}</Tr>
+                          <Tr>{this.props.scSchoolEdu.marks?this.props.scSchoolEdu.marks+'%,':""}
+                          {this.props.scSchoolEdu.degreeName?this.props.scSchoolEdu.degreeName:""}</Tr>
+                          <Tr>{this.props.srSchoolEdu.marks?this.props.srSchoolEdu.marks+'%,':""}
+                          {this.props.srSchoolEdu.degreeName?this.props.srSchoolEdu.degreeName:""}</Tr>
                       </Td>
                       <Td>
-                          <Tr>{this.props.scSchoolEdu.schoolName+','+this.props.scSchoolEdu.country+','+this.props.scSchoolEdu.year}</Tr>
-                          <Tr>{this.props.srSchoolEdu.schoolName+','+this.props.srSchoolEdu.country+','+this.props.srSchoolEdu.year}</Tr>                     
+                          <Tr>{this.props.scSchoolEdu.schoolName?this.props.scSchoolEdu.schoolName+',':""}
+                          {this.props.scSchoolEdu.country?this.props.scSchoolEdu.country+',':""}
+                          {this.props.scSchoolEdu.year?this.props.scSchoolEdu.year:""}</Tr>
+                          <Tr>{this.props.srSchoolEdu.schoolName?this.props.srSchoolEdu.schoolName+',':""}
+                          {this.props.srSchoolEdu.country?this.props.srSchoolEdu.country+',':""}
+                          {this.props.srSchoolEdu.year?this.props.srSchoolEdu.year:""}</Tr>                     
                       </Td>
                   </Tr>
                   <Tr>

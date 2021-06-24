@@ -3,6 +3,7 @@ import { AwardModel } from "../../models/AwardModel";
 import {  
     Input,Stack,Text,createStandaloneToast,Wrap,WrapItem,Heading,Box,HStack,Button,Select,
   } from "@chakra-ui/react";
+ import  '../../GlobalStyles/ScrollBar.css';
 
   const toast = createStandaloneToast();
 export default class AwardCertTabComponent extends React.Component<any,any>{
@@ -60,7 +61,7 @@ export default class AwardCertTabComponent extends React.Component<any,any>{
     }
     render(){
         return(
-            <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96'>       
+            <Box className='scroll' borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96' style={{overflowY :'scroll',alignItems:"center"}}>       
             
             <Stack style={{margin:"20px 20px 20px 20px"}}>
           

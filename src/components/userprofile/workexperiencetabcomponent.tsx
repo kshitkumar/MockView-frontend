@@ -6,6 +6,7 @@ import {
   } from "@chakra-ui/react";
 import { AddIcon } from '@chakra-ui/icons';
 import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/WorkDetailService";
+import  '../../GlobalStyles/ScrollBar.css';
 
  
   const toast = createStandaloneToast();
@@ -26,9 +27,10 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
       isCurrentEmployee:false,
       isCurrentEmpSet:false,
       isFormCompleted:false,
-      positionList:['a','b','c'],
-      companyList:['a','b','c'],
-      industryList:['a','b','c']
+      positionList:[],
+      companyList:[],
+      industryList:[],
+      isCurrentEmployeeSet:false
     }
 
     componentDidMount =  () =>{      
@@ -74,15 +76,16 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
           let workExArray : WorkExperienceModel[]  = [...this.state.workExList,workEx] ; 
           this.props.onAddWorkEx(workEx);  
             this.setState({companyName:"",industry:"",role:"",position:"",responsibilities:"",
-           joiningDate:"",isCurrentEmployee:false,workExList:workExArray,isFormCompleted:true},this.formSuccess);
+           joiningDate:"",isCurrentEmployee:false,workExList:workExArray,isFormCompleted:true,
+           isCurrentEmployeeSet:true},this.formSuccessToast);
         }
 
         else{
-             this.formInComplete();
+             this.formInCompleteToast();
         }
     }
 
-    formSuccess =()=>{    
+    formSuccessToast =()=>{    
       return(
         toast({
           title: "Form saved",         
@@ -93,7 +96,7 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
       );
     }
 
-    formInComplete=()=>{
+    formInCompleteToast=()=>{
       return(
         toast({
           title: "Incomplete Form",
@@ -179,7 +182,7 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
                     <Input type = 'text' width='xs' size='xs'  onChange={(event)=>{this.setState({role:event.target.value})}} 
                       placeholder="Role"  variant='filled'/>
                     <HStack>
-                      <Checkbox onChange ={()=>{this.setState({isCurrentEmployee: !this.state.isCurrentEmployee,endingDate:""})}}>
+                      <Checkbox  isDisabled={this.state.isCurrentEmployeeSet} onChange ={()=>{this.setState({isCurrentEmployee: !this.state.isCurrentEmployee,endingDate:""})}}>
                       <Text fontSize='xs' bg='#e2e8f0' pr={1} pl={1}>Currently working here</Text>  </Checkbox>
                       <Button variant='solid' color='white' backgroundColor='#0b294e' width = '30mm' size='xs' onClick={()=>{this.handleDoneButtonClick()}}>Save</Button>
                     </HStack>
@@ -190,15 +193,12 @@ import { fetchPositions ,fetchCompanies,fetchIndustries } from "../../services/W
               </Box> );
     }
      
-  
-
     render(){
       
-        return (
-         
-            <Box borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96'>       
+        return (         
+            <Box borderWidth="1px" className='scroll' style={{overflowY :'scroll',alignItems:"center"}}  borderRadius='xl'  shadow="xl" boxShadow="xl" width='6xl' height='96'>       
                 
-              <Stack spacing={2} style={{margin:"20px 20px 20px 20px"}}>
+              <Stack  spacing={2} style={{margin:"20px 20px 20px 20px"}}>
                 <Heading size = 'sm' color='#0b294e' > WORK EXPERIENCE &nbsp;
                 <Button  onClick={()=>{this.PlusIconClickHandler()}} variant='link' size='xs'> <AddIcon/>Add</Button>
                  <hr style = {{ height:'2px',

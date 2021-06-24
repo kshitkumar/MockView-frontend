@@ -1,7 +1,7 @@
 import React from "react";
 import  validator from "validator";
 import {AddressModel} from  '../../models/AddressModel';
-import {fetchAllCitieOfState,fetchAllCountries,fetchAllStatesOfCountry} from "../../services/UtilService"
+import {fetchAllCitieOfState,fetchAllCountries,fetchAllStatesOfCountry,fetchLocationAccessToken} from "../../services/UtilService"
 import {
          FormControl,Text,
         FormErrorMessage,Select,HStack,
@@ -15,25 +15,36 @@ import {
             constructor(props:any){
                 super(props);
             }
-
-        componentDidMount(){
-                fetchAllCountries().then(data=>{
-                this.setState({ countryList:data})
-                })
+            state={
+                pinCodeError:false,
+                countryList:[],
+                stateList:[],
+                cityList:[],
+                emailId:this.props.user.emailId,
+                phoneNo:this.props.user.phoneNumber,       
+                selectedCountry:"",
+                selectedState:"",
+                selectedCity:"",
+                pinCode:"",
+                locationAcessToken:""
             }
+
+        componentDidMount(){               
+            fetchLocationAccessToken().then(data=>{
+                console.log(data);
+              this.setState({locationAcessToken:data.auth_token},this.populateAllCountries);
+            });
+               
+         }
+         populateAllCountries(){
+            console.log(this.state.locationAcessToken);
+            fetchAllCountries(this.state.locationAcessToken).then(data=>{
+                console.log(data);
+                this.setState({ countryList:data})
+                 });
+         }
             
-        state={
-            pinCodeError:false,
-            countryList:[],
-            stateList:[],
-            cityList:[],
-            emailId:this.props.user.emailId,
-            phoneNo:this.props.user.phoneNumber,       
-            selectedCountry:"",
-            selectedState:"",
-            selectedCity:"",
-            pinCode:"" 
-        }
+        
             validateEmail =(event : React.ChangeEvent<HTMLInputElement>)=>{
                 if( !validator.isEmail(event.target.value)){
                         this.setState({emailError:true}); 
@@ -70,14 +81,14 @@ import {
             }
             
             selectCountyAndLoadStateData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
-                fetchAllStatesOfCountry(event.target.value).then((data)=>{
+                fetchAllStatesOfCountry(this.state.locationAcessToken,event.target.value).then((data)=>{
                     this.setState({stateList:data});
                 });
                 this.setState({selectedCountry:event.target.value});
             }
 
             selectStateAndLoadCityData=(event : React.ChangeEvent<HTMLSelectElement>)=>{
-                fetchAllCitieOfState(event.target.value).then((data)=>{
+                fetchAllCitieOfState(this.state.locationAcessToken,event.target.value).then((data)=>{
                     this.setState({cityList:data});
                 });
                 this.setState({selectedState:event.target.value});            
