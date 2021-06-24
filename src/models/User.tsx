@@ -6,5 +6,6 @@ export interface User {
     gender: string,
     emailId: string,
     password: string,
-    rePassword: string
+    phoneNumber: string,
+    profileComplete:boolean
 } 
