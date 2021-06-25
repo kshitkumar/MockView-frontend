@@ -1,31 +1,43 @@
-import { Box, Heading, Text, HStack, Button, Image} from "@chakra-ui/react";
+import { Box, Heading, Text, HStack, Button, Image, useToast} from "@chakra-ui/react";
 import React from "react";
-import { useState } from "react";
 import { Interviewer } from "../../models/Interviewer";
 import { Timeslot } from "../../models/Timeslot";
 
 interface Props {
     interviewer : Interviewer
-    onSelect(interviewer : Interviewer, timeslot : Timeslot) : void
+    onSelect(interviewer : Interviewer) : void
+    selectedTimeslot : Timeslot
+    onTimeslotSelect(timeslot : Timeslot) : void
 }
 
 export function InterviewerDetails(props : Props) {
 
-    const initialTimeslot = {
-        "startTime" : "",
-        "endTime" : ""
-    }
-
     const interviewer = props.interviewer;
 
-    const [selectedTimeslot, setSelectedTimeslot] = useState<Timeslot>(initialTimeslot);
+    let toast = useToast();
 
     const handleSelectBooking = (event : React.MouseEvent) => {
-        props.onSelect(interviewer, selectedTimeslot);
+        const ids = interviewer.timeSlots.map(x => x.id);
+        if(!ids.includes(props.selectedTimeslot.id)) {
+            toast({
+                title: "Please select a slot",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            })
+            return
+        }
+        props.onSelect(interviewer);
+        toast({
+            title: "Booking successful",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+        });
     }
 
     const handleSelectTimeslot = (timeslot : Timeslot) => (event : React.MouseEvent) => {
-        setSelectedTimeslot(timeslot);
+       props.onTimeslotSelect(timeslot);
     }
 
     function getTimeInString(time : string) {
@@ -53,17 +65,22 @@ export function InterviewerDetails(props : Props) {
                     <Text fontSize = "14px" pb = "5px" textColor = '#0B294E'>{interviewer.experience} years of experience</Text>
                 </Box>
                 <Box pl = "350px" pr = '50px'>
-                    <Button borderColor = '#0B294E' textColor = '#0B294E' onClick = {handleSelectBooking}>Book Slot</Button>
+                    <Button bgColor = 'white' textColor = '#0B294E'   border = "1px solid #0B294E"
+                                borderRadius= '4px' onClick = {handleSelectBooking}>Book Slot</Button>
                 </Box>
             </HStack>
             <HStack spacing = {4} pt = '20px' pb= '20px' pl='160px'>
                 <Text fontSize = "14px" pb = "5px" textColor = '#0B294E'>Select Slot</Text>
                 {interviewer.timeSlots.map(timeslot => {
                     return <Button 
+                                key = {timeslot.id}
                                 fontSize = "14px"
                                 pb = "5px"
-                                textColor = '#0B294E' 
+                                textColor = {props.selectedTimeslot.id === timeslot.id ? 'white' : '#0B294E'} 
+                                bgColor = {props.selectedTimeslot.id === timeslot.id ? '#0B294E' : 'white'}
                                 onClick = {handleSelectTimeslot(timeslot)}
+                                border = "1px solid #0B294E"
+                                borderRadius= '4px'
                             >
                                 {getTimeInString(timeslot.startTime)}-{getTimeInString(timeslot.endTime)}
                             </Button>

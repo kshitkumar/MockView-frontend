@@ -6,5 +6,6 @@ export interface InterviewerFilter {
                 "endTime" : string,
                 "label" : string }
     "position" : string,
-    "company" : string
+    "company" : string,
+    "userId" : number
 }

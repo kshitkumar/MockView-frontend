@@ -1,4 +1,4 @@
-import { Heading, Input, VStack, HStack, Select, Button} from "@chakra-ui/react";
+import { Heading, Input, VStack, HStack, Select, Button, useToast} from "@chakra-ui/react";
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { Interviewer } from "../../models/Interviewer";
@@ -7,6 +7,9 @@ import { fetchIndustries , fetchPositions, fetchCompanies} from "../../services/
 import { getInterviewers } from "../../services/InterviewService";
 import { InterviewerDetails} from "../InterviewerDetails/InterviewerDetails";
 import { InterviewerFilter } from "../../models/InterviewerFilter";
+import { useLocation } from "react-router-dom";
+import { User } from "../../models/User";
+import { setConstantValue } from "typescript";
 
 interface Timing {
     "id" : number
@@ -17,6 +20,18 @@ interface Timing {
 
 function BookInterview() {
 
+    const initialState = {
+        id : 0,
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+        gender:"",
+        emailId: "",
+        password: "",
+        phoneNumber: "",
+        profileComplete:false
+    };
+
     const [interviewers, setInterviewers] = useState<Interviewer[]>([]);
 
     const [industries, setIndustries] = useState<string[]>([]);
@@ -24,6 +39,18 @@ function BookInterview() {
     const [positions, setPositions] = useState<string[]>([]);
 
     const [companies, setCompanies] = useState<string[]>([]);
+
+    const location = useLocation();
+
+    const initialTimeslot = {
+        "id": 0,
+        "startTime" : "",
+        "endTime" : ""
+    }
+
+    const [selectedTimeslot, setSelectedTimeslot] = useState<Timeslot>(initialTimeslot);
+
+    let toast = useToast();
 
     const timings = [
         {"startTime" : "", "endTime" : "", "label" : "", "id" : 0},
@@ -37,12 +64,11 @@ function BookInterview() {
         "date" : "",
         "timing" : timings[0],
         "position" : "",
-        "company" : ""
+        "company" : "",
+        "userId" : 0
     }
 
     const [filter, setFilter] = useState<InterviewerFilter>(initialFilter);
-
-    const [selectedTiming, setSelectedTiming] = useState<Timing>(timings[0]);
 
     const getIndustries = useCallback( () => {
         fetchIndustries()
@@ -74,6 +100,16 @@ function BookInterview() {
         })
     }, [])
 
+    const fetchInterviewers = () => {
+        getInterviewers(filter)
+        .then((response) => {
+          setInterviewers(response.data);
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+
     useEffect(() =>  {
         getCompanies()
         getIndustries()
@@ -101,18 +137,21 @@ function BookInterview() {
     };
 
     const handleSearch = (event : React.MouseEvent) => {
-        getInterviewers(filter)
-        .then((response) => {
-          setInterviewers(response.data);
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+        const user = location.state as User;
+        setFilter({...filter, userId : user.id});
+        console.log(filter);
+        fetchInterviewers();
     }
 
-    const handleBooking = (interviewer : Interviewer, timeslot : Timeslot) => {
+    const handleBooking = (interviewer : Interviewer) => {
         console.log(interviewer);
-        console.log(timeslot);
+        console.log(selectedTimeslot);
+        fetchInterviewers();
+        setSelectedTimeslot(initialTimeslot);
+    }
+
+    const handleTimeslotSelect = (timeslot : Timeslot) => {
+        setSelectedTimeslot(timeslot);
     }
 
     return (
@@ -159,7 +198,14 @@ function BookInterview() {
                     </VStack>
                 </VStack>
                 <VStack>
-                    {interviewers.map(interviewer => <InterviewerDetails key = {interviewer.id} interviewer = {interviewer} onSelect = {handleBooking}/>)}
+                    {interviewers.map(interviewer => 
+                        <InterviewerDetails 
+                            key = {interviewer.id} 
+                            interviewer = {interviewer} 
+                            onSelect = {handleBooking} 
+                            selectedTimeslot = {selectedTimeslot}
+                            onTimeslotSelect = {handleTimeslotSelect}
+                        />)}
                 </VStack>
             </HStack>
         </VStack>

@@ -6,7 +6,7 @@ const apiEndPoint = config.apiBaseUrl + "/interviews"
 
 export async function getInterviewers(filter : InterviewerFilter) {
     return http.get(
-        apiEndPoint+"/interviewers",
+        apiEndPoint + "" +"/interviewers",
         {
             params : {
                 "industry" : filter.industry,
