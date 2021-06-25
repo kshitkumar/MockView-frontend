@@ -12,7 +12,6 @@
   import {EducationModel} from '../../models/EducationModel';
   import {SkillModel} from '../../models/SkillModel' ;
   import {AddressModel} from '../../models/AddressModel';
-  import {User} from '../../models/User';
   import { saveUserDetail } from "../../services/UserDetailService";
   import { UserDetailModel } from "../../models/UserDetailModel";
   
@@ -45,38 +44,22 @@
 
     handleSkillBadgeCallBack = (skillModel : SkillModel)=>{
       let skillArray: SkillModel[] = [...this.state.skillsBadge,...[skillModel]];
-      this.setState({ skillsBadge : skillArray},this.printSkill);
+      this.setState({ skillsBadge : skillArray});
     }
-
-    printSkill(){
-      console.log(JSON.stringify(this.state.skillsBadge));
-    }
-  
 
     handleLangBadgeCallBack = (languageModel : SkillModel)=>{
       let langArray: SkillModel[] = [...this.state.languageBadge,...[languageModel]];
-    this.setState({ languageBadge : langArray},this.printLang);
-  }
-
-  printLang(){
-    console.log(JSON.stringify(this.state.languageBadge));
+    this.setState({ languageBadge : langArray});
   }
 
   handleHobbyBadgeCallBack = (hobby : SkillModel)=>{
-    this.setState({hobbiesBadge:hobby},this.printHObby);
-  }
-
-  printHObby(){
-    console.log(JSON.stringify(this.state.hobbiesBadge));
+    this.setState({hobbiesBadge:hobby});
   }
 
   handlePersonalDetailsCallBack=(personalDetail:AddressModel)=>{  
-      this.setState({address:personalDetail},this.printPersonD);
+      this.setState({address:personalDetail});
   }
 
-  printPersonD(){
-    console.log(JSON.stringify(this.state.address));
-  }
 
   handleWorkExperienceCallBack=(workExperienceModel:WorkExperienceModel)=>{
       
@@ -84,43 +67,25 @@
         this.setState({isCurrentEmployeeSet:true});
       }
       let workExArray : WorkExperienceModel[] =[...this.state.workExperinceList,...[workExperienceModel]] ;
-      this.setState({workExperinceList:workExArray},this.printEx);
-  }
-
-  printEx(){
-    console.log(JSON.stringify(this.state.workExperinceList));
+      this.setState({workExperinceList:workExArray});
   }
 
   handleAwardCallBack=(awardArr:AwardModel[])=>{  
-    this.setState({awardList:awardArr},this.printAw);
-  }
-  printAw(){
-    console.log(JSON.stringify(this.state.workExperinceList));
+    this.setState({awardList:awardArr});
   }
 
   handleSecondayEduCallback=(education:EducationModel)=>{
-      this.setState({scSchoolEdu:education},this.printEd);
+      this.setState({scSchoolEdu:education});
   }
 
-  printEd(){
-    console.log(JSON.stringify(this.state.scSchoolEdu));
-  
-  }
 
   handleSeniorScEduCallback=(education:EducationModel)=>{
-      this.setState({srSchoolEdu:education},this.printEd2);
-  }
-  printEd2(){
-    console.log( JSON.stringify(this.state.srSchoolEdu));
+      this.setState({srSchoolEdu:education});
   }
 
   handleUniEduCallback=(education:EducationModel)=>{
     let uniArray = [...this.state.uniEducationList,...[education]];
-        this.setState({uniEducationList:uniArray},this.printEd3);
-  }
-
-  printEd3(){
-    console.log( JSON.stringify(this.state.uniEducationList));
+        this.setState({uniEducationList:uniArray});
   }
 
   handleNextTabButton=(objArr: any[],tab:number)=>{
@@ -193,15 +158,12 @@
     console.log(todayDate.getFullYear());
   if((todayDate.getMonth()>birthDate.getMonth()) || 
   todayDate.getMonth() == birthDate.getMonth() && todayDate.getDate()>=birthDate.getDate()){
-      this.setState({userAge:(age)},this.printAge);
+      this.setState({userAge:(age)});
   }
     else{
-      this.setState({userAge:age===0?0:age-1},this.printAge);
+      this.setState({userAge:age===0?0:age-1});
     }   
   } 
-  printAge(){
-    console.log(JSON.stringify(this.state.userAge));
-  }
       render(){
         console.log(JSON.stringify( this.props.user));
           return (

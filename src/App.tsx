@@ -43,7 +43,7 @@ function App() {
     <div>
       <Header isLoggedIn = {isLoggedIn} user = {user} onLogout = {handleLogout}/>
       <Switch>
-        <Route path = "/home" component = {() => <Home onLogin = {handleLogin}/>} />
+        <Route path = "/login" component = {() => <Home onLogin = {handleLogin}/>} />
         <Route path = "/select-profile" component = {ProfileSelection} />
         <Route path = "/set-availability"> <SetAvailabilityComponent isLoggedIn = {isLoggedIn} user = {user}  /></Route>
         <Route path = '/user-profile' > <UserProfileTabsComponent history={history}

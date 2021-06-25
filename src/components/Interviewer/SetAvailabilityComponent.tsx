@@ -118,7 +118,7 @@ initSlotsPerDay= ['07:00', '08:00' ,'09:00', '10:00' ,'11:00',
 
     confirmAndSaveSelectedSlot=async ()=>{
 
-      const response = await saveInterviewSlots(this.props.user.id,parseBookInterviewRequest(this.state.selectedSlots));
+      const response = await saveInterviewSlots(1,parseBookInterviewRequest(this.state.selectedSlots));
       if( response.status===201){
         toast({
           title: "Slots Opened for booking",

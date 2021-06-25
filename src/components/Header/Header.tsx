@@ -36,7 +36,7 @@ function Header(props : Props) {
                     <Text>
                         {props.user.firstName + ' ' + props.user.lastName}
                     </Text>
-                    <Text as = 'button' onClick = {props.onLogout}>
+                    <Text cursor='pointer' onClick = {props.onLogout}>
                         Logout
                     </Text>
                 </Flex>

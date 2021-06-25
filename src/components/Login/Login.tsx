@@ -37,6 +37,7 @@ function Login(props : Props) {
             if(response.status === 200) {
                 console.log('User logged in');
                 props.onLogin(user);
+                window.sessionStorage.setItem("user",JSON.stringify(user));
                 history.push({pathname : user.profileComplete?"/select-profile": "/user-profile", state : {user}});
             }
             else {
