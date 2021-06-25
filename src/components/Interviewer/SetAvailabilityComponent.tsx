@@ -39,8 +39,16 @@ initSlotsPerDay= ['07:00', '08:00' ,'09:00', '10:00' ,'11:00',
     }
 
     setStateforSelectedDate=(event:any)=>{
-     
-      this.setState({selectedDate:this.formatDate(event.toLocaleDateString())},this.removeAndOpenSlots);
+     if(new Date() >= event){
+      toast({
+        title: "Please select an upcoming date",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+     }else{
+       this.setState({selectedDate:this.formatDate(event.toLocaleDateString())},this.removeAndOpenSlots);
+      }
     }
 
     removeAndOpenSlots=()=>{  
