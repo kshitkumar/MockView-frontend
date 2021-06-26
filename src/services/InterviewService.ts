@@ -6,7 +6,7 @@ const apiEndPoint = config.apiBaseUrl + "/interviews"
 
 export async function getInterviewers(filter : InterviewerFilter) {
     return http.get(
-        apiEndPoint + "" +"/interviewers",
+        apiEndPoint + "/"+filter.userId +"/interviewers",
         {
             params : {
                 "industry" : filter.industry,
@@ -17,4 +17,18 @@ export async function getInterviewers(filter : InterviewerFilter) {
             }
         }
     )
+}
+
+export const getUpcomingInterviewForInterviewer=(userId:number)=>{
+    return http.get(`${apiEndPoint}/${userId}/interviewer/upcoming`);
+}
+
+export const getCompletedInterviewForInterviewer=(userId:number)=>{
+    return http.get(`${apiEndPoint}/${userId}/interviewer/completed`);
+}
+export const getUpcomingInterviewForInterviewee=(userId:number)=>{
+    return http.get(`${apiEndPoint}/${userId}/interviewee/upcoming`);
+}
+export const getCompletedInterviewForInterviewee=(userId:number)=>{
+    return http.get(`${apiEndPoint}/${userId}/interviewee/completed`);
 }

@@ -11,12 +11,15 @@ function ProfileSelection() {
         event.preventDefault();
         console.log("Interviewer Selected");
         console.log(location.state); 
+        window.sessionStorage.setItem("role","interviewer");
+        history.push({pathname : "/set-availability", state : location.state});
     };
 
     const handleCandidateProfile = (event: React.MouseEvent) => {
         event.preventDefault();
         console.log("Candidate Selected");
         // console.log(location.state); 
+        window.sessionStorage.setItem("role","candidate");
         history.push({pathname : "/book-interview", state : location.state});
     };
 

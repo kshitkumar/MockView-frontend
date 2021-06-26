@@ -7,6 +7,8 @@ import UserProfileTabsComponent from './components/UserProfile/UserProfileCompon
 import ProfileSelection from './components/ProfileSelection/ProfileSelection';
 import { User } from './models/User';
 import SetAvailabilityComponent from './components/Interviewer/SetAvailabilityComponent';
+import BookInterview from './components/BookInterview/BookInterview';
+import UpcomingInterviewComponent from './components/UpcomingInterviews/UpcomingInterviewComponent';
 
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    window.sessionStorage.removeItem("user");
+    
     history.replace("/home");
   }
 
@@ -45,11 +49,13 @@ function App() {
       <Switch>
         <Route path = "/login" component = {() => <Home onLogin = {handleLogin}/>} />
         <Route path = "/select-profile" component = {ProfileSelection} />
-        <Route path = "/set-availability"> <SetAvailabilityComponent isLoggedIn = {isLoggedIn} user = {user}  /></Route>
+        <Route path = "/set-availability"> <SetAvailabilityComponent history={history} /></Route>
         <Route path = '/user-profile' > <UserProfileTabsComponent history={history}
                                isLoggedIn = {isLoggedIn} user = {user}/></Route> 
+         <Route path = "/book-interview" component = {BookInterview} />    
+         <Route path ="/my-interviews"    component ={UpcomingInterviewComponent}     />         
        
-        <Redirect from = "" to = "/home" />
+        <Redirect from = "" to = "/login" />
       </Switch>
     </div>
   );

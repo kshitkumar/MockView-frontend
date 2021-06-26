@@ -168,7 +168,7 @@
         console.log(JSON.stringify( this.props.user));
           return (
               <Box  p={20}>
-                  <Tabs index={this.state.tabNo} size="md" variant="line" align='start'>
+                  <Tabs index={this.state.tabNo} size="md" variant="line" align='start' >
                     <TabList >
                       <Tab color='#0b294e'   fontWeight='semibold' fontSize='md'>Personal Information {'>'}</Tab>
                       <Tab color='#0b294e'  fontWeight='semibold' fontSize='md'>Education {'>'}</Tab>

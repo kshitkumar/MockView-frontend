@@ -42,6 +42,8 @@ function BookInterview() {
 
     const location = useLocation();
 
+    
+
     const initialTimeslot = {
         "id": 0,
         "startTime" : "",
@@ -136,9 +138,10 @@ function BookInterview() {
         setFilter({ ...filter, [event.target.name]: event.target.value });
     };
 
-    const handleSearch = (event : React.MouseEvent) => {
-        const user = location.state as User;
-        setFilter({...filter, userId : user.id});
+    const handleSearch = (event : React.MouseEvent) => {       
+        let userId =  JSON.parse( window.sessionStorage.getItem("user")!).id ;
+        console.log(userId);
+        setFilter({...filter, userId : userId});
         console.log(filter);
         fetchInterviewers();
     }
@@ -160,8 +163,7 @@ function BookInterview() {
             <VStack spacing = {2} fontSize = '15px' align = 'normal' color = '#0B294E' p = '20px' pt= '15px' boxShadow = '0px 3px 6px #00000029'>
                 <Heading fontSize = '13px'>Select the industry and date</Heading>
                 <HStack spacing = {8}>
-                    <Select placeHolder = "Industry" w= '20%' onChange = {handleIndustryChange} name = "industry">
-                        <option selected></option>
+                    <Select placeholder = " --Select Industry--" w= '20%' onChange = {handleIndustryChange} name = "industry">
                         {industries.map(industry => 
                             {return <option>{industry}</option> })}
                     </Select>

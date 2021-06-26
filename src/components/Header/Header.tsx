@@ -12,6 +12,8 @@ interface Props {
 
 function Header(props : Props) {
 
+const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage.getItem("user")!));
+
     const getComponentToRender = () => {
         if(!props.isLoggedIn)
             return (
@@ -34,7 +36,7 @@ function Header(props : Props) {
                         User
                     </Text>
                     <Text>
-                        {props.user.firstName + ' ' + props.user.lastName}
+                        {loggedInUser.firstName + ' ' + loggedInUser.lastName}
                     </Text>
                     <Text cursor='pointer' onClick = {props.onLogout}>
                         Logout

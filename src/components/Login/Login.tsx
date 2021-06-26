@@ -103,7 +103,7 @@ function Login(props : Props) {
                     Sign up
                 </Button>
                 <Flex justifyContent = 'flex-end'>
-                <Modal isOpen={isOpen} onClose={onClose}>
+                <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
                     <ModalContent>
                         <ModalCloseButton />
