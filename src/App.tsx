@@ -8,7 +8,7 @@ import ProfileSelection from './components/ProfileSelection/ProfileSelection';
 import { User } from './models/User';
 import SetAvailabilityComponent from './components/Interviewer/SetAvailabilityComponent';
 import BookInterview from './components/BookInterview/BookInterview';
-import UpcomingInterviewComponent from './components/UpcomingInterviews/UpcomingInterviewComponent';
+import MyInterviewComponent from './components/MyInterview/MyInterviewComponent';
 
 
 function App() {
@@ -53,7 +53,7 @@ function App() {
         <Route path = '/user-profile' > <UserProfileTabsComponent history={history}
                                isLoggedIn = {isLoggedIn} user = {user}/></Route> 
          <Route path = "/book-interview" component = {BookInterview} />    
-         <Route path ="/my-interviews"    component ={UpcomingInterviewComponent}     />         
+         <Route path ="/my-interviews"    component ={MyInterviewComponent}     />         
        
         <Redirect from = "" to = "/login" />
       </Switch>

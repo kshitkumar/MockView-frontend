@@ -36,7 +36,7 @@ const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage
                         User
                     </Text>
                     <Text>
-                        {loggedInUser.firstName + ' ' + loggedInUser.lastName}
+                        {/* {loggedInUser.firstName + ' ' + loggedInUser.lastName} */}
                     </Text>
                     <Text cursor='pointer' onClick = {props.onLogout}>
                         Logout

@@ -20,6 +20,7 @@ export async function getInterviewers(filter : InterviewerFilter) {
 }
 
 export const getUpcomingInterviewForInterviewer=(userId:number)=>{
+    console.log("inside service2")
     return http.get(`${apiEndPoint}/${userId}/interviewer/upcoming`);
 }
 
@@ -27,6 +28,7 @@ export const getCompletedInterviewForInterviewer=(userId:number)=>{
     return http.get(`${apiEndPoint}/${userId}/interviewer/completed`);
 }
 export const getUpcomingInterviewForInterviewee=(userId:number)=>{
+    console.log("inside service")
     return http.get(`${apiEndPoint}/${userId}/interviewee/upcoming`);
 }
 export const getCompletedInterviewForInterviewee=(userId:number)=>{

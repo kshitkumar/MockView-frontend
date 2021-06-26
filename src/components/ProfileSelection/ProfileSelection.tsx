@@ -11,7 +11,7 @@ function ProfileSelection() {
         event.preventDefault();
         console.log("Interviewer Selected");
         console.log(location.state); 
-        window.sessionStorage.setItem("role","interviewer");
+        window.sessionStorage.setItem("role","INTERVIEWER");
         history.push({pathname : "/set-availability", state : location.state});
     };
 
@@ -19,7 +19,7 @@ function ProfileSelection() {
         event.preventDefault();
         console.log("Candidate Selected");
         // console.log(location.state); 
-        window.sessionStorage.setItem("role","candidate");
+        window.sessionStorage.setItem("role","CANDIDATE");
         history.push({pathname : "/book-interview", state : location.state});
     };
 
