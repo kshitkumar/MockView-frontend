@@ -12,6 +12,8 @@ interface Props {
 
 function Header(props : Props) {
 
+const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage.getItem("user")!));
+
     const getComponentToRender = () => {
         if(!props.isLoggedIn)
             return (
@@ -34,9 +36,9 @@ function Header(props : Props) {
                         User
                     </Text>
                     <Text>
-                        {props.user.firstName + ' ' + props.user.lastName}
+                        {/* {loggedInUser.firstName + ' ' + loggedInUser.lastName} */}
                     </Text>
-                    <Text as = 'button' onClick = {props.onLogout}>
+                    <Text cursor='pointer' onClick = {props.onLogout}>
                         Logout
                     </Text>
                 </Flex>
@@ -44,7 +46,7 @@ function Header(props : Props) {
     }
 
     return (
-        <Flex bgColor = '#0B294E' p="5" pl ='100px' pr='30px' color = 'white' w ='100%' position ='fixed'>
+        <Flex zIndex = {2} bgColor = '#0B294E' p="5" pl ='100px' pr='30px' color = 'white' w ='100%' position ='fixed'>
             <Box >
                 <Heading fontSize = '30px'>MOCKVIEW</Heading>
             </Box>

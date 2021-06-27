@@ -31,33 +31,30 @@ import {
 
         componentDidMount(){               
             fetchLocationAccessToken().then(data=>{
-                console.log(data);
               this.setState({locationAcessToken:data.auth_token},this.populateAllCountries);
             });
                
          }
-         populateAllCountries(){
-            console.log(this.state.locationAcessToken);
-            fetchAllCountries(this.state.locationAcessToken).then(data=>{
-                console.log(data);
+         populateAllCountries(){           
+            fetchAllCountries(this.state.locationAcessToken).then(data=>{               
                 this.setState({ countryList:data})
                  });
          }
             
         
-            validateEmail =(event : React.ChangeEvent<HTMLInputElement>)=>{
+            validateAndAddEmail =(event : React.ChangeEvent<HTMLInputElement>)=>{
                 if( !validator.isEmail(event.target.value)){
                         this.setState({emailError:true}); 
                 }            
             } 
 
-            validatePhone =(event : React.ChangeEvent<HTMLInputElement>)=>{
+            validateAndAddPhone =(event : React.ChangeEvent<HTMLInputElement>)=>{
                 if( !validator.isMobilePhone(event.target.value,"en-IN")){
                     this.setState({phoneNoError:true}); 
                 }            
             }
 
-            validatePinCode=(event : React.ChangeEvent<HTMLInputElement>)=>{
+            validateAndAddPinCode=(event : React.ChangeEvent<HTMLInputElement>)=>{
                 if(!validator.isPostalCode(event.target.value,'IN')){
                     this.setState({pinCodeError:true});
                 }
@@ -109,9 +106,7 @@ import {
                         city:this.state.selectedCity,
                         pinCode:parseInt(this.state.pinCode)
                     };
-                    this.props.onPersonalDetailAdd(address);
-                    console.log(JSON.stringify(address));
-            
+                    this.props.onPersonalDetailAdd(address);            
                 }
            }
            
@@ -160,7 +155,7 @@ import {
                             </Select>                           
                             <Box height="30px">
                             <FormControl isInvalid = {this.state.pinCodeError} id="pinCode" isRequired >
-                            <Input width='xs' size='xs' variant='filled' onFocus={()=>{this.setState({pinCodeError:false})}} onChange={(event)=>{this.validatePinCode(event)}} type = 'pincode' placeholder="Pin Code" />                       
+                            <Input width='xs' size='xs' variant='filled' onFocus={()=>{this.setState({pinCodeError:false})}} onChange={(event)=>{this.validateAndAddPinCode(event)}} type = 'pincode' placeholder="Pin Code" />                       
                             <FormErrorMessage> Please enter valid pin code</FormErrorMessage>
                             </FormControl>
                             </Box>                              
