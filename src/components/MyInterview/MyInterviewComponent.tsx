@@ -7,11 +7,47 @@ import { getUpcomingInterviewForInterviewee ,
          getUpcomingInterviewForInterviewer,
          getCompletedInterviewForInterviewee,
          getCompletedInterviewForInterviewer} from "../../services/InterviewService";
-import { timeLog } from "console";
+import Jitsi from 'react-jitsi'
+import { ZoomMtg } from "@zoomus/websdk";
+import crypto from 'crypto'
 
-         enum Role{
-          INTERVIEWER="INTERVIEWER",CANDIDATE="CANDIDATE"
-         }
+ enum Role{
+ INTERVIEWER="INTERVIEWER",CANDIDATE="CANDIDATE"
+}
+
+// crypto comes with Node.js
+    let apiKey = 'JWT_API_KEY'
+    let meetingNumber = 123456789
+    let role = 0
+    let leaveUrl = 'http://localhost:3000'
+    let userName = 'WebSDK'
+    let userEmail = ''
+    let passWord = ''  
+    let apiSecret=''
+    let signature = ''
+    // generateSignature(apiKey, apiSecret, meetingNumber , role).then((response)=>{
+    //   signature=response;
+    // })
+
+
+// function generateSignature(apiKey :any, apiSecret:any, meetingNumbe:number, role:number) {
+
+//     return new Promise<any>((res,rej)=>{
+//         // Prevent time sync issue between client signature generation and zoom 
+//         debugger;
+//         const timestamp = new Date().getTime() - 30000
+//         const msg = Buffer.from(apiKey + meetingNumber.toString() + timestamp + role).toString('base64')
+//         const hash = crypto.createHmac('sha256', apiSecret).update(msg).digest('base64')
+//         const signature = Buffer.from(`${apiKey}.${meetingNumber}.${timestamp}.${role}.${hash}`).toString('base64')
+//         res(signature);
+//     });
+// }
+
+// pass in your Zoom JWT API Key, Zoom JWT API Secret, Zoom Meeting Number, and 0 to join meeting or webinar or 1 to start meeting
+// console.log(generateSignature(process.env.API_KEY, process.env.API_SECRET, 123456789, 0))
+
+       // setup your signautre endpoint here: https://github.com/zoom/websdk-sample-signature-node.js
+
 
 export default class MyInterviewComponent extends React.Component<any,any>{
 
@@ -21,10 +57,42 @@ export default class MyInterviewComponent extends React.Component<any,any>{
         loggedInUser: {} as User,
         role:null
     }
+
+    initiateMeeting=()=>{
+        ZoomMtg.init({
+            leaveUrl: leaveUrl,
+            isSupportAV: true,
+            success: (success:any) => {
+              console.log(success)
+          
+              ZoomMtg.join({
+                signature: signature,
+                meetingNumber: meetingNumber,
+                userName: userName,
+                apiKey: apiKey,
+                userEmail: userEmail,
+                passWord: passWord,
+                success: (success:any) => {
+                  console.log(success)
+                },
+                error: (error:any) => {
+                  console.log(error)
+                }
+              })
+          
+            },
+            error: (error:any) => {
+              console.log(error)
+            }
+          })
+    }
         
     componentDidMount=async ()=>{
         let userString = window.sessionStorage.getItem("user");
         let roleString = window.sessionStorage.getItem("role");
+        ZoomMtg.setZoomJSLib('https://source.zoom.us/1.9.5/lib', '/av'); 
+        ZoomMtg.preLoadWasm();
+        ZoomMtg.prepareJssdk();
         if(!userString){
            this.props.history.push('./login');
         }
@@ -77,10 +145,11 @@ export default class MyInterviewComponent extends React.Component<any,any>{
        }
 
     render(){
-        return( 
+        return(         
             <Stack pl={5} pt={20} spacing={1}>
             <Heading p={3} size = 'sm' color='#0b294e' >MY INTERVIEWS<hr style = {{ height:'2px',
                    backgroundColor : '#d1e0ef'}}/></Heading>
+                 
             <Tabs align='center' isFitted variant = 'enclosed-colored' size="lg">
             <TabList>
               <Tab color='#0b294e'   fontWeight='semibold' fontSize='md'>UPCOMING INTERVIEWS</Tab>
@@ -106,7 +175,6 @@ export default class MyInterviewComponent extends React.Component<any,any>{
           </Tabs>
           </Stack>
 
-
          );
     }
 }
@@ -125,7 +193,7 @@ class InterviewTile extends React.Component<any,any>{
                         </Stack> 
                         <Button color='white' isDisabled=
                         {new Date((new Date().setMinutes(new Date().getMinutes()+5)))
-                            >=new Date( new Date(this.props.tile.startDate).setHours(this.props.tile.startTime))} bg='#0b294e'>
+                            <=new Date( new Date(this.props.tile.startDate).setHours(this.props.tile.startTime))} bg='#0b294e'>
                             {this.props.tab==="UPCOMING"?'Join Interview':'Feedback'}</Button>
                         <Stack spacing={0}   alignItems='start' pr={20}>
                             <Text fontWeight='semibold'>{"DATE & TIME"}</Text>
