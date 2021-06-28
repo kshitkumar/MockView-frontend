@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Interviewer } from "../../models/Interviewer";
 import { Timeslot } from "../../models/Timeslot";
 import { fetchIndustries , fetchPositions, fetchCompanies} from "../../services/WorkDetailService";
-import { getInterviewers } from "../../services/InterviewService";
+import { getInterviewers,bookSlotsForUser } from "../../services/InterviewService";
 import { InterviewerDetails} from "../InterviewerDetails/InterviewerDetails";
 import { InterviewerFilter } from "../../models/InterviewerFilter";
 import { useHistory } from "react-router-dom";
@@ -55,7 +55,7 @@ function BookInterview() {
     let toast = useToast();
 
     const timings = [
-        {"startTime" : "", "endTime" : "", "label" : "", "id" : 0},
+        {"startTime" : "", "endTime" : "", "label" : "--Select Timing--", "id" : 0},
         {"startTime" : "07:00", "endTime" : "12:00", "label" : "7AM - 12PM", "id" : 1},
         {"startTime" : "12:00", "endTime" : "17:00", "label" : "12PM - 5PM", "id" : 2},
         {"startTime" : "17:00", "endTime" : "22:00", "label" : "5PM - 10PM", "id" : 3},
@@ -67,7 +67,7 @@ function BookInterview() {
         "timing" : timings[0],
         "position" : "",
         "company" : "",
-        "userId" : 0
+        "userId" : JSON.parse( window.sessionStorage.getItem("user")!).id 
     }
 
     const [filter, setFilter] = useState<InterviewerFilter>(initialFilter);
@@ -79,6 +79,12 @@ function BookInterview() {
         })
         .catch((error) => {
           console.log(error)
+          toast({
+            title: "No interviewer available",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
         })
     }, [])
 
@@ -108,6 +114,7 @@ function BookInterview() {
           setInterviewers(response.data);
         })
         .catch((error) => {
+            setInterviewers([]);
           console.log(error)
         })
     }
@@ -148,9 +155,28 @@ function BookInterview() {
 
     const handleBooking = (interviewer : Interviewer) => {
         console.log(interviewer);
-        console.log(selectedTimeslot);
-        fetchInterviewers();
-        setSelectedTimeslot(initialTimeslot);
+        console.log(selectedTimeslot); 
+        bookSlotsForUser(filter.userId,selectedTimeslot.id).then((data)=>{
+            if(data.status===200){
+             toast({
+                 title: "Booking successful",
+                 status: "success",
+                 duration: 5000,
+                 isClosable: true,
+             });
+             setSelectedTimeslot(initialTimeslot);
+             fetchInterviewers();
+
+            }
+            else{
+             toast({
+                 title: "Some error occurred",
+                 status: "error",
+                 duration: 5000,
+                 isClosable: true,
+             });
+            }
+         })
     }
 
     const handleTimeslotSelect = (timeslot : Timeslot) => {
@@ -162,25 +188,25 @@ function BookInterview() {
             <Heading fontSize = '20px' fontWeight = 'bold' >BOOK INTERVIEWS<hr style = {{ height:'2px',
                    backgroundColor : '#d1e0ef'}}/></Heading>
             <VStack spacing = {2} fontSize = '15px' align = 'normal' color = '#0B294E' p = '20px' pt= '15px' boxShadow = '0px 3px 6px #00000029'>
-                <Heading fontSize = '13px'>Select the industry and date</Heading>
+                <Heading fontSize = '13px'><span style={{color:'red'}}>*</span>Select the industry and date</Heading>
                 <HStack spacing = {8}>
                     <Select placeholder = " --Select Industry--" w= '20%' onChange = {handleIndustryChange} name = "industry">
                         {industries.map(industry => 
                             {return <option>{industry}</option> })}
                     </Select>
                     <Input type = 'date' placeholder = "Date" w = '20%' onChange = {handleDateChange} name = "date"></Input>
-                    <Button bgColor = '#0B294E' color = 'white' fontSize = '13px' onClick = {handleSearch}>Search</Button>
+                    <Button isDisabled={filter.date.length===0 || filter.industry.length===0} bgColor = '#0B294E' color = 'white' fontSize = '13px' onClick = {handleSearch}>Search</Button>
                    <Box pl={350}>
                       <Button width='40' bg='#0b294e' color='white'  onClick={()=>(history.push('./my-interviews'))}>My Interviews</Button>
                     </Box>
                 </HStack>
             </VStack>
             <HStack alignItems = 'flex-start'>
-                <VStack spacing = {4} boxShadow = '0px 3px 6px #00000029' align = 'left' p = '15px' w = '220px' justifyContent = 'flex-end'>
-                    <Heading fontSize = '13px'>Filters</Heading>
+                <VStack spacing = {4} boxShadow = '0px 3px 6px #00000029' align = 'left' p = '15px' w = '300px' justifyContent = 'flex-end'>
+                    <Heading fontSize = '13px'>FILTERS</Heading>
                     <VStack spacing = {3} align = 'normal'>
                         <Heading fontSize = '13px'>Timing</Heading>
-                        <Select onChange = {handleTimingChange}>
+                        <Select onChange = {handleTimingChange}  >
                             {timings.map(timing => {
                                 return <option value = {timing.id}>{timing.label}</option>
                             })}
@@ -188,16 +214,14 @@ function BookInterview() {
                     </VStack>
                     <VStack spacing = {3} align = 'normal'>
                         <Heading fontSize = '13px'>Company</Heading>
-                        <Select onChange = {handleCompanyChange} name = "company">
-                            <option selected></option>
+                        <Select onChange = {handleCompanyChange} name = "company" placeholder="--Select Company--">
                             {companies.map(company => 
                                 {return <option>{company}</option> })}
                         </Select>
                     </VStack>
                     <VStack spacing = {3} align = 'normal'>
                         <Heading fontSize = '13px'>Position</Heading>
-                        <Select onChange = {handlePositionChange} name = "position">
-                            <option selected></option>
+                        <Select onChange = {handlePositionChange} name = "position" placeholder="--Select Position--">
                             {positions.map(position => 
                                 {return <option>{position}</option> })}     
                         </Select>

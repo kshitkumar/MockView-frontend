@@ -13,10 +13,15 @@ export async function getInterviewers(filter : InterviewerFilter) {
                 "date" : filter.date,
                 "startTime" : filter.timing.startTime,
                 "endTime" : filter.timing.endTime,
-                "position" : filter.position
+                "position" : filter.position,
+                "company" : filter.company
             }
         }
     )
+}
+
+export const bookSlotsForUser=(userId:number,slotId:number)=>{
+    return http.post(`${apiEndPoint}/${userId}/slots/${slotId}`);
 }
 
 export const getUpcomingInterviewForInterviewer=(userId:number)=>{
