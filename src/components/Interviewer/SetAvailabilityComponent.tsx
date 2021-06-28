@@ -29,7 +29,7 @@ async componentDidMount(){
         slotsPerDay:[],
         selectedDate:"",
         loggedInUser: JSON.parse(window.sessionStorage.getItem("user")!),
-        areSoltsSelected:false
+        areSlotsSelected:false,
         }
 
     formatDate=(date:string)=>{
@@ -91,7 +91,7 @@ async componentDidMount(){
             isClosable: true,
           });
           return;
-     }     
+     }        
      this.setState({areSoltsSelected:true});
       let slotTOBeAdded:InterviewSlotModel = {
         interviewDate :this.state.selectedDate,
@@ -133,23 +133,33 @@ async componentDidMount(){
     }
 
     confirmAndSaveSelectedSlot=async ()=>{   
-      const response = await saveInterviewSlots(this.state.loggedInUser.id,parseBookInterviewRequest(this.state.selectedSlots));
-      if( response.status===201){
-        toast({
-          title: "Slots Updated for booking",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
+      if(this.state.areSlotsSelected){      
+        const response = await saveInterviewSlots(this.state.loggedInUser.id,parseBookInterviewRequest(this.state.selectedSlots));
+        if( response.status===201){
+          toast({
+            title: "Slots Updated for booking",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+          this.props.history.push("/my-interviews")
+        }
+        else{
+          toast({
+            title: "Error Occurred",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          }); 
+        }
       }
-      else{
-        toast({
-          title: "Error Occurred",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        }); 
-      }
+      toast({
+        title: "Slots Updated for booking",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      this.props.history.push("/my-interviews")
     }
 
     displyDeleteIconOrBookedBasedOnSlotStatus=(status:string)=>{
@@ -164,14 +174,14 @@ async componentDidMount(){
    render(){
         return (
             <Stack p={100}  spacing={3} >
-                 <Heading  size = 'sm' color='#0b294e' >SET AVAILABILITY<hr style = {{ height:'2px',
+                 <Heading  fontSize = '20px' fontWeight = 'bold' color='#0b294e' >SET AVAILABILITY<hr style = {{ height:'2px',
                    backgroundColor : '#d1e0ef'}}/></Heading>
                    <HStack spacing={526}>
                    <Stack spacing={-1}>
                     <Text  color='#0b294e' fontSize='xs' fontWeight='semibold'>*Please Select date and time as per your availability, slots are set as one hour each</Text>
                     <Text  color='#0b294e' fontSize='xs' fontWeight='semibold'>*Slots which are already booked, will not be edited</Text>                   
                     </Stack>
-                    <Button isDisabled={!this.state.areSoltsSelected} onClick={this.confirmAndSaveSelectedSlot} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm slots</Button>                                
+                    <Button onClick={this.confirmAndSaveSelectedSlot} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm slots</Button>                                
                     </HStack>
                      <Box   color='#0b294e' height='sm' style={{alignItems:"center"}}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl">
                       

@@ -39,8 +39,8 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     window.sessionStorage.removeItem("user");
-    
-    history.replace("/home");
+    window.sessionStorage.removeItem("role");    
+    history.push("/login");
   }
 
   return (
