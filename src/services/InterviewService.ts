@@ -20,8 +20,8 @@ export async function getInterviewers(filter : InterviewerFilter) {
     )
 }
 
-export const bookSlotsForUser=(userId:number,slotId:number)=>{
-    return http.post(`${apiEndPoint}/${userId}/slots/${slotId}`);
+export async function bookInterview(userId : number, slotId : number) {
+    return http.post(apiEndPoint + "/" + userId + "/slots/" + slotId);
 }
 
 export const getUpcomingInterviewForInterviewer=(userId:number)=>{

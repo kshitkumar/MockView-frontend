@@ -28,8 +28,6 @@ export function InterviewerDetails(props : Props) {
             return
         }
         props.onSelect(interviewer);
-        
-       
     }
 
     const handleSelectTimeslot = (timeslot : Timeslot) => (event : React.MouseEvent) => {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Interviewer } from "../../models/Interviewer";
 import { Timeslot } from "../../models/Timeslot";
 import { fetchIndustries , fetchPositions, fetchCompanies} from "../../services/WorkDetailService";
-import { getInterviewers,bookSlotsForUser } from "../../services/InterviewService";
+import { bookInterview, getInterviewers } from "../../services/InterviewService";
 import { InterviewerDetails} from "../InterviewerDetails/InterviewerDetails";
 import { InterviewerFilter } from "../../models/InterviewerFilter";
 import { useHistory } from "react-router-dom";
@@ -111,10 +111,13 @@ function BookInterview() {
     const fetchInterviewers = () => {
         getInterviewers(filter)
         .then((response) => {
-          setInterviewers(response.data);
+            if(response.status === 200)
+                setInterviewers(response.data);
+            else
+                setInterviewers([]);
         })
         .catch((error) => {
-            setInterviewers([]);
+          setInterviewers([]);
           console.log(error)
         })
     }
@@ -153,30 +156,39 @@ function BookInterview() {
         fetchInterviewers();
     }
 
-    const handleBooking = (interviewer : Interviewer) => {
+    const handleBooking = async (interviewer : Interviewer) => {
         console.log(interviewer);
-        console.log(selectedTimeslot); 
-        bookSlotsForUser(filter.userId,selectedTimeslot.id).then((data)=>{
-            if(data.status===200){
-             toast({
-                 title: "Booking successful",
-                 status: "success",
-                 duration: 5000,
-                 isClosable: true,
-             });
-             setSelectedTimeslot(initialTimeslot);
-             fetchInterviewers();
-
+        console.log(selectedTimeslot);
+        let userId =  JSON.parse( window.sessionStorage.getItem("user")!).id ;
+        try {
+            const response = await bookInterview(userId, selectedTimeslot.id);
+            if(response.status === 200) {
+                toast({
+                    title: "Booking successful",
+                    status: "success",
+                    duration: 2000,
+                    isClosable: true,
+                });
             }
-            else{
-             toast({
-                 title: "Some error occurred",
-                 status: "error",
-                 duration: 5000,
-                 isClosable: true,
-             });
+            else {
+                toast({
+                    title: "Booking failed",
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                  });
             }
-         })
+        }
+        catch(error) {
+            toast({
+                title: "Booking failed",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+              });
+        }
+        fetchInterviewers();
+        setSelectedTimeslot(initialTimeslot);
     }
 
     const handleTimeslotSelect = (timeslot : Timeslot) => {
