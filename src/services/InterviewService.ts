@@ -19,6 +19,10 @@ export async function getInterviewers(filter : InterviewerFilter) {
     )
 }
 
+export async function bookInterview(userId : number, slotId : number) {
+    return http.post(apiEndPoint + "/" + userId + "/slots/" + slotId);
+}
+
 export const getUpcomingInterviewForInterviewer=(userId:number)=>{
     console.log("inside service2")
     return http.get(`${apiEndPoint}/${userId}/interviewer/upcoming`);

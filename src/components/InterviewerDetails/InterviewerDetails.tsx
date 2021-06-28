@@ -28,12 +28,6 @@ export function InterviewerDetails(props : Props) {
             return
         }
         props.onSelect(interviewer);
-        toast({
-            title: "Booking successful",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-        });
     }
 
     const handleSelectTimeslot = (timeslot : Timeslot) => (event : React.MouseEvent) => {
