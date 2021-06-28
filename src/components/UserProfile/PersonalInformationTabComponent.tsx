@@ -5,7 +5,7 @@ import {fetchAllCitieOfState,fetchAllCountries,fetchAllStatesOfCountry,fetchLoca
 import {
          FormControl,Text,
         FormErrorMessage,Select,HStack,
-        Input,Box,Stack,Heading,Image
+        Input,Box,Stack,Heading
         } from "@chakra-ui/react";
 
  
@@ -120,16 +120,10 @@ import {
                         <Heading size = 'sm' color='#0b294e' > BIO <hr style = {{ height:'2px',
                         backgroundColor : '#d1e0ef'}}/></Heading> 
                         <Box bg='#e2e8f0'  p={2} borderRadius='xl' style={{alignContent:"center"}} borderWidth="1px">
-                        <HStack>
-                        {/* <Image  height='36' width='36'></Image> */}
-                            <Box>
-                                <Text fontWeight='semibold' fontSize="large" >{this.props.user.firstName+" "+this.props.user.lastName}</Text>
-                                <Text fontWeight='semibold' fontSize="medium">{'Date of Birth: '+ this.props.user.dateOfBirth}</Text>
-                                <Text fontWeight='semibold' fontSize="medium">{ 'Age: '+ this.props.userAge}</Text>
-                                <Text fontWeight='semibold' fontSize="medium">{'Gender: ' + this.props.user.gender}</Text>    
-                            </Box>
-                           
-                        </HStack>
+                        <Text fontWeight='semibold' fontSize="large" >{this.props.user.firstName+" "+this.props.user.lastName}</Text>
+                        <Text fontWeight='semibold' fontSize="medium">{'Date of Birth: '+ this.props.user.dateOfBirth}</Text>
+                        <Text fontWeight='semibold' fontSize="medium">{ 'Age: '+ this.props.userAge}</Text>
+                        <Text fontWeight='semibold' fontSize="medium">{'Gender: ' + this.props.user.gender}</Text>    
                         </Box>                    
                         </Stack>  
                         </Box>
