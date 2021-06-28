@@ -92,7 +92,7 @@ async componentDidMount(){
           });
           return;
      }        
-     this.setState({areSoltsSelected:true});
+     this.setState({areSlotsSelected:true});
       let slotTOBeAdded:InterviewSlotModel = {
         interviewDate :this.state.selectedDate,
         interviewStartTime:[]
