@@ -1,20 +1,26 @@
 import { Box, HStack, Heading} from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 function ProfileSelection() {
 
     const location = useLocation();
 
+    const history = useHistory();
+
     const handleInterviewerProfile = (event: React.MouseEvent) => {
         event.preventDefault();
         console.log("Interviewer Selected");
         console.log(location.state); 
+        window.sessionStorage.setItem("role","INTERVIEWER");
+        history.push({pathname : "/my-interviews", state : location.state});
     };
 
     const handleCandidateProfile = (event: React.MouseEvent) => {
         event.preventDefault();
         console.log("Candidate Selected");
-        console.log(location.state);
+        // console.log(location.state); 
+        window.sessionStorage.setItem("role","CANDIDATE");
+        history.push({pathname : "/book-interview", state : location.state});
     };
 
     return(

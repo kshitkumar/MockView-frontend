@@ -1,7 +1,8 @@
-import { Input, HStack, VStack, Text, Flex, Button, Select, useToast} from "@chakra-ui/react";
+import { Input, HStack,Stack, VStack, Text, Flex, Button, Select, useToast} from "@chakra-ui/react";
 import { useState } from "react";
 import { User } from "../../models/User";
 import { saveUser } from "../../services/UserService";
+import validator from 'validator';
 
 interface Props {
     onSignUp() : void
@@ -36,33 +37,56 @@ function SignUp(props : Props) {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if(!isInvalidPassword()) {
-            try {
-                const response = await saveUser(user) ;
+             try {
+                if( isValidPassword()&& validator.isEmail(user.emailId) && validator.isMobilePhone(user.phoneNumber,"en-IN")) {    
+                   const response = await saveUser(user) ;
                     if(response.status === 201) {
-                        toast({
-                            title: "User Signed up Successfully",
-                            status: "success",
-                            duration: 9000,
-                            isClosable: true,
-                        });
+                        toastForSignUpForm("success","User Signed up Successfully");
+                    }
+                    else{
+                        toastForSignUpForm("error","Some error occurred");
+                    }
                 }
-            }
+               else if(!validator.isEmail(user.emailId)){
+                        toastForSignUpForm("error","Enter valid Email Id");
+                }
+               else if(!validator.isMobilePhone(user.phoneNumber,"en-IN")){
+                    toastForSignUpForm("error","Enter valid Phone no");
+                  }
+             }
             catch(error) {
-                    toast({
-                        title: "Some error occured",
-                        status: "error",
-                        duration: 9000,
-                        isClosable: true,
-                      });
+                        toastForSignUpForm("error","Some error occurred");
             }
             props.onSignUp();
-        }
-    };
+      }
 
-    function isInvalidPassword() {
-        return rePassword !== "" && user.password !== rePassword;
+     const  toastForSignUpForm =(status:"info"|"warning"|"success"|"error",message:string)=>{
+        toast({
+            description: message,
+            status: status,
+            duration: 5000,
+            isClosable: true,
+          });
+      }
+
+    function isValidPassword() {
+        console.log(validator.isStrongPassword(user.password,{minLength:8})+"isStrong")
+       if(user.password.length < 8){
+        toastForSignUpForm('error',"Password should at least be 8 characters long")
+        return false;
+       }
+       if ( user.password !== rePassword){
+           toastForSignUpForm('error',"Passwords not matching")
+           return false;
+       }
+       else{
+       return true
+       }
     }
+    function isInvalidPassword(){
+        return rePassword !== "" && user.password !== rePassword
+    }
+    
 
     return (
         <form onSubmit = {onSubmit}>
@@ -117,6 +141,7 @@ function SignUp(props : Props) {
                 </Select>
             </HStack>
             <Input
+               
                 fontSize = '15px'
                 variant = 'outline'
                 id="emailId"
@@ -126,14 +151,19 @@ function SignUp(props : Props) {
                 onChange = {onChange}
             />
             <Input
+               
                 fontSize = '15px'
                 variant = 'outline'
                 id="phoneNumber"
+                maxLength={10}
                 name="phoneNumber"
-                placeholder="*Phone Number"
-                isRequired
+                placeholder="*Phone Number(10 digit long)"
+                type="number"            
+                isRequired              
                 onChange = {onChange}
             />
+            <Stack spacing={1}>
+            <Text color='red' fontSize='xx-small' >* Password should be at least  8 character long</Text>
             <HStack justifyContent = 'flex-end' spacing = {4}>
                 <Input
                     fontSize = '15px'
@@ -146,7 +176,6 @@ function SignUp(props : Props) {
                     onChange = {onChange}
                 />
                 <Input
-                    isInvalid = {isInvalidPassword()}
                     errorBorderColor="crimson"
                     fontSize = '15px'
                     variant = 'outline'
@@ -155,10 +184,10 @@ function SignUp(props : Props) {
                     type='password'
                     placeholder="*Re-enter Password"
                     isRequired
-                    onChange = {(event)=>{onChange(event);
-                                         setRePassword(event.target.value)   }}
+                    onChange = {(event)=>{setRePassword(event.target.value)}}
                 />
             </HStack>
+            </Stack>
             <Button type = 'submit' bgColor = '#0B294E' color = 'white' w='100%' fontSize='15px'>
                 Sign Up
             </Button>

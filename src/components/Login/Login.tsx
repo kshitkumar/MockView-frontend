@@ -37,6 +37,7 @@ function Login(props : Props) {
             if(response.status === 200) {
                 console.log('User logged in');
                 props.onLogin(user);
+                window.sessionStorage.setItem("user",JSON.stringify(user));
                 history.push({pathname : user.profileComplete?"/select-profile": "/user-profile", state : {user}});
             }
             else {
@@ -102,7 +103,7 @@ function Login(props : Props) {
                     Sign up
                 </Button>
                 <Flex justifyContent = 'flex-end'>
-                <Modal isOpen={isOpen} onClose={onClose}>
+                <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
                     <ModalContent>
                         <ModalCloseButton />
