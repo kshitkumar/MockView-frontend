@@ -16,8 +16,8 @@ import { timeLog } from "console";
 export default class MyInterviewComponent extends React.Component<any,any>{
 
     state={
-        upComingInterviews:[] as InterviewTileModel[],
-        completedInterviews:[] as InterviewTileModel[],
+        upComingInterviews:[] ,
+        completedInterviews:[] ,
         loggedInUser: {} as User,
         role:null
     }
@@ -36,13 +36,14 @@ export default class MyInterviewComponent extends React.Component<any,any>{
          } 
     }
      p=()=>{
-         console.log(this.state.upComingInterviews)
+         console.log(this.state.upComingInterviews);
      }
     loadInterviewData= async ()=>{
         if(this.state.role===Role.CANDIDATE){
             const upcomingInterviewResponse = await getUpcomingInterviewForInterviewee(this.state.loggedInUser.id);
              if( upcomingInterviewResponse.status===200){
-                 this.setState({upcomingInterviews:upcomingInterviewResponse.data});
+                console.log(upcomingInterviewResponse.data);
+                this.setState({upComingInterviews:upcomingInterviewResponse.data},this.p);              
              }
              else{
 
@@ -104,7 +105,7 @@ export default class MyInterviewComponent extends React.Component<any,any>{
               </TabPanel>
               <TabPanel>
               <Stack pb={2}  pl={135} fontSize='sm' fontWeight='semibold'  alignItems='start'>
-                 <Text  color='#0b294e'>*You can join the interview session five minutes before the start time</Text>
+                 <Text   visibility='hidden'  color='#0b294e'>{"xx"}</Text>
                  </Stack>
                  <Stack spacing={5} alignItems='center'>
                     {this.state.completedInterviews.map((tile:InterviewTileModel,index)=>{
@@ -135,11 +136,11 @@ class InterviewTile extends React.Component<any,any>{
                         </Stack> 
                         <Button color='white' width="32" isDisabled=
                         {new Date((new Date().setMinutes(new Date().getMinutes()+5)))
-                            >=new Date( new Date(this.props.tile.startDate).setHours(this.props.tile.startTime))} bg='#0b294e'>
+                            <=new Date( new Date(this.props.tile.startDate).setHours(this.props.tile.startTime))} bg='#0b294e'>
                             {this.props.tab==="UPCOMING"?'Join Interview':'Feedback'}</Button>
                         <Stack spacing={0}   alignItems='start' pr={20}>
                             <Text fontWeight='semibold'>{"DATE & TIME"}</Text>
-                            <Text>{this.props.tile.startTime.slice(0,5)+"-"+this.props.tile.endTime.slice(0,5)}</Text>
+                            <Text>{(this.props.tile.startTime.slice(0,5)+"-"+this.props.tile.endTime.slice(0,5))}</Text>
                             <Text>{moment.localeData().ordinal( new Date(this.props.tile.startDate).getDate())},
                             {moment.localeData().weekdays()[new Date(this.props.tile.startDate).getDay()]} </Text>
                         </Stack>  

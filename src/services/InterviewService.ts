@@ -13,7 +13,8 @@ export async function getInterviewers(filter : InterviewerFilter) {
                 "date" : filter.date,
                 "startTime" : filter.timing.startTime,
                 "endTime" : filter.timing.endTime,
-                "position" : filter.position
+                "position" : filter.position,
+                "company" : filter.company
             }
         }
     )

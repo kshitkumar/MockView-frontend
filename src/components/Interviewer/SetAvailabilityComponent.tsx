@@ -153,6 +153,7 @@ async componentDidMount(){
           }); 
         }
       }
+      else{
       toast({
         title: "Slots Updated for booking",
         status: "success",
@@ -160,7 +161,8 @@ async componentDidMount(){
         isClosable: true,
       });
       this.props.history.push("/my-interviews")
-    }
+     }
+   }
 
     displyDeleteIconOrBookedBasedOnSlotStatus=(status:string)=>{
         if(status==="BOOKED"){
