@@ -79,8 +79,13 @@ export default class MyInterviewComponent extends React.Component<any,any>{
     render(){
         return( 
             <Stack pl={5} pt={20} spacing={1}>
-            <Heading p={3} size = 'sm' color='#0b294e' >MY INTERVIEWS<hr style = {{ height:'2px',
+            <Heading p={3} size = 'md' color='#0b294e' >MY INTERVIEWS<hr style = {{ height:'2px',
                    backgroundColor : '#d1e0ef'}}/></Heading>
+             <Box pb={5} pl={950}>     
+                <Button display={this.state.role===Role.CANDIDATE?"none":"block"}  onClick={()=>{this.props.history.push('/set-availability')}} size='md' width='min-content' bg='#0b294e' color="white">Set Availability</Button>
+                <Button display={this.state.role===Role.INTERVIEWER?"none":"block"} onClick={()=>{this.props.history.push('/book-interview')}} size='md' width='min-content' bg='#0b294e' color="white">Book Interview</Button>
+           
+            </Box> 
             <Tabs align='center' isFitted variant = 'enclosed-colored' size="lg">
             <TabList>
               <Tab color='#0b294e'   fontWeight='semibold' fontSize='md'>UPCOMING INTERVIEWS</Tab>
@@ -98,9 +103,14 @@ export default class MyInterviewComponent extends React.Component<any,any>{
                 </Stack>
               </TabPanel>
               <TabPanel>
-                 {this.state.completedInterviews.map((tile:InterviewTileModel,index)=>{
-                    return  <InterviewTile key={index} tile={tile} role={this.state.role} tab="COMPLETED"  />
-                })}
+              <Stack pb={2}  pl={135} fontSize='sm' fontWeight='semibold'  alignItems='start'>
+                 <Text  color='#0b294e'>*You can join the interview session five minutes before the start time</Text>
+                 </Stack>
+                 <Stack spacing={5} alignItems='center'>
+                    {this.state.completedInterviews.map((tile:InterviewTileModel,index)=>{
+                        return  <InterviewTile key={index} tile={tile} role={this.state.role} tab="COMPLETED"  />
+                    })}
+                 </Stack>
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -123,7 +133,7 @@ class InterviewTile extends React.Component<any,any>{
                                 this.props.tile.position+' at '+this.props.tile.company:"Currently unemployed"}
                             </Text>
                         </Stack> 
-                        <Button color='white' isDisabled=
+                        <Button color='white' width="32" isDisabled=
                         {new Date((new Date().setMinutes(new Date().getMinutes()+5)))
                             >=new Date( new Date(this.props.tile.startDate).setHours(this.props.tile.startTime))} bg='#0b294e'>
                             {this.props.tab==="UPCOMING"?'Join Interview':'Feedback'}</Button>

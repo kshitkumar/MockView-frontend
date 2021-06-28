@@ -12,7 +12,7 @@ function ProfileSelection() {
         console.log("Interviewer Selected");
         console.log(location.state); 
         window.sessionStorage.setItem("role","INTERVIEWER");
-        history.push({pathname : "/set-availability", state : location.state});
+        history.push({pathname : "/my-interviews", state : location.state});
     };
 
     const handleCandidateProfile = (event: React.MouseEvent) => {

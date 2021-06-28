@@ -1,5 +1,5 @@
-import { Heading, Input, VStack, HStack, Select, Button, useToast} from "@chakra-ui/react";
-import React, { useCallback, useEffect } from "react";
+import { Heading, Input, VStack, HStack, Select, Button, useToast,Box} from "@chakra-ui/react";
+import React, { useCallback, useEffect  } from "react";
 import { useState } from "react";
 import { Interviewer } from "../../models/Interviewer";
 import { Timeslot } from "../../models/Timeslot";
@@ -7,7 +7,7 @@ import { fetchIndustries , fetchPositions, fetchCompanies} from "../../services/
 import { bookInterview, getInterviewers } from "../../services/InterviewService";
 import { InterviewerDetails} from "../InterviewerDetails/InterviewerDetails";
 import { InterviewerFilter } from "../../models/InterviewerFilter";
-import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { User } from "../../models/User";
 import { setConstantValue } from "typescript";
 
@@ -40,7 +40,7 @@ function BookInterview() {
 
     const [companies, setCompanies] = useState<string[]>([]);
 
-    const location = useLocation();
+    let history = useHistory();
 
     
 
@@ -191,7 +191,8 @@ function BookInterview() {
 
     return (
         <VStack pt = '100px' pl = '40px' pr = '100px' color = '#0B294E' spacing = {5} align = 'normal'>
-            <Heading fontSize = '20px' fontWeight = 'bold' >Book Interviews</Heading>
+            <Heading fontSize = '20px' fontWeight = 'bold' >BOOK INTERVIEWS<hr style = {{ height:'2px',
+                   backgroundColor : '#d1e0ef'}}/></Heading>
             <VStack spacing = {2} fontSize = '15px' align = 'normal' color = '#0B294E' p = '20px' pt= '15px' boxShadow = '0px 3px 6px #00000029'>
                 <Heading fontSize = '13px'>Select the industry and date</Heading>
                 <HStack spacing = {8}>
@@ -201,6 +202,9 @@ function BookInterview() {
                     </Select>
                     <Input type = 'date' placeholder = "Date" w = '20%' onChange = {handleDateChange} name = "date"></Input>
                     <Button bgColor = '#0B294E' color = 'white' fontSize = '13px' onClick = {handleSearch}>Search</Button>
+                   <Box pl={350}>
+                      <Button width='40' bg='#0b294e' color='white'  onClick={()=>(history.push('./my-interviews'))}>My Interviews</Button>
+                    </Box>
                 </HStack>
             </VStack>
             <HStack alignItems = 'flex-start'>
