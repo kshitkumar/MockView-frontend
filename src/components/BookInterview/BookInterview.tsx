@@ -94,7 +94,13 @@ function BookInterview(props:any) {
           setCompanies(data.values);
         })
         .catch((error) => {
-          console.log(error)
+           console.log(error)
+          toast({
+            title: "No interviewer available",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
         })
     }, [])
 
@@ -104,7 +110,13 @@ function BookInterview(props:any) {
           setPositions(data);
         })
         .catch((error) => {
-          console.log(error)
+            console.log(error)
+          toast({
+            title: "No interviewer available",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
         })
     }, [])
 
@@ -118,7 +130,13 @@ function BookInterview(props:any) {
         })
         .catch((error) => {
           setInterviewers([]);
-          console.log(error)
+            console.log(error)
+          toast({
+            title: "No interviewer available",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
         })
     }
 
