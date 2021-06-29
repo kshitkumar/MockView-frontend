@@ -29,11 +29,11 @@ const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage
         else 
             return(
                 <Flex fontSize = '13px' w= '30%' justifyContent = 'space-evenly' pt = '10px'>
-                    <Button pb={1.98} size='xs' bg='#0b294e' color="white" disable={props.role==="User"}
-                     onClick={()=>{ props.updateRole('User'); history.push('/select-profile');}}>
+                    <Button pb={1.95} size='xs' bg='#0b294e' color="white" disable={props.role==="User"}
+                     onClick={()=>{ props.updateRole('Switch User'); history.push('/select-profile');}}>
                         {props.role}
                     </Button>
-                    <Text>
+                    <Text pt={0.4} fontWeight='semibold'>
                       { props.user.firstName + ' ' + props.user.lastName}
                     </Text>
                     <Button pb={1.9} size='xs' bg='#0b294e' color="white"  cursor='pointer' onClick = {props.onLogout}>
