@@ -29,7 +29,7 @@ function App() {
 
   const[isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const[role,setRole]=useState("User");
+  const[role,setRole]=useState("Switch User");
 
   let history = useHistory();
 
