@@ -1,17 +1,14 @@
-import { Box, Flex, Heading, Link, Spacer, Text} from "@chakra-ui/react";
+import { Box, Flex, Heading, Spacer, Text,Button} from "@chakra-ui/react";
 import userEvent from "@testing-library/user-event";
 import React, { useState } from "react";
-import { Route } from "react-router-dom";
-import { User } from "../../models/User";
+import { Route , useHistory} from "react-router-dom";
 
-interface Props {
-    isLoggedIn : boolean,
-    user : User,
-    onLogout() : void
-}
 
-function Header(props : Props) {
 
+
+function Header(props : any) {
+
+    const history = useHistory();
 const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage.getItem("user")!));
 
     const getComponentToRender = () => {
@@ -29,18 +26,19 @@ const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage
                     </Text>
                 </Flex>
             );
-        else
+        else 
             return(
                 <Flex fontSize = '13px' w= '30%' justifyContent = 'space-evenly' pt = '10px'>
-                    <Text>
-                        User
-                    </Text>
+                    <Button pb={1.8} size='xs' bg='#0b294e' color="white" disable={props.role==="User"}
+                     onClick={()=>{ props.updateRole('User'); history.push('/select-profile');}}>
+                        {props.role}
+                    </Button>
                     <Text>
                       { props.user.firstName + ' ' + props.user.lastName}
                     </Text>
-                    <Text cursor='pointer' onClick = {props.onLogout}>
+                    <Button pb={1} size='xs' bg='#0b294e' color="white"  cursor='pointer' onClick = {props.onLogout}>
                         Logout
-                    </Text>
+                    </Button>
                 </Flex>
             );
     }
@@ -56,4 +54,4 @@ const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage
     );
 }
 
-export default Header;
+export default Header

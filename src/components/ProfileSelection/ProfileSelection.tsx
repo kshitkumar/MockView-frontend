@@ -1,7 +1,7 @@
 import { Box, HStack, Heading} from "@chakra-ui/react";
 import { useHistory, useLocation } from "react-router-dom";
 
-function ProfileSelection() {
+function ProfileSelection(props:any) {
 
     const location = useLocation();
 
@@ -11,6 +11,7 @@ function ProfileSelection() {
         event.preventDefault();
         console.log("Interviewer Selected");
         console.log(location.state); 
+        props.updateRole("INTERVIEWER");
         window.sessionStorage.setItem("role","INTERVIEWER");
         history.push({pathname : "/my-interviews", state : location.state});
     };
@@ -19,12 +20,22 @@ function ProfileSelection() {
         event.preventDefault();
         console.log("Candidate Selected");
         // console.log(location.state); 
+        props.updateRole("CANDIDATE");
         window.sessionStorage.setItem("role","CANDIDATE");
         history.push({pathname : "/book-interview", state : location.state});
     };
 
+  const  redirectIfNotLoggedIn=()=>{
+       if( !props.isLoggedIn){
+           console.log(props.isLoggedIn)
+           history.push('/login');
+       }
+    }
+
     return(
-        <Box pt = "140px" w = '100%' color = '#0B294E'>
+      
+        <Box  pt = "140px" w = '100%' color = '#0B294E'>
+              {redirectIfNotLoggedIn()}
             <Heading textAlign = 'center' fontSize = '28px'>
                 Choose a profile to continue
             </Heading>

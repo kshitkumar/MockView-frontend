@@ -29,6 +29,8 @@ function App() {
 
   const[isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const[role,setRole]=useState("User");
+
   let history = useHistory();
 
   const handleLogin = (user : User) => {
@@ -43,16 +45,21 @@ function App() {
     history.push("/login");
   }
 
+  const updateRole=(role:string)=>{
+    setRole(role);
+  }
+
   return (
     <div>
-      <Header isLoggedIn = {isLoggedIn} user = {user} onLogout = {handleLogout}/>
+      <Header isLoggedIn = {isLoggedIn} user = {user} onLogout = {handleLogout}  
+      role={role} updateRole = {updateRole}/>
       <Switch>
         <Route path = "/login" component = {() => <Home onLogin = {handleLogin}/>} />
-        <Route path = "/select-profile" component = {ProfileSelection} />
+        <Route path = "/select-profile" > <ProfileSelection updateRole={updateRole} isLoggedIn={isLoggedIn}/> </Route>
         <Route path = "/set-availability"> <SetAvailabilityComponent history={history} /></Route>
         <Route path = '/user-profile' > <UserProfileTabsComponent history={history}
                                isLoggedIn = {isLoggedIn} user = {user}/></Route> 
-         <Route path = "/book-interview" component = {BookInterview} />    
+         <Route path = "/book-interview" ><BookInterview isLoggedIn={isLoggedIn}/> </Route>   
          <Route path ="/my-interviews"    component ={MyInterviewComponent}     />         
        
         <Redirect from = "" to = "/login" />
