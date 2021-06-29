@@ -95,7 +95,7 @@ function SignUp(props : Props) {
         <VStack  w='100%' h='100%'p = '20px' spacing = {4} align = 'normal'>
             <Flex>
                 <Text fontSize = "18px" color = 'blue.900'>
-                    Create Account <Spinner visibility={loading?"visible":"hidden"} size='sm' />
+                    Create Account <Spinner visibility={loading?"visible":"hidden"} size='md' />
                 </Text>
             </Flex>
             <HStack justifyContent = 'flex-end' spacing = {4}>

@@ -260,7 +260,7 @@
                                               awardList={this.state.awardList} />
                           <HStack spacing={832}>
                             <Button variant='ghost'  width = '30mm' onClick={()=>{this.setState({tabNo:4})}}><ChevronLeftIcon w={10} h={10} /></Button>
-                             <HStack> <Spinner visibility={this.state.loading?"visible":"hidden"} size='sm'/>
+                             <HStack> <Spinner visibility={this.state.loading?"visible":"hidden"} size='md'/>
                               <Button onClick={this.submitUserDetails} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm Profile and Save</Button>               
                               </HStack>
                         </HStack>

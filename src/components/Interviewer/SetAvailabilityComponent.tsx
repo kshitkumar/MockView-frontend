@@ -195,7 +195,7 @@ async componentDidMount(){
                     <Text  color='#0b294e' fontSize='xs' fontWeight='semibold'>*Please Select date and time as per your availability, slots are set as one hour each</Text>
                     <Text  color='#0b294e' fontSize='xs' fontWeight='semibold'>*Slots which are already booked, will not be edited</Text>                   
                     </Stack>
-                    <HStack><Spinner visibility={this.state.loading?"visible":"hidden"} size='sm'/>
+                    <HStack><Spinner visibility={this.state.loading?"visible":"hidden"} size='md'/>
                        <Button onClick={this.confirmAndSaveSelectedSlot} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm slots</Button>                                
                        </HStack>
                     </HStack>
