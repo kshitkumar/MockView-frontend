@@ -24,6 +24,9 @@
       super(props);
     }
     componentDidMount(){
+      if(!this.props.isLoggedIn){
+          this.props.history.push('/login')
+      }
       this.calculateAge();      
     }
     
