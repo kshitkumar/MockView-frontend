@@ -7,7 +7,7 @@ import { getUpcomingInterviewForInterviewee ,
          getUpcomingInterviewForInterviewer,
          getCompletedInterviewForInterviewee,
          getCompletedInterviewForInterviewer} from "../../services/InterviewService";
-import { timeLog } from "console";
+
 
          enum Role{
           INTERVIEWER="INTERVIEWER",CANDIDATE="CANDIDATE"
@@ -16,8 +16,8 @@ import { timeLog } from "console";
 export default class MyInterviewComponent extends React.Component<any,any>{
 
     state={
-        upComingInterviews:[] ,
-        completedInterviews:[] ,
+        upComingInterviews:[] as InterviewTileModel[],
+        completedInterviews:[] as InterviewTileModel[],
         loggedInUser: {} as User,
         role:null
     }
@@ -124,8 +124,11 @@ export default class MyInterviewComponent extends React.Component<any,any>{
 
 class InterviewTile extends React.Component<any,any>{
 
+
+
   render(){
-      return <Box width='max-content' p={1}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl"> 
+    
+      return <Box width='1000px' p={1}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl"> 
                    <HStack bg='#e2e8f0' borderRadius='xl' p={4} spacing={180} color='#0b294e'>
                         <Stack spacing={0}  pl={20} alignItems='start'>
                             <Text fontWeight='semibold'>{this.props.role==="INTERVIEWER"?"CANDIDATE":"INTERVIEWER"}</Text>
@@ -134,17 +137,19 @@ class InterviewTile extends React.Component<any,any>{
                                 this.props.tile.position+' at '+this.props.tile.company:"Currently unemployed"}
                             </Text>
                         </Stack> 
-                        <Button color='white' width="32" isDisabled=
-                        {new Date((new Date().setMinutes(new Date().getMinutes()+5)))
-                            <=new Date( new Date(this.props.tile.startDate).setHours(this.props.tile.startTime))} bg='#0b294e'>
+                        <Button color='white' width="32"  bg='#0b294e' disabled={new Date(new Date(new Date(this.props.tile.startDate).setHours(this.props.tile.startTime.slice(0,2))).setMinutes(0))
+                                >= new Date((new Date().setMinutes(new Date().getMinutes()-5)))}>
                             {this.props.tab==="UPCOMING"?'Join Interview':'Feedback'}</Button>
                         <Stack spacing={0}   alignItems='start' pr={20}>
                             <Text fontWeight='semibold'>{"DATE & TIME"}</Text>
                             <Text>{(this.props.tile.startTime.slice(0,5)+"-"+this.props.tile.endTime.slice(0,5))}</Text>
-                            <Text>{moment.localeData().ordinal( new Date(this.props.tile.startDate).getDate())},
-                            {moment.localeData().weekdays()[new Date(this.props.tile.startDate).getDay()]} </Text>
+                            <Text>{moment.localeData().weekdays()[new Date(this.props.tile.startDate).getDay()]},
+                            {moment.localeData().ordinal( new Date(this.props.tile.startDate).getDate())} {moment.monthsShort()[ parseInt(this.props.tile.startDate.split("-")[1])]}
+                             </Text>
                         </Stack>  
                     </HStack>  
              </Box>
   }
 }
+
+

@@ -18,7 +18,7 @@ interface Timing {
     "label" : string
 }
 
-function BookInterview() {
+function BookInterview(props:any) {
 
     const initialState = {
         id : 0,
@@ -67,7 +67,7 @@ function BookInterview() {
         "timing" : timings[0],
         "position" : "",
         "company" : "",
-        "userId" : JSON.parse( window.sessionStorage.getItem("user")!).id 
+        "userId" : JSON.parse( window.sessionStorage.getItem("user")!).id   
     }
 
     const [filter, setFilter] = useState<InterviewerFilter>(initialFilter);
@@ -195,8 +195,17 @@ function BookInterview() {
         setSelectedTimeslot(timeslot);
     }
 
+    const  redirectIfNotLoggedIn=()=>{
+        if( !props.isLoggedIn){
+            console.log(props.isLoggedIn)
+            history.push('/login');
+        }
+     }
+
     return (
+      
         <VStack pt = '100px' pl = '40px' pr = '100px' color = '#0B294E' spacing = {5} align = 'normal'>
+              {redirectIfNotLoggedIn()}
             <Heading fontSize = '20px' fontWeight = 'bold' >BOOK INTERVIEWS<hr style = {{ height:'2px',
                    backgroundColor : '#d1e0ef'}}/></Heading>
             <VStack spacing = {2} fontSize = '15px' align = 'normal' color = '#0B294E' p = '20px' pt= '15px' boxShadow = '0px 3px 6px #00000029'>
