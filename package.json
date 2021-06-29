@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/react-calendar": "^3.4.0",
     "@types/react-router-dom": "^5.1.7",
+    "@types/simple-peer": "^9.11.0",
     "@types/validator": "^13.1.4"
   }
 }
