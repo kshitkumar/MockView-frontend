@@ -25,11 +25,53 @@ function SignUp(props : Props) {
     const [user, setUser] = useState<User>(initialState);
     const [rePassword, setRePassword] =useState("");
     const [loading ,setLoading] = useState(false);
+    const [phoneError,setPhoneError] =useState(false);
+    const [emailError,setEmailError] =useState(false);
+    const [passError,setPassError] =useState(false);
+    const [rePassError,setRePassError] =useState(false);
 
     const toast = useToast();
 
+    
+    const handleRePass=(rePass:string)=>{
+        if(rePass!==user.password){
+            setRePassError(true);
+        }
+        else{
+            setRePassError(false);
+            setRePassword(rePass);
+        }
+    }
+   
+
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUser({ ...user, [event.target.name]: event.target.value });
+        console.log((!emailError)&&(!phoneError)&&(!passError)&&(!rePassError));    
+        if(event.target.name==="emailId"){
+            if(validator.isEmail(event.target.value)){
+                setEmailError(false);
+            }
+            else{
+                setEmailError(true);
+            }
+        }
+        if(event.target.name==="phoneNumber"){
+            if(validator.isMobilePhone(event.target.value) && event.target.value.length===10 ){
+                setPhoneError(false);
+            }
+            else{
+                setPhoneError(true);
+            }
+        }
+        if(event.target.name==="password"){
+            if(event.target.value.length>=8){
+                setPassError(false);
+            }
+            else{
+                setPassError(true);
+            }
+        }
+     
     };
 
     const onOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,7 +82,7 @@ function SignUp(props : Props) {
         event.preventDefault();
         setLoading(true);
              try {
-                if( isValidPassword()&& validator.isEmail(user.emailId) && validator.isMobilePhone(user.phoneNumber,"en-IN")) {    
+                if( isValidPassword()&& validator.isEmail(user.emailId) && validator.isMobilePhone(user.phoneNumber)) {    
                    const response = await saveUser(user) ;
                     if(response.status === 201) {
                         toastForSignUpForm("success","User Signed up Successfully");
@@ -52,7 +94,7 @@ function SignUp(props : Props) {
                else if(!validator.isEmail(user.emailId)){
                         toastForSignUpForm("error","Enter valid Email Id");
                 }
-               else if(!validator.isMobilePhone(user.phoneNumber,"en-IN")){
+               else if(!validator.isMobilePhone(user.phoneNumber)){
                     toastForSignUpForm("error","Enter valid Phone no");
                   }
              }
@@ -72,7 +114,6 @@ function SignUp(props : Props) {
       }
 
     function isValidPassword() {
-        console.log(validator.isStrongPassword(user.password,{minLength:8})+"isStrong")
        if(user.password.length < 8){
         toastForSignUpForm('error',"Password should at least be 8 characters long")
         return false;
@@ -84,9 +125,6 @@ function SignUp(props : Props) {
        else{
        return true
        }
-    }
-    function isInvalidPassword(){
-        return rePassword !== "" && user.password !== rePassword
     }
     
 
@@ -105,6 +143,7 @@ function SignUp(props : Props) {
                     id="firstName"
                     name="firstName"
                     placeholder="*First Name"
+                    type='text'
                     isRequired
                     onChange = {onChange}
                 />
@@ -114,6 +153,7 @@ function SignUp(props : Props) {
                     id="lastName"
                     name="lastName"
                     placeholder="*Last Name"
+                    type='text'
                     isRequired
                     onChange = {onChange}
                 />
@@ -148,6 +188,7 @@ function SignUp(props : Props) {
                 variant = 'outline'
                 id="emailId"
                 name="emailId"
+                isInvalid={emailError}
                 placeholder="*Email Address"
                 isRequired
                 onChange = {onChange}
@@ -158,6 +199,7 @@ function SignUp(props : Props) {
                 variant = 'outline'
                 id="phoneNumber"
                 maxLength={10}
+                isInvalid={phoneError}
                 name="phoneNumber"
                 placeholder="*Phone Number(10 digit long)"
                 type="number"            
@@ -165,13 +207,14 @@ function SignUp(props : Props) {
                 onChange = {onChange}
             />
             <Stack spacing={1}>
-            <Text color='red' fontSize='xx-small' >* Password should be at least  8 character long</Text>
+            <Text color='red' fontSize='xx-small' >* Password should be at least  8 characters long</Text>
             <HStack justifyContent = 'flex-end' spacing = {4}>
                 <Input
                     fontSize = '15px'
                     variant = 'outline'
                     id="password"
                     name="password"
+                    isInvalid={passError}
                     placeholder="*Password"
                     type='password'
                     isRequired
@@ -183,14 +226,16 @@ function SignUp(props : Props) {
                     variant = 'outline'
                     id="rePassword"
                     name="rePassword"
+                    isInvalid={rePassError}
                     type='password'
                     placeholder="*Re-enter Password"
                     isRequired
-                    onChange = {(event)=>{setRePassword(event.target.value)}}
+                    onChange = {(event)=>{handleRePass(event.target.value)}}
                 />
             </HStack>
             </Stack>
-            <Button type = 'submit' bgColor = '#0B294E' color = 'white' w='100%' fontSize='15px'>
+            <Button type = 'submit' bgColor = '#0B294E' 
+            color = 'white' w='100%' fontSize='15px'>
                 Sign Up
             </Button>
         </VStack>

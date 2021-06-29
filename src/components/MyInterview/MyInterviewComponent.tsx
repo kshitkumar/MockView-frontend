@@ -2,7 +2,7 @@ import React from "react";
 import { User } from "../../models/User";
 import { InterviewTileModel } from "../../models/MyInterviewTileModel";
 import moment from "moment";
-import { Tabs, TabList, TabPanels, Tab, TabPanel,Box,Heading,Stack,Text,HStack ,Button} from "@chakra-ui/react"
+import { Tabs, TabList, TabPanels, Tab, TabPanel,Box,Heading,Stack,Text,HStack ,Button,createStandaloneToast,Spinner} from "@chakra-ui/react"
 import { getUpcomingInterviewForInterviewee ,
          getUpcomingInterviewForInterviewer,
          getCompletedInterviewForInterviewee,
@@ -13,16 +13,20 @@ import { getUpcomingInterviewForInterviewee ,
           INTERVIEWER="INTERVIEWER",CANDIDATE="CANDIDATE"
          }
 
+         const toast = createStandaloneToast();
 export default class MyInterviewComponent extends React.Component<any,any>{
 
     state={
         upComingInterviews:[] as InterviewTileModel[],
         completedInterviews:[] as InterviewTileModel[],
         loggedInUser: {} as User,
-        role:null
+        role:null,
+        loadingUp:false,
+        loadingCom:false
     }
         
     componentDidMount=async ()=>{
+       
         let userString = window.sessionStorage.getItem("user");
         let roleString = window.sessionStorage.getItem("role");
         if(!userString){
@@ -39,37 +43,98 @@ export default class MyInterviewComponent extends React.Component<any,any>{
          console.log(this.state.upComingInterviews);
      }
     loadInterviewData= async ()=>{
+        this.setState({loadingUp:true,loadingCom:true});
         if(this.state.role===Role.CANDIDATE){
             const upcomingInterviewResponse = await getUpcomingInterviewForInterviewee(this.state.loggedInUser.id);
              if( upcomingInterviewResponse.status===200){
                 console.log(upcomingInterviewResponse.data);
-                this.setState({upComingInterviews:upcomingInterviewResponse.data},this.p);              
+                this.setState({loadingUp:false});
+                this.setState({upComingInterviews:upcomingInterviewResponse.data},this.p);    
+                if(upcomingInterviewResponse.data.length===0){
+                    toast({
+                        description: "No upcoming interviews",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                }          
              }
              else{
-
+                this.setState({loadingUp:false});
+                toast({
+                    description: "Error fetching upcoming interviews",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
              }
              const completedInterviewResponse = await getCompletedInterviewForInterviewee(this.state.loggedInUser.id);
              if(completedInterviewResponse.status===200){
+                this.setState({loadingCom:false});
                 this.setState({completedInterviews:completedInterviewResponse.data});
+                if(completedInterviewResponse.data.length===0){
+                    toast({
+                        description: "No upcoming interviews",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                 }
              }
              else{
-
+                toast({
+                    description: "Error fetching completed interviews",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                this.setState({loadingCom:false});
              }
         }else if(this.state.role===Role.INTERVIEWER){
             const upcomingInterviewResponse = await getUpcomingInterviewForInterviewer(this.state.loggedInUser.id);
              if( upcomingInterviewResponse.status===200){
                  console.log(upcomingInterviewResponse.data);
+                 this.setState({loadingUp:false});
                  this.setState({upComingInterviews:upcomingInterviewResponse.data},this.p);
+                 if(upcomingInterviewResponse.data.length===0){
+                    toast({
+                        description: "No upcoming interviews",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                 }    
              }
              else{
-
+                this.setState({loadingUp:false});
+                toast({
+                    description: "Error fetching upcoming interviews",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
              }
              const completedInterviewResponse = await getCompletedInterviewForInterviewer(this.state.loggedInUser.id);
              if(completedInterviewResponse.status===200){
+                this.setState({loadingCom:false});
                 this.setState({completedInterviews:completedInterviewResponse.data});
+                if(completedInterviewResponse.data.length===0){
+                    toast({
+                        description: "No completed interviews",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                 }    
              }
              else{
-
+                toast({
+                    description: "Error fetching completed interviews",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                this.setState({loadingCom:false});
              }
          }
         else{
@@ -87,10 +152,12 @@ export default class MyInterviewComponent extends React.Component<any,any>{
                 <Button display={this.state.role===Role.INTERVIEWER?"none":"block"} onClick={()=>{this.props.history.push('/book-interview')}} size='md' width='min-content' bg='#0b294e' color="white">Book Interview</Button>
            
             </Box> 
-            <Tabs align='center' isFitted variant = 'enclosed-colored' size="lg">
+            <Tabs  align='center' isFitted variant = 'enclosed-colored' size="lg">
             <TabList>
-              <Tab color='#0b294e'   fontWeight='semibold' fontSize='md'>UPCOMING INTERVIEWS</Tab>
-              <Tab color='#0b294e'   fontWeight='semibold' fontSize='md'>COMPLETED INTERVIEWS</Tab>
+              <Tab color='#0b294e' fontWeight='semibold' fontSize='md'><Spinner
+               visibility={this.state.loadingUp?'visible':'hidden'}/>&nbsp; UPCOMING INTERVIEWS</Tab>
+              <Tab color='#0b294e' fontWeight='semibold' fontSize='md'><Spinner  
+              visibility={this.state.loadingCom?'visible':'hidden'}/>&nbsp; COMPLETED INTERVIEWS</Tab>
             </TabList>         
             <TabPanels>
               <TabPanel>
@@ -138,7 +205,15 @@ class InterviewTile extends React.Component<any,any>{
                             </Text>
                         </Stack> 
                         <Button color='white' width="32"  bg='#0b294e' disabled={new Date(new Date(new Date(this.props.tile.startDate).setHours(this.props.tile.startTime.slice(0,2))).setMinutes(0))
-                                >= new Date((new Date().setMinutes(new Date().getMinutes()-5)))}>
+                                >= new Date((new Date().setMinutes(new Date().getMinutes()-5)))}
+                                onClick={()=>{
+                                    toast({
+                                        description: "Feature is still under development",
+                                        status: "info",
+                                        duration: 3000,
+                                        isClosable: true,
+                                      });
+                                }}>
                             {this.props.tab==="UPCOMING"?'Join Interview':'Feedback'}</Button>
                         <Stack spacing={0}   alignItems='start' pr={20}>
                             <Text fontWeight='semibold'>{"DATE & TIME"}</Text>

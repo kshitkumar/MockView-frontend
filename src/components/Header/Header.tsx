@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spacer, Text,Button} from "@chakra-ui/react";
+import { Box, Flex, Heading, Spacer, Text,Button,useToast} from "@chakra-ui/react";
 import userEvent from "@testing-library/user-event";
 import React, { useState } from "react";
 import { Route , useHistory} from "react-router-dom";
@@ -10,19 +10,26 @@ function Header(props : any) {
 
     const history = useHistory();
 const [loggedInUser,setLoggedInUser] = useState(JSON.parse(window.sessionStorage.getItem("user")!));
-
+ const toast = useToast();
     const getComponentToRender = () => {
         if(!props.isLoggedIn)
             return (
                 <Flex fontSize = '13px' w= '30%' justifyContent = 'space-evenly' pt = '10px'>
-                    <Text>
+                    <Text cursor='pointer' onClick={()=>{ toast({
+                                description: "Feature is still under development",
+                                status: "info",
+                                duration: 3000,
+                                isClosable: true,
+                              })}}>
                         About Us
                     </Text>
-                    <Text>
+                    <Text cursor='pointer' onClick={()=>{ toast({
+                                description: "Feature is still under development",
+                                status: "info",
+                                duration: 3000,
+                                isClosable: true,
+                              })}}>
                         FAQs
-                    </Text>
-                    <Text>
-                        Login
                     </Text>
                 </Flex>
             );

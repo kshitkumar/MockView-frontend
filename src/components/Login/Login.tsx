@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useHistory } from 'react-router-dom';
-import { Box, Input, VStack, Button, Text, Flex, Divider, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, useToast} from "@chakra-ui/react";
+import { Box, Input, VStack, Button, Text, Flex, Divider, Modal,
+     ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, useToast} from "@chakra-ui/react";
 import SignUp from "../SignUp/SignUp";
 import { UserCredentials } from "../../models/UserCredentials";
 import { login } from "../../services/LoginService";
@@ -83,7 +84,14 @@ function Login(props : Props) {
                         onChange={onChange}
                     />
                     <Flex justifyContent = 'flex-end' w='100%'>
-                        <Text fontSize='12px' color = '#0B294E' >
+                        <Text cursor='pointer' onClick={()=>{
+                             toast({
+                                description: "Feature is still under development",
+                                status: "info",
+                                duration: 3000,
+                                isClosable: true,
+                              });
+                        }} fontSize='12px' color = '#0B294E' >
                             Forgot Password
                         </Text>
                     </Flex>
