@@ -1,4 +1,4 @@
-import { Input, HStack,Stack, VStack, Text, Flex, Button, Select, useToast} from "@chakra-ui/react";
+import { Input, HStack,Stack, VStack, Text, Flex, Button, Select, useToast,Spinner} from "@chakra-ui/react";
 import { useState } from "react";
 import { User } from "../../models/User";
 import { saveUser } from "../../services/UserService";
@@ -24,6 +24,7 @@ function SignUp(props : Props) {
 
     const [user, setUser] = useState<User>(initialState);
     const [rePassword, setRePassword] =useState("");
+    const [loading ,setLoading] = useState(false);
 
     const toast = useToast();
 
@@ -37,6 +38,7 @@ function SignUp(props : Props) {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
              try {
                 if( isValidPassword()&& validator.isEmail(user.emailId) && validator.isMobilePhone(user.phoneNumber,"en-IN")) {    
                    const response = await saveUser(user) ;
@@ -44,7 +46,7 @@ function SignUp(props : Props) {
                         toastForSignUpForm("success","User Signed up Successfully");
                     }
                     else{
-                        toastForSignUpForm("error","Some error occurred");
+                        toastForSignUpForm("error","Phone no or EmailId already registered");
                     }
                 }
                else if(!validator.isEmail(user.emailId)){
@@ -55,7 +57,7 @@ function SignUp(props : Props) {
                   }
              }
             catch(error) {
-                        toastForSignUpForm("error","Some error occurred");
+                        toastForSignUpForm("error","Phone no or EmailId already registered");
             }
             props.onSignUp();
       }
@@ -93,7 +95,7 @@ function SignUp(props : Props) {
         <VStack  w='100%' h='100%'p = '20px' spacing = {4} align = 'normal'>
             <Flex>
                 <Text fontSize = "18px" color = 'blue.900'>
-                    Create Account
+                    Create Account <Spinner visibility={loading?"visible":"hidden"} size='sm' />
                 </Text>
             </Flex>
             <HStack justifyContent = 'flex-end' spacing = {4}>

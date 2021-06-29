@@ -26,7 +26,7 @@ function ProfileSelection(props:any) {
     };
 
   const  redirectIfNotLoggedIn=()=>{
-       if( !props.isLoggedIn){
+       if( !window.sessionStorage.getItem('user')){
            console.log(props.isLoggedIn)
            history.push('/login');
        }

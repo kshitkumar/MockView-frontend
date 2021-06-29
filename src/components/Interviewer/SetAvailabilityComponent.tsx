@@ -1,13 +1,12 @@
 import React from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
-import moment from 'moment';
 import { saveInterviewSlots,fetchVacantAndBookedInterviewSlots } from "../../services/SlotService";
 import { Slot,InterviewSlotModel,parseInterviewSlotModel } from "../../models/InterviewSlotModel";
 import { parseBookInterviewRequest } from "../../models/OpenInterviewRequestModel";
 import {DeleteIcon } from '@chakra-ui/icons'
 import { Button ,Heading,Text,
-    Stack,Box,HStack,createStandaloneToast} from "@chakra-ui/react";
+    Stack,Box,HStack,createStandaloneToast,Spinner} from "@chakra-ui/react";
 
 
 const toast=createStandaloneToast();
@@ -18,6 +17,14 @@ initSlotsPerDay= ['07:00', '08:00' ,'09:00', '10:00' ,'11:00',
  '12:00' ,'13:00' ,'14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00','21:00'];
     
 async componentDidMount(){
+  if( !window.sessionStorage.getItem("user")){
+    this.props.history.push('/login');
+    return;
+  }
+  if( !window.sessionStorage.getItem("role")){
+    this.props.history.push('/select-profile');
+    return;
+  }
   const response = await fetchVacantAndBookedInterviewSlots(this.state.loggedInUser.id);
        if(response.status===200){
           this.setState({selectedSlots: parseInterviewSlotModel(response.data)})
@@ -30,6 +37,7 @@ async componentDidMount(){
         selectedDate:"",
         loggedInUser: JSON.parse(window.sessionStorage.getItem("user")!),
         areSlotsSelected:false,
+        loading:false
         }
 
     formatDate=(date:string)=>{
@@ -133,9 +141,11 @@ async componentDidMount(){
     }
 
     confirmAndSaveSelectedSlot=async ()=>{   
+      this.setState({loading:true})
       if(this.state.areSlotsSelected){      
         const response = await saveInterviewSlots(this.state.loggedInUser.id,parseBookInterviewRequest(this.state.selectedSlots));
         if( response.status===201){
+          this.setState({loading:false})
           toast({
             title: "Slots Updated for booking",
             status: "success",
@@ -145,6 +155,7 @@ async componentDidMount(){
           this.props.history.push("/my-interviews")
         }
         else{
+          this.setState({loading:false})
           toast({
             title: "Error Occurred",
             status: "error",
@@ -154,6 +165,7 @@ async componentDidMount(){
         }
       }
       else{
+      this.setState({loading:false})
       toast({
         title: "Slots Updated for booking",
         status: "success",
@@ -183,7 +195,9 @@ async componentDidMount(){
                     <Text  color='#0b294e' fontSize='xs' fontWeight='semibold'>*Please Select date and time as per your availability, slots are set as one hour each</Text>
                     <Text  color='#0b294e' fontSize='xs' fontWeight='semibold'>*Slots which are already booked, will not be edited</Text>                   
                     </Stack>
-                    <Button onClick={this.confirmAndSaveSelectedSlot} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm slots</Button>                                
+                    <HStack><Spinner visibility={this.state.loading?"visible":"hidden"} size='sm'/>
+                       <Button onClick={this.confirmAndSaveSelectedSlot} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm slots</Button>                                
+                       </HStack>
                     </HStack>
                      <Box   color='#0b294e' height='sm' style={{alignItems:"center"}}  borderWidth="1px"  borderRadius='xl'  shadow="xl" boxShadow="xl">
                       

@@ -1,5 +1,5 @@
-import { Box, Heading, Text, HStack, Button, Image, useToast,Wrap} from "@chakra-ui/react";
-import React from "react";
+import { Box, Heading, Text, HStack, Button, useToast,Wrap,Spinner} from "@chakra-ui/react";
+import React ,{useState} from "react";
 import { Interviewer } from "../../models/Interviewer";
 import { Timeslot } from "../../models/Timeslot";
 
@@ -8,6 +8,7 @@ interface Props {
     onSelect(interviewer : Interviewer) : void
     selectedTimeslot : Timeslot
     onTimeslotSelect(timeslot : Timeslot) : void
+    loadingBook:boolean
 }
 
 export function InterviewerDetails(props : Props) {
@@ -22,7 +23,7 @@ export function InterviewerDetails(props : Props) {
             toast({
                 title: "Please select a slot",
                 status: "error",
-                duration: 2000,
+                duration: 3000,
                 isClosable: true,
             })
             return
@@ -46,6 +47,7 @@ export function InterviewerDetails(props : Props) {
         return months[date.getMonth()] + " " + date.getFullYear();
     }
 
+
     return (
         <Box boxShadow = "0px 3px 6px #00000029">
             <HStack pl = '25px' pt='20px'>
@@ -57,8 +59,11 @@ export function InterviewerDetails(props : Props) {
                         {interviewer.experience.toString().split(".")[0]+'.'+interviewer.experience.toString().split(".")[1].slice(0,2)} years of experience</Text>
                 </Box>
                 <Box pl = "350px" pr = '50px'>
+                    <HStack>
                     <Button bgColor = '#0B294E' color = 'white'  border = "1px solid #0B294E"
-                                borderRadius= '4px' onClick = {handleSelectBooking}>Book Slot</Button>
+                                borderRadius= '6px' onClick = {handleSelectBooking}>Book Slot</Button>
+                    <Spinner visibility={props.loadingBook?"visible":"hidden"} size='md'/>
+                    </HStack>
                 </Box>
             </HStack>
             <Box w={850}  >
