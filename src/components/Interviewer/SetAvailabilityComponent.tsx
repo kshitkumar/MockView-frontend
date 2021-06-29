@@ -121,7 +121,7 @@ async componentDidMount(){
      }
 
      removeSelectedSlot=(slotDate:string,slotTime:string)=>{
-      this.setState({areSoltsSelected:true});
+      this.setState({areSlotsSelected:true});
       let dateSlots:InterviewSlotModel|undefined= this.checkSelectedSlotsForADate(slotDate);
            dateSlots!.interviewStartTime =  dateSlots!.interviewStartTime.filter((slot:Slot)=>{
                                                  return slot.slotTime !==slotTime });          
