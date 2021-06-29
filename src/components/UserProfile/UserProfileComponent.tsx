@@ -6,7 +6,7 @@
   import EducationTabComponent from "./EducationTabComponent";
   import SubmitTabComponent from "./SubmitTabComponent";
   import {ChevronLeftIcon,ChevronRightIcon } from '@chakra-ui/icons'
-  import { Tabs, TabList, TabPanels, Tab, TabPanel,Button ,Stack,Box,HStack,createStandaloneToast} from "@chakra-ui/react";
+  import { Tabs, TabList, TabPanels, Tab, TabPanel,Button ,Stack,Box,HStack,createStandaloneToast,Spinner} from "@chakra-ui/react";
   import { AwardModel } from "../../models/AwardModel";
   import {WorkExperienceModel} from '../../models/WorkExperienceModel';
   import {EducationModel} from '../../models/EducationModel';
@@ -24,8 +24,9 @@
       super(props);
     }
     componentDidMount(){
-      if(!this.props.isLoggedIn){
-          this.props.history.push('/login')
+      if(!window.sessionStorage.getItem('user')){
+          this.props.history.push('/login');
+          return;
       }
       this.calculateAge();      
     }
@@ -42,7 +43,8 @@
       awardList:[] as AwardModel[], 
       address: {} as AddressModel,
       isCurrentEmployeeSet: false,
-      userAge:null
+      userAge:null,
+      loading:false
     } 
 
     handleSkillBadgeCallBack = (skillModel : SkillModel)=>{
@@ -113,6 +115,7 @@
 
   submitUserDetails= async()=>{
       try {
+        this.setState({loading:true});
         const userEducationRequest ={userEducationList: [this.state.scSchoolEdu,this.state.srSchoolEdu,...this.state.uniEducationList]};
         const userSkillRequest = {skillList:[...this.state.skillsBadge,...this.state.languageBadge,...this.state.hobbiesBadge]} ;
         const userAwardRequest ={userAwardList:this.state.awardList};
@@ -125,17 +128,19 @@
   
         if(response.status === 201){
            console.log('user detail saved');
+           this.setState({loading:false});
            toast({
              title: "User Details Saved",
              status: "success",
              duration: 5000,
              isClosable: true,
-           });
+           });          
            this.props.history.push('/select-profile');        
          }
           else{
+          this.setState({loading:false});
            toast({
-             title: "Error Occurred",
+             title: "Some error Occurred",
              status: "error",
              duration: 5000,
              isClosable: true,
@@ -144,8 +149,9 @@
          }        
        } catch (error) {
          console.log(JSON.stringify(error))
+         this.setState({loading:false});
         toast({
-          title: "server error",
+          title: "Some error Occurred",
            status: "error",
            duration: 5000,
            isClosable: true,
@@ -254,7 +260,9 @@
                                               awardList={this.state.awardList} />
                           <HStack spacing={832}>
                             <Button variant='ghost'  width = '30mm' onClick={()=>{this.setState({tabNo:4})}}><ChevronLeftIcon w={10} h={10} /></Button>
-                            <Button onClick={this.submitUserDetails} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm Profile and Save</Button>               
+                             <HStack> <Spinner visibility={this.state.loading?"visible":"hidden"} size='sm'/>
+                              <Button onClick={this.submitUserDetails} bg='#0b294e' color='white' width='min-content' size='sm'>Confirm Profile and Save</Button>               
+                              </HStack>
                         </HStack>
                   </Stack>                 
                     </TabPanel>
