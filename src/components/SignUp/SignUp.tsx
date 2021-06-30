@@ -39,8 +39,8 @@ function SignUp(props : Props) {
         }
         else{
             setRePassError(false);
-            setRePassword(rePass);
         }
+        setRePassword(rePass);  
     }
    
 
@@ -82,7 +82,7 @@ function SignUp(props : Props) {
         event.preventDefault();
         setLoading(true);
              try {
-                if( isValidPassword()&& validator.isEmail(user.emailId) && validator.isMobilePhone(user.phoneNumber)) {    
+                if( isValidPassword()&& validator.isEmail(user.emailId) && validator.isMobilePhone(user.phoneNumber) && user.phoneNumber.length===10) {    
                    const response = await saveUser(user) ;
                     if(response.status === 201) {
                         toastForSignUpForm("success","User Signed up Successfully");
@@ -94,7 +94,7 @@ function SignUp(props : Props) {
                else if(!validator.isEmail(user.emailId)){
                         toastForSignUpForm("error","Enter valid Email Id");
                 }
-               else if(!validator.isMobilePhone(user.phoneNumber)){
+               else if(!validator.isMobilePhone(user.phoneNumber) || user.phoneNumber.length!==10){
                     toastForSignUpForm("error","Enter valid Phone no");
                   }
              }
