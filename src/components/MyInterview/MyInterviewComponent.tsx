@@ -204,8 +204,7 @@ class InterviewTile extends React.Component<any,any>{
                                 this.props.tile.position+' at '+this.props.tile.company:"Currently unemployed"}
                             </Text>
                         </Stack> 
-                        <Button color='white' width="32"  bg='#0b294e' disabled={new Date(new Date(new Date(this.props.tile.startDate).setHours(this.props.tile.startTime.slice(0,2))).setMinutes(0))
-                                >= new Date((new Date().setMinutes(new Date().getMinutes()-5)))}
+                        <Button color='white' width="32"  bg='#0b294e' disabled={true}
                                 onClick={()=>{
                                     toast({
                                         description: "Feature is still under development",
